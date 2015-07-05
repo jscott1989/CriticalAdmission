@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxPoint;
+import haxe.Timer;
 
 /**
  * The main playstate set in the surgery room.
@@ -14,6 +15,7 @@ class PlayState extends FlxState {
 
 	private var GRABBED_SCALE = 1.3;
 	private var DEFAULT_SCALE = 1;
+	private var CLICK_TIMEOUT = 0.2;
 
 	// General scene items
 	private var _table:FlxSprite;
@@ -22,6 +24,7 @@ class PlayState extends FlxState {
 	private var _dragging:Organ;
 	private var _drag_offset_x:Float;
 	private var _drag_offset_y:Float;
+	private var _drag_started:Float;
 
 	// Organs (or replacements)
 	private var _organs:Array<Organ>;
@@ -78,8 +81,15 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-		if (_dragging != null) {
+		if (_dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
 			// Deal with dragging
+
+			if (_dragging.hole != null) {
+				// If it was in a hole, remove it
+				FlxG.log.add("remove from hole");
+				_dragging.hole.removeOrgan();
+				// FlxG.log.add(_holes);
+			}
 
 			// maintain offset
 			_dragging.x = FlxG.mouse.x + _drag_offset_x;
@@ -96,6 +106,7 @@ class PlayState extends FlxState {
 	 * There has been a mouse press on an organ
 	 */
 	function onMouseDown(sprite:FlxSprite) {
+		_drag_started = Timer.stamp();
 		_dragging = cast sprite;
 		_drag_offset_x = _dragging.x - FlxG.mouse.x;
 		_drag_offset_y = _dragging.y - FlxG.mouse.y;
@@ -106,42 +117,40 @@ class PlayState extends FlxState {
 		// Bring to front
 		members[members.indexOf(_dragging)] = members[members.length-1];
 		members[members.length-1] = _dragging;
-
-		if (_dragging.hole != null) {
-			// If it was in a hole, remove it
-			FlxG.log.add("remove from hole");
-			_dragging.hole.removeOrgan();
-			// FlxG.log.add(_holes);
-		}
 	}
 
 	/**
 	 * Mouse up on an organ
 	 */
 	function onMouseUp(sprite:FlxSprite) {
-		var placed = false; // Figure out if we're dropping on something
+		if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
+			// We're clicking not dragging
+			FlxG.log.add("CLICK");
+		} else {
+			var placed = false; // Figure out if we're dropping on something
 
-		FlxG.log.add(_holes);
-		for (hole in _holes) {
-			// Check each hole
-			var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
+			FlxG.log.add(_holes);
+			for (hole in _holes) {
+				// Check each hole
+				var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
 
-			if (distance < hole.width && hole.isEmpty()) {
-				// if the distance is small enough
-				// Add the _dragging to the _hole
-				hole.addOrgan(_dragging);
-				placed = true;
-				break;
+				if (distance < hole.width && hole.isEmpty()) {
+					// if the distance is small enough
+					// Add the _dragging to the _hole
+					hole.addOrgan(_dragging);
+					placed = true;
+					break;
+				}
 			}
-		}
 
-		if (!placed && _dragging.x < _table.x) {
-			// If it's not on the table and not placed, put it on the table
-			FlxTween.tween(_dragging, {x: (_table.x + 20)}, 0.1);
+			if (!placed && _dragging.x < _table.x) {
+				// If it's not on the table and not placed, put it on the table
+				FlxTween.tween(_dragging, {x: (_table.x + 20)}, 0.1);
+			}
+
 		}
 
 		FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
-
 		_dragging = null;
 	}
 }
