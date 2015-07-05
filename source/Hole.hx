@@ -19,7 +19,7 @@
     public function initOrgan(organ:Organ) {
         organ.x = x + ((width - organ.width)/2);
         organ.y = y + ((height - organ.height)/2);
-        addOrgan(organ);
+        addOrgan(organ, false);
     }
 
     public override function update() {
@@ -30,7 +30,7 @@
         return _organ == null;
     }
 
-    public function addOrgan(organ:Organ) {
+    public function addOrgan(organ:Organ, position:Bool = true) {
         FlxG.log.add("Add organ");
         _organ = organ;
         _organ.hole = this;
@@ -41,7 +41,10 @@
         add(_organ);
         _organ.x = bx;
         _organ.y = by;
-        FlxTween.tween(_organ, {x: x + ((bWidth - organ.width)/2), y: y + ((bHeight - organ.height)/2)}, 0.1);
+
+        if (position) {
+            FlxTween.tween(_organ, {x: x + ((bWidth - organ.width)/2), y: y + ((bHeight - organ.height)/2)}, 0.1);
+        }
 
     }
 

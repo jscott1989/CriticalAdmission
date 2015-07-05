@@ -191,6 +191,8 @@ class PlayState extends FlxState {
 		// Patient
 		_patient = new Patient(200, FlxG.height, this);
 
+		// _patient = new Patient(200, 100, this);
+
 		add(_patient);
 		for (hole in _patient._holes) {
  			addHole(hole);
