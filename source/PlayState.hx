@@ -30,6 +30,8 @@ class PlayState extends FlxState {
 	private var _holes:Array<Hole>;
 	override public function create():Void
 	{
+		FlxG.debugger.visible = true;
+
 		// Scene
 		_table = new FlxSprite(420,-1);
 		_table.loadGraphic("assets/images/Table.png");
@@ -37,8 +39,9 @@ class PlayState extends FlxState {
 
 		// Holes
  		_holes = new Array<Hole>();
- 		_holes.push(new Hole(200, 200));
- 		_holes.push(new Hole(300, 300));
+ 		
+ 		_holes.push(new UIHole(10, 10, new Next(200, 200)));
+ 		_holes.push(new BodyHole(200, 200, new Organ(0, 0, "Heart")));
 
  		// Organs
  		_organs = new Array<Organ>();
@@ -47,6 +50,10 @@ class PlayState extends FlxState {
 
  		for (hole in _holes) {
  			add(hole);
+
+ 			if (hole._organ != null) {
+ 				_organs.push(hole._organ);
+ 			}
  		}
 
  		for (organ in _organs) {
@@ -102,7 +109,9 @@ class PlayState extends FlxState {
 
 		if (_dragging.hole != null) {
 			// If it was in a hole, remove it
+			FlxG.log.add("remove from hole");
 			_dragging.hole.removeOrgan();
+			// FlxG.log.add(_holes);
 		}
 	}
 
@@ -112,6 +121,7 @@ class PlayState extends FlxState {
 	function onMouseUp(sprite:FlxSprite) {
 		var placed = false; // Figure out if we're dropping on something
 
+		FlxG.log.add(_holes);
 		for (hole in _holes) {
 			// Check each hole
 			var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
