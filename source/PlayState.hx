@@ -27,6 +27,7 @@ class PlayState extends FlxState {
 	private var _drag_started:Float;
 
 	// Patient
+	private var _addingPatient:Bool;
 	private var _patient:Patient;
 
 	// Holes
@@ -164,10 +165,13 @@ class PlayState extends FlxState {
 	}
 
 	public function nextPatient() {
-		if (_patient != null) {
-			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: patientOut});
-		} else {
-			addNewPatient();
+		if (!_addingPatient) {
+			_addingPatient = true;
+			if (_patient != null) {
+				FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: patientOut});
+			} else {
+				addNewPatient();
+			}
 		}
 	}
 
@@ -185,6 +189,10 @@ class PlayState extends FlxState {
 		addNewPatient();
 	}
 
+	public function patientAdded(tween:FlxTween) {
+		_addingPatient = false;
+	}
+
 
 
 	public function addNewPatient() {
@@ -198,6 +206,6 @@ class PlayState extends FlxState {
  			addHole(hole);
  		}
 
- 		FlxTween.tween(_patient, {y: 20}, 1);
+ 		FlxTween.tween(_patient, {y: 20}, 1, {"complete": patientAdded});
 	}
 }
