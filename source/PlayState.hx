@@ -26,8 +26,8 @@ class PlayState extends FlxState {
 	private var _drag_offset_y:Float;
 	private var _drag_started:Float;
 
-	// Organs (or replacements)
-	private var _organs:Array<Organ>;
+	// Patient
+	private var _patient:Patient;
 
 	// Holes
 	private var _holes:Array<Hole>;
@@ -43,28 +43,41 @@ class PlayState extends FlxState {
 		// Holes
  		_holes = new Array<Hole>();
  		
- 		_holes.push(new UIHole(10, 10, new Next(200, 200)));
- 		_holes.push(new BodyHole(200, 200, new Organ(0, 0, "Heart")));
+ 		addHole(new UIHole(10, 10, new Next(200, 200, this)));
 
  		// Organs
- 		_organs = new Array<Organ>();
- 		_organs.push(new Organ(440, 20, "Heart"));
- 		_organs.push(new Organ(440, 140, "Stomach"));
-
- 		for (hole in _holes) {
- 			add(hole);
-
- 			if (hole._organ != null) {
- 				_organs.push(hole._organ);
- 			}
- 		}
-
- 		for (organ in _organs) {
- 			add(organ);
- 			MouseEventManager.add(organ, onMouseDown, onMouseUp); 
- 		}
+ 		addOrgan(new Organ(440, 20, "Heart", this));
+ 		addOrgan(new Organ(440, 140, "Stomach", this));
 
 		super.create();
+	}
+
+	public function addHole(hole:Hole) {
+		_holes.push(hole);
+		add(hole);
+
+		if (hole._organ != null) {
+			addOrgan(hole._organ);
+		}
+	}
+
+	public function addOrgan(organ:Organ) {
+		add(organ);
+		MouseEventManager.add(organ, onMouseDown, onMouseUp); 
+	}
+
+	public function removeHole(hole:Hole) {
+		_holes.remove(hole);
+		remove(hole, true);
+
+		if (hole._organ != null) {
+			removeOrgan(hole._organ);
+		}
+	}
+
+	public function removeOrgan(organ:Organ) {
+		remove(organ, true);
+		MouseEventManager.remove(organ);
 	}
 	
 	/**
@@ -72,10 +85,6 @@ class PlayState extends FlxState {
 	 */
 	override public function destroy():Void
 	{
-		for (hole in _holes) {
-		}
-		for (organ in _organs) {
-		}
 		super.destroy();
 	}
 
@@ -125,11 +134,11 @@ class PlayState extends FlxState {
 	function onMouseUp(sprite:FlxSprite) {
 		if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
 			// We're clicking not dragging
-			FlxG.log.add("CLICK");
+			var organ:Organ = cast sprite;
+			organ.click();
 		} else {
 			var placed = false; // Figure out if we're dropping on something
 
-			FlxG.log.add(_holes);
 			for (hole in _holes) {
 				// Check each hole
 				var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
@@ -152,5 +161,41 @@ class PlayState extends FlxState {
 
 		FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
 		_dragging = null;
+	}
+
+	public function nextPatient() {
+		if (_patient != null) {
+			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: patientOut});
+		} else {
+			addNewPatient();
+		}
+	}
+
+	public function patientOut(tween:FlxTween) {
+		FlxG.log.add("PATIENT OUT");
+
+		for (hole in _patient._holes) {
+ 			removeHole(hole);
+ 		}
+
+		// Unload patient
+		_patient.destroy();
+		_patient = null;
+
+		addNewPatient();
+	}
+
+
+
+	public function addNewPatient() {
+		// Patient
+		_patient = new Patient(200, FlxG.height, this);
+
+		add(_patient);
+		for (hole in _patient._holes) {
+ 			addHole(hole);
+ 		}
+
+ 		FlxTween.tween(_patient, {y: 20}, 1);
 	}
 }
