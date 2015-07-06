@@ -43,7 +43,7 @@ class PlayState extends FlxState {
 		FlxG.debugger.visible = true;
 
 		// Scene
-		_table = new FlxSprite(900,50);
+		_table = new FlxSprite(FlxG.width - 200,50);
 		_table.loadGraphic("assets/images/Table.png");
 		add(_table);
 
@@ -52,12 +52,12 @@ class PlayState extends FlxState {
  		
  		// TODO: Set up the correct number for additional UI elements
  		addHole(new UIHole(10, 10, new Next(200, 200, this)));
-        addHole(new UIHole(750, 10, new Intercom(200, 200, this)));
+        addHole(new UIHole(_table.x - 200, 10, new Intercom(200, 200, this)));
         
         addHole(new UIHole(10, 200, null));
-        addHole(new UIHole(750, 200, null));
+        addHole(new UIHole(_table.x - 200, 200, null));
         addHole(new UIHole(10, 400, null));
-        addHole(new UIHole(750, 400, null));
+        addHole(new UIHole(_table.x - 200, 400, null));
 
  		// Organs
  		addInteractable(new Organ(_table.x + 20, _table.y + 20, "Heart", this));
