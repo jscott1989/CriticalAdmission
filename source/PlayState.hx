@@ -60,8 +60,8 @@ class PlayState extends FlxState {
         addHole(new UIHole(750, 400, null));
 
  		// Organs
- 		addOrgan(new Organ(440, 20, "Heart", this));
- 		addOrgan(new Organ(440, 140, "Stomach", this));
+ 		addInteractable(new Organ(440, 20, "Heart", this));
+ 		addInteractable(new Organ(440, 140, "Stomach", this));
 
 		super.create();
 	}
@@ -77,21 +77,21 @@ class PlayState extends FlxState {
 		// Add to renderer
 		add(hole);
 
-		if (hole._organ != null) {
+		if (hole._inter != null) {
 			// If there's an organ, add that too
-			addOrgan(hole._organ);
+			addInteractable(hole._inter);
 		}
 	}
 
 	/**
 	 * Add an organ to the game
 	 */
-	public function addOrgan(organ:Organ) {
+	public function addInteractable(inter:Interactable) {
 		// Add to renderer
-		add(organ);
+		add(inter);
 
 		// Watch for drag
-		MouseEventManager.add(organ, onMouseDown, onMouseUp); 
+		MouseEventManager.add(inter, onMouseDown, onMouseUp); 
 	}
 
 	/**
@@ -104,21 +104,21 @@ class PlayState extends FlxState {
 		// Remove from renderer
 		remove(hole, true);
 
-		if (hole._organ != null) {
+		if (hole._inter != null) {
 			// Remove organ if needed
-			removeOrgan(hole._organ);
+			removeInteractable(hole._inter);
 		}
 	}
 
 	/**
-	 * Remove an organ from the game
+	 * Remove an interactable from the game
 	 */
-	public function removeOrgan(organ:Organ) {
+	public function removeInteractable(inter:Interactable) {
 		// Remove from renderer
-		remove(organ, true);
+		remove(inter, true);
 
 		// Stop watching for drag
-		MouseEventManager.remove(organ);
+		MouseEventManager.remove(inter);
 	}
 
 	override public function update():Void
@@ -128,7 +128,7 @@ class PlayState extends FlxState {
 
 			if (_dragging.hole != null) {
 				// If it was in a hole, remove it
-				_dragging.hole.removeOrgan();
+				_dragging.hole.removeInteractable();
 			}
 
 			// maintain offset
@@ -180,7 +180,7 @@ class PlayState extends FlxState {
                     if (distance < hole.width && hole.isEmpty()) {
                         // if the distance is small enough
                         // Add the _dragging to the _hole
-                        hole.addOrgan(_dragging);
+                        hole.addInteractable(_dragging);
                         placed = true;
                         break; // No need to look at other holes
                     }

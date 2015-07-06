@@ -10,7 +10,7 @@
  */
  class UIHole extends Hole {
 
-    public function new(X:Float=0, Y:Float=0, organ:Organ=null)  {
+    public function new(X:Float=0, Y:Float=0, ui:UIElement=null)  {
         super(X, Y);
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
@@ -19,8 +19,8 @@
         add(backgroundSprite);
 
         // initialize any organs pre-added
-        if (organ != null) {
-            initOrgan(organ);
+        if (ui != null) {
+            initInteractable(ui);
         }
     }
  }

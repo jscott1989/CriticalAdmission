@@ -20,7 +20,7 @@
 
         // initialize any organs pre-added
         if (organ != null) {
-            initOrgan(organ);
+            initInteractable(organ);
         }
     }
  }

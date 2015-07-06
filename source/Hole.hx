@@ -11,51 +11,51 @@
  class Hole extends FlxSpriteGroup {
 
     // The contained organ
-    public var _organ:Organ;
+    public var _inter:Interactable;
 
     public function new(X:Float=0, Y:Float=0)  {
         super(X, Y);
     }
 
     /**
-     * Spawn an organ in this hole.
+     * Spawn an interactable in this hole.
      */
-    public function initOrgan(organ:Organ) {
+    public function initInteractable(inter:Interactable) {
 
         // center it
-        organ.x = x + ((width - organ.width)/2);
-        organ.y = y + ((height - organ.height)/2);
+        inter.x = x + ((width - inter.width)/2);
+        inter.y = y + ((height - inter.height)/2);
 
         // then add as normal - making sure we don't move it
-        addOrgan(organ, false);
+        addInteractable(inter, false);
     }
 
     /**
      * Is this hole empty?
      */
     public function isEmpty() {
-        return _organ == null;
+        return _inter == null;
     }
 
-    public function addOrgan(organ:Organ, position:Bool = true) {
-        _organ = organ;
-        _organ.hole = this;
+    public function addInteractable(inter:Interactable, position:Bool = true) {
+        _inter = inter;
+        _inter.hole = this;
 
-        // We get the size BEFORE adding the organ
+        // We get the size BEFORE adding the interactable
         // so that centering works correctly
         var bWidth = width;
         var bHeight = height;
-        var bx = _organ.x;
-        var by = _organ.y;
-        add(_organ);
+        var bx = _inter.x;
+        var by = _inter.y;
+        add(_inter);
 
-        // Re-set the organ position
-        _organ.x = bx;
-        _organ.y = by;
+        // Re-set the interactable position
+        _inter.x = bx;
+        _inter.y = by;
 
         if (position) {
             // Then move it to the center
-            FlxTween.tween(_organ, {x: x + ((bWidth - organ.width)/2), y: y + ((bHeight - organ.height)/2)}, 0.1);
+            FlxTween.tween(_inter, {x: x + ((bWidth - inter.width)/2), y: y + ((bHeight - inter.height)/2)}, 0.1);
         }
 
     }
@@ -63,9 +63,9 @@
     /**
      * Remove the organ from the hole
      */
-    public function removeOrgan() {
-        _organ.hole = null;
-        remove(_organ, true);
-        _organ = null;
+    public function removeInteractable() {
+        _inter.hole = null;
+        remove(_inter, true);
+        _inter = null;
     }
  }
