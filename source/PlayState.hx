@@ -18,6 +18,9 @@ class PlayState extends FlxState {
 	public static inline var GRABBED_SCALE = 1.3;
 	public static inline  var DEFAULT_SCALE = 1;
 
+	public static inline  var UI_HOLE_HEIGHT = 225;
+	public static inline  var UI_HOLE_WIDTH = 321;
+
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
@@ -47,7 +50,7 @@ class PlayState extends FlxState {
 		FlxG.debugger.visible = true;
 
 		// Scene
-		_table = new FlxSprite(FlxG.width - 200,50);
+		_table = new FlxSprite(FlxG.width - 561,50);
 		_table.loadGraphic("assets/images/Table.png");
 		add(_table);
 
@@ -55,17 +58,18 @@ class PlayState extends FlxState {
  		_holes = new Array<Hole>();
  		
  		// TODO: Set up the correct number for additional UI elements
- 		addHole(new UIHole(10, 10, new Next(0, 0, this)));
-        addHole(new UIHole(_table.x - 200, 10, new Intercom(0, 0, this)));
+ 		addHole(new UIHole(10, 0, new Next(0, 0, this)));
+        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
         
-        addHole(new UIHole(10, 200, new Clock(0, 0, this)));
-        addHole(new UIHole(_table.x - 200, 200, null));
-        addHole(new UIHole(10, 400, null));
-        addHole(new UIHole(_table.x - 200, 400, null));
+        addHole(new UIHole(10, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this)));
+        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
+
+        addHole(new UIHole(10, 200 + (UI_HOLE_HEIGHT * 2), null));
+        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 200 + (UI_HOLE_HEIGHT * 2), null));
 
  		// Organs
  		addInteractable(new Organ(_table.x + 20, _table.y + 20, "Heart", this));
- 		addInteractable(new Organ(_table.x + 20, _table.y + 70, "Stomach", this));
+ 		addInteractable(new Organ(_table.x + 20, _table.y + UI_HOLE_HEIGHT, "Stomach", this));
 
 		super.create();
 	}

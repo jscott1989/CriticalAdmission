@@ -36,7 +36,7 @@
     private function ensureInFront(text:FlxText) {
         // TODO: Allow an offset
         text.x = x;
-        text.y = y;
+        text.y = y + 200;
 
         // Always ensure that the text is in front of us in the state
         var spriteIndex = state.members.indexOf(this);

@@ -40,7 +40,7 @@
 
     public override function update() {
         _text.x = x;
-        _text.y = y;
+        _text.y = y + 50;
 
         // Always ensure that the text is in front of us in the state
         var spriteIndex = state.members.indexOf(this);

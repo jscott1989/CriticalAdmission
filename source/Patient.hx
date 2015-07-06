@@ -23,7 +23,7 @@
         // Pick a name at random
         // TODO: Allow them to be forced
         name = FIRST_NAMES[Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
-        
+
         var backgroundSprite = new FlxSprite(0, 0);
         backgroundSprite.loadGraphic("assets/images/Body.png");
         add(backgroundSprite);
@@ -31,10 +31,10 @@
         // TODO: They should have all of the holes - but some should be
         // covered and disabled
         _holes = new Array<Hole>();
-        _holes.push(new BodyHole(50, 10));
-        _holes.push(new BodyHole(50, 80, new Organ(0, 0, "Heart", state)));
-        _holes.push(new BodyHole(50, 160));
-        _holes.push(new UIHole(40, 400, new Clipboard(0, 0, this, state)));
+        _holes.push(new BodyHole(165, 5));
+        _holes.push(new BodyHole(165, 250, new Organ(0, 0, "Heart", state)));
+        _holes.push(new BodyHole(165, 450));
+        _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
 
         // Add the hole into the group
         for (hole in _holes) {
