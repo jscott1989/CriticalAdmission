@@ -10,7 +10,7 @@
  */
  class BodyHole extends Hole {
 
-    public function new(X:Float=0, Y:Float=0, organ:Organ=null)  {
+    public function new(X:Float=0, Y:Float=0, organ:Interactable=null)  {
         super(X, Y);
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
