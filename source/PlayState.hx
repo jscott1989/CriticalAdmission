@@ -61,7 +61,7 @@ class PlayState extends FlxState {
  		addHole(new UIHole(10, 0, new Next(0, 0, this)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
         
-        addHole(new UIHole(10, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this)));
+        addHole(new UIHole(10, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30, clockComplete)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
 
         addHole(new UIHole(10, 200 + (UI_HOLE_HEIGHT * 2), null));
@@ -72,6 +72,11 @@ class PlayState extends FlxState {
  		addInteractable(new Organ(_table.x + 20, _table.y + UI_HOLE_HEIGHT, "Stomach", this));
 
 		super.create();
+	}
+
+	public function clockComplete(clock:Clock) {
+		// TODO: Check if there are any active clocks in the scene - if not we end the level
+		FlxG.log.add("CLOCK FINISHED");
 	}
 
 	/**
@@ -158,7 +163,7 @@ class PlayState extends FlxState {
 					intercom.generateMessage();
 				}
 			}
-			 intercomCounter = 0;
+			intercomCounter = 0;
 		}
 		super.update();
 	}

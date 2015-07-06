@@ -10,11 +10,15 @@
 
     private var _text:FlxText;
     private var _seconds_remaining:Float;
+    private var _callback:Clock->Void;
 
-    public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300)  {
+    private var _active:Bool = true;
+
+    public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300, callback:Clock->Void=null)  {
         super(X, Y, "Clock", state);
 
         _seconds_remaining = seconds_remaining;
+        _callback = callback;
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
@@ -55,10 +59,23 @@
 
         // TODO: Adjust font size to match scale of clock
 
-        // TODO: This is inconsistent - find a more reliable timer in FlxG.
-        _seconds_remaining -= FlxG.elapsed;
+        if (_active) {
+            // TODO: This is inconsistent - find a more reliable timer in FlxG.
+            _seconds_remaining -= FlxG.elapsed;
 
-        updateText();
+            if (_seconds_remaining <= 0) {
+                _active = false;
+                timeUp();
+            } else {
+                updateText();
+            }
+        }
+    }
+
+    private function timeUp() {
+        if (_callback != null) {
+            _callback(this);
+        }
     }
 
     /**
