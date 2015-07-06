@@ -10,10 +10,63 @@
  */
  class BodyHole extends Hole {
 
-    public function new(X:Float=0, Y:Float=0, organ:Interactable=null)  {
+    public static var HEALTH_VALUES = [
+        "Heart" => [
+            "Head" => 60,
+            "Chest" => 100,
+            "Belly" => 50
+        ],
+        "Stomach" => [
+            "Head" => 60,
+            "Chest" => 20,
+            "Belly" => 100
+        ],
+        "Next" => [
+            "Head" => 30,
+            "Chest" => 60,
+            "Belly" => 10
+        ],
+        "Intercom" => [
+            "Head" => 60,
+            "Chest" => 10,
+            "Belly" => 10
+        ],
+        "Clipboard" => [
+            "Head" => 10,
+            "Chest" => 10,
+            "Belly" => 10
+        ]
+    ];
+
+    // The type of hole
+    private var _name:String;
+
+    /**
+     * Get the QOL of this hole (how appropriate the contents are)
+     */
+    public function getQOL():Int {
+        if (_inter == null) {
+            return 0;
+        }
+
+        var h = HEALTH_VALUES.get(_inter.type);
+
+        if (h == null) {
+            h = new Map<String, Int>();
+        }
+
+        if (h.get(_name) != null) {
+            return h.get(_name);
+        }
+
+        return 0;
+    }
+
+    public function new(X:Float=0, Y:Float=0, name:String="", organ:Interactable=null)  {
         super(X, Y);
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
+        _name = name;
         var backgroundSprite = new FlxSprite(0, 0);
         backgroundSprite.loadGraphic("assets/images/BodyHole.png");
         add(backgroundSprite);

@@ -15,8 +15,11 @@
     // The game state it's contained in (for button clicks)
     public var state:PlayState;
 
+    public var type:String;
+
     public function new(X:Float=0, Y:Float=0, type:String, pState:PlayState)  {
         super(X, Y);
+        this.type = type;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
         state = pState;

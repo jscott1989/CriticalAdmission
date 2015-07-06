@@ -10,6 +10,7 @@
  */
  class Patient extends FlxSpriteGroup {
     public var _holes:Array<Hole>;
+    public var _body_holes:Array<BodyHole>;
 
     // TODO: Fill in these lists
     public static var FIRST_NAMES:Array<String> = ["Pamella","Lyndsey","Margaretta","Sherley","Brittany","Mayola","Latia","Clifford","Mei","Kristofer","Nieves","Terina","Marybeth","Celia","Barbie","Georgiana","Tajuana","Harland","Caitlyn","Sandee","Fumiko","Halley","Alane","Christena","Annetta","Ivey","Elease","Greg","Kia","Shayla","Marya","Vena","Edgar","Dorthy","Rosy","Sam","Berniece","Lia","Catherina","Elden","Trisha","Brittni","Nereida","Coy","Danika","Lucia","Cathleen","Tamar","Sanda","Cherri"];
@@ -31,14 +32,34 @@
         // TODO: They should have all of the holes - but some should be
         // covered and disabled
         _holes = new Array<Hole>();
-        _holes.push(new BodyHole(165, 5));
-        _holes.push(new BodyHole(165, 250, new Organ(0, 0, "Heart", state)));
-        _holes.push(new BodyHole(165, 450));
+        _body_holes = new Array<BodyHole>();
+        _body_holes.push(new BodyHole(165, 5, "Head"));
+        _body_holes.push(new BodyHole(165, 250, "Chest", new Organ(0, 0, "Heart", state)));
+        _body_holes.push(new BodyHole(165, 450, "Belly"));
         _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
+
+        for (hole in _body_holes) {
+            _holes.push(hole);
+        }
 
         // Add the hole into the group
         for (hole in _holes) {
             add(hole);
         }
+    }
+
+    /**
+     * Get the Quality Of Life for this patient.
+     */
+    public function getQOL() {
+        var qol:Float = 1.0;
+
+        var total = 0;
+
+        for (hole in _body_holes) {
+            total += hole.getQOL();
+        }
+
+        return Math.floor(total / _body_holes.length);
     }
  }

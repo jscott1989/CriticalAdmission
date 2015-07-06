@@ -20,7 +20,7 @@
         // follow the clock sprite
         _text = new FlxText(0, 0, width); // x, y, width
         _text.alignment = "center";
-        _text.size = 20;
+        _text.size = 40;
 
         updateText();
         state.add(_text);
@@ -40,7 +40,7 @@
 
     public override function update() {
         _text.x = x;
-        _text.y = y + 50;
+        _text.y = y + 10;
 
         // Always ensure that the text is in front of us in the state
         var spriteIndex = state.members.indexOf(this);

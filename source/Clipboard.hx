@@ -10,6 +10,7 @@
 
     private var _patient:Patient;
     private var _name_text:FlxText;
+    private var _qol_text:FlxText;
 
     public function new(X:Float=0, Y:Float=0, patient:Patient, pState:PlayState)  {
         _patient = patient;
@@ -17,11 +18,17 @@
 
         _name_text = new FlxText(0, 0, width); // x, y, width
         _name_text.alignment = "center";
-        _name_text.size = 20;
+        _name_text.size = 40;
         _name_text.color = 255;
+
+        _qol_text = new FlxText(0, 0, width); // x, y, width
+        _qol_text.alignment = "center";
+        _qol_text.size = 40;
+        _qol_text.color = 255;
 
         updateText();
         state.add(_name_text);
+        state.add(_qol_text);
     }
 
     /**
@@ -29,14 +36,16 @@
      */
     public override function destroy() {
         state.remove(_name_text, true);
+        state.remove(_qol_text, true);
         _name_text.destroy();
+        _qol_text.destroy();
         super.destroy();
     }
 
-    private function ensureInFront(text:FlxText) {
+    private function ensureInFront(text:FlxText, xoffset:Float, yoffset:Float) {
         // TODO: Allow an offset
-        text.x = x;
-        text.y = y + 200;
+        text.x = x + xoffset;
+        text.y = y + yoffset;
 
         // Always ensure that the text is in front of us in the state
         var spriteIndex = state.members.indexOf(this);
@@ -56,6 +65,7 @@
      * Update the text with the QoL etc. from the patient
      */
     private function updateText() {
+        _qol_text.text = Std.string(_patient.getQOL()) + "%";
         _name_text.text = _patient.name;
     }
 
@@ -67,7 +77,8 @@
                 updateText();
             }
         }
-        ensureInFront(_name_text);
+        ensureInFront(_name_text, 0, 200);
+        ensureInFront(_qol_text, 0, 300);
         super.update();
     }
  }
