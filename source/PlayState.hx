@@ -37,6 +37,10 @@ class PlayState extends FlxState {
 	// Holes to check for drop targets
 	private var _holes:Array<Hole>;
 
+	//Checking for Intercom messages
+	private var intercomCounter:Float = 0;
+	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 15;
+
 	override public function create():Void
 	{
 		// Enable debugger if in debug mode
@@ -139,6 +143,18 @@ class PlayState extends FlxState {
 				// If we're not pressing any more - stop dragging
 				onMouseUp(_dragging);
 			}
+		}
+
+		//Intercom code
+		intercomCounter += FlxG.elapsed;
+		if (intercomCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
+			for (hole in _holes){
+				if (Type.getClass(hole._inter) == Intercom){
+					var intercom:Intercom = cast(hole._inter, Intercom);
+					intercom.generateMessage();
+				}
+			}
+			 intercomCounter = 0;
 		}
 		super.update();
 	}
