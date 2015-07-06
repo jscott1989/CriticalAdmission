@@ -164,39 +164,41 @@ class PlayState extends FlxState {
 	 * Mouse up on an organ
 	 */
 	function onMouseUp(sprite:FlxSprite) {
-		if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
-			// We're clicking not dragging
-			var organ:Organ = cast sprite;
-			organ.click();
-		} else {
-			var placed = false; // Figure out if we're dropping on something
+        if (_dragging != null) {
+            if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
+                // We're clicking not dragging
+                var organ:Organ = cast sprite;
+                organ.click();
+            } else {
+                var placed = false; // Figure out if we're dropping on something
 
-			for (hole in _holes) {
-				// Check each hole
-				var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
+                for (hole in _holes) {
+                    // Check each hole
+                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
 
-				// TODO: This assumes circular holes - if not - change
-				if (distance < hole.width && hole.isEmpty()) {
-					// if the distance is small enough
-					// Add the _dragging to the _hole
-					hole.addOrgan(_dragging);
-					placed = true;
-					break; // No need to look at other holes
-				}
-			}
+                    // TODO: This assumes circular holes - if not - change
+                    if (distance < hole.width && hole.isEmpty()) {
+                        // if the distance is small enough
+                        // Add the _dragging to the _hole
+                        hole.addOrgan(_dragging);
+                        placed = true;
+                        break; // No need to look at other holes
+                    }
+                }
 
-			if (!placed && _dragging.x < _table.x) {
-				// If it's not on the table and not placed, put it on the table
-				FlxTween.tween(_dragging, {x: (_table.x + 20)}, 0.1);
-			}
+                if (!placed && _dragging.x < _table.x) {
+                    // If it's not on the table and not placed, put it on the table
+                    FlxTween.tween(_dragging, {x: (_table.x + 20)}, 0.1);
+                }
 
-		}
+            }
 
-		// Resize to default
-		FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
+            // Resize to default
+            FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
 
-		// No longer dragging
-		_dragging = null;
+            // No longer dragging
+            _dragging = null;
+        }
 	}
 
 	/**
