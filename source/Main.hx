@@ -8,6 +8,9 @@ import flash.Lib;
 import flixel.FlxGame;
 import flixel.FlxState;
 
+/**
+ * Default stuff, don't worry too much about this.
+ */
 class Main extends Sprite 
 {
 	var gameWidth:Int = 640; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).

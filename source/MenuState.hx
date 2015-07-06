@@ -7,7 +7,7 @@ import flixel.util.FlxDestroyUtil;
 using flixel.util.FlxSpriteUtil;
 
 /**
- * A FlxState which can be used for the game's menu.
+ * Game's menu. Disabled at the moment.
  */
 class MenuState extends FlxState {
 	 private var _btnPlay:FlxButton;

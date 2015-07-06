@@ -13,9 +13,13 @@ import haxe.Timer;
  */
 class PlayState extends FlxState {
 
-	private var GRABBED_SCALE = 1.3;
-	private var DEFAULT_SCALE = 1;
-	private var CLICK_TIMEOUT = 0.2;
+	// Consants
+	// Scaling when picking things up
+	public static inline var GRABBED_SCALE = 1.3;
+	public static inline  var DEFAULT_SCALE = 1;
+
+	// How long do we need to hold to make it a drag (seconds)
+	public static inline  var CLICK_TIMEOUT = 0.2;
 
 	// General scene items
 	private var _table:FlxSprite;
@@ -30,10 +34,12 @@ class PlayState extends FlxState {
 	private var _addingPatient:Bool;
 	private var _patient:Patient;
 
-	// Holes
+	// Holes to check for drop targets
 	private var _holes:Array<Hole>;
+
 	override public function create():Void
 	{
+		// Enable debugger if in debug mode
 		FlxG.debugger.visible = true;
 
 		// Scene
@@ -44,6 +50,7 @@ class PlayState extends FlxState {
 		// Holes
  		_holes = new Array<Hole>();
  		
+ 		// TODO: Set up the correct number for additional UI elements
  		addHole(new UIHole(10, 10, new Next(200, 200, this)));
 
  		// Organs
@@ -53,40 +60,59 @@ class PlayState extends FlxState {
 		super.create();
 	}
 
+	/**
+	 * Add a hole to the game
+	 */
 	public function addHole(hole:Hole) {
+
+		// Add to drop list
 		_holes.push(hole);
+
+		// Add to renderer
 		add(hole);
 
 		if (hole._organ != null) {
+			// If there's an organ, add that too
 			addOrgan(hole._organ);
 		}
 	}
 
+	/**
+	 * Add an organ to the game
+	 */
 	public function addOrgan(organ:Organ) {
+		// Add to renderer
 		add(organ);
+
+		// Watch for drag
 		MouseEventManager.add(organ, onMouseDown, onMouseUp); 
 	}
 
+	/**
+	 * Remove a hole from the game
+	 */
 	public function removeHole(hole:Hole) {
+		// Remove from drop targets
 		_holes.remove(hole);
+
+		// Remove from renderer
 		remove(hole, true);
 
 		if (hole._organ != null) {
+			// Remove organ if needed
 			removeOrgan(hole._organ);
 		}
 	}
 
-	public function removeOrgan(organ:Organ) {
-		remove(organ, true);
-		MouseEventManager.remove(organ);
-	}
-	
 	/**
-	 * Clean up resources
+	 * Remove an organ from the game
 	 */
-	override public function destroy():Void
-	{
-		super.destroy();
+	public function removeOrgan(organ:Organ) {
+		// Remove from renderer
+		remove(organ, true);
+
+		// Stop watching for drag
+		MouseEventManager.remove(organ);
 	}
 
 	override public function update():Void
@@ -96,9 +122,7 @@ class PlayState extends FlxState {
 
 			if (_dragging.hole != null) {
 				// If it was in a hole, remove it
-				FlxG.log.add("remove from hole");
 				_dragging.hole.removeOrgan();
-				// FlxG.log.add(_holes);
 			}
 
 			// maintain offset
@@ -106,6 +130,7 @@ class PlayState extends FlxState {
 			_dragging.y = FlxG.mouse.y + _drag_offset_y;
 
 			if (!FlxG.mouse.pressed) {
+				// If we're not pressing any more - stop dragging
 				onMouseUp(_dragging);
 			}
 		}
@@ -144,12 +169,13 @@ class PlayState extends FlxState {
 				// Check each hole
 				var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
 
+				// TODO: This assumes circular holes - if not - change
 				if (distance < hole.width && hole.isEmpty()) {
 					// if the distance is small enough
 					// Add the _dragging to the _hole
 					hole.addOrgan(_dragging);
 					placed = true;
-					break;
+					break; // No need to look at other holes
 				}
 			}
 
@@ -160,24 +186,34 @@ class PlayState extends FlxState {
 
 		}
 
+		// Resize to default
 		FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
+
+		// No longer dragging
 		_dragging = null;
 	}
 
+	/**
+	 * Call for the next patient
+	 */
 	public function nextPatient() {
-		if (!_addingPatient) {
+		if (!_addingPatient) { // Avoid spamming patients
 			_addingPatient = true;
 			if (_patient != null) {
+				// If we have one, get rid of them first
 				FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: patientOut});
 			} else {
+				// Otherwise just add the new one
 				addNewPatient();
 			}
 		}
 	}
 
+	/**
+	 * The previous patient has left the screen
+	 */
 	public function patientOut(tween:FlxTween) {
-		FlxG.log.add("PATIENT OUT");
-
+		// Remove their holes
 		for (hole in _patient._holes) {
  			removeHole(hole);
  		}
@@ -186,26 +222,32 @@ class PlayState extends FlxState {
 		_patient.destroy();
 		_patient = null;
 
+		// Create a new patient
 		addNewPatient();
 	}
 
+	/*
+	 * The new patient has moved on to the screen
+	 */
 	public function patientAdded(tween:FlxTween) {
 		_addingPatient = false;
 	}
 
-
-
+	/**
+	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
 		_patient = new Patient(200, FlxG.height, this);
 
-		// _patient = new Patient(200, 100, this);
-
+		// Add to renderer
 		add(_patient);
+
+		// Add each hole
 		for (hole in _patient._holes) {
  			addHole(hole);
  		}
 
+ 		// Move on to screen
  		FlxTween.tween(_patient, {y: 20}, 1, {"complete": patientAdded});
 	}
 }

@@ -11,10 +11,6 @@
         super(X, Y, "Next", state);
     }
 
-    public override function update() {
-        super.update();
-    }
-
     public override function click() {
         state.nextPatient();
     }
