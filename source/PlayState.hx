@@ -60,8 +60,8 @@ class PlayState extends FlxState {
         addHole(new UIHole(750, 400, null));
 
  		// Organs
- 		addInteractable(new Organ(440, 20, "Heart", this));
- 		addInteractable(new Organ(440, 140, "Stomach", this));
+ 		addInteractable(new Organ(_table.x + 20, _table.y + 20, "Heart", this));
+ 		addInteractable(new Organ(_table.x + 20, _table.y + 70, "Stomach", this));
 
 		super.create();
 	}
