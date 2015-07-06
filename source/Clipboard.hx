@@ -6,7 +6,7 @@
 /**
  * The clipboard will show the stats of the current patient.
  */
- class Clipboard extends Organ {
+ class Clipboard extends UIElement {
 
     public function new(X:Float=0, Y:Float=0)  {
         super(X, Y, "Clipboard");
