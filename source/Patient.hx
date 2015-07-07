@@ -25,18 +25,26 @@
         // TODO: Allow them to be forced
         name = FIRST_NAMES[Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
 
-        var backgroundSprite = new FlxSprite(0, 0);
-        backgroundSprite.loadGraphic("assets/images/Body.png");
-        add(backgroundSprite);
+        var bedSprite = new FlxSprite(0, 0);
+        bedSprite.loadGraphic("assets/images/Bed.png");
+        add(bedSprite);
+
+        var bodySprite = new FlxSprite(-5, -10);
+        bodySprite.loadGraphic("assets/images/Body" + (Std.random(3) + 1) + ".png");
+        add(bodySprite);
+
+        var hairSprite = new FlxSprite(185, 0);
+        hairSprite.loadGraphic("assets/images/Hair1.png");
+        add(hairSprite);
 
         // TODO: They should have all of the holes - but some should be
         // covered and disabled
         _holes = new Array<Hole>();
         _body_holes = new Array<BodyHole>();
-        _body_holes.push(new BodyHole(165, 5, "Head"));
-        _body_holes.push(new BodyHole(165, 250, "Chest", new Organ(0, 0, "Heart", state)));
-        _body_holes.push(new BodyHole(165, 450, "Belly"));
-        _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
+        // _body_holes.push(new BodyHole(165, 5, "Head"));
+        _body_holes.push(new BodyHole(400, 500, "Heart", new Organ(0, 0, "Heart", state)));
+        _body_holes.push(new BodyHole(300, 750, "Guts"));
+        // _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
 
         for (hole in _body_holes) {
             _holes.push(hole);

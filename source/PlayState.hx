@@ -18,13 +18,14 @@ class PlayState extends FlxState {
 	public static inline var GRABBED_SCALE = 1.3;
 	public static inline  var DEFAULT_SCALE = 1;
 
-	public static inline  var UI_HOLE_HEIGHT = 225;
-	public static inline  var UI_HOLE_WIDTH = 321;
+	public static inline  var UI_HOLE_HEIGHT = 200;
+	public static inline  var UI_HOLE_WIDTH = 190;
 
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
 	// General scene items
+	private var _background:FlxSprite;
 	private var _table:FlxSprite;
 
 	// The thing currently being dragged (if any)
@@ -50,26 +51,30 @@ class PlayState extends FlxState {
 		FlxG.debugger.visible = true;
 
 		// Scene
-		_table = new FlxSprite(FlxG.width - 561,50);
-		_table.loadGraphic("assets/images/Table.png");
-		add(_table);
+		_background = new FlxSprite(0,0);
+		_background.loadGraphic("assets/images/Background.png");
+		add(_background);
+
+		_table = new FlxSprite(1300,0);
 
 		// Holes
  		_holes = new Array<Hole>();
  		
  		// TODO: Set up the correct number for additional UI elements
- 		addHole(new UIHole(10, 0, new Next(0, 0, this)));
+ 		addHole(new UIHole(40, 0, new Next(0, 0, this)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
         
-        addHole(new UIHole(10, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30, clockComplete)));
+        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30, clockComplete)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
 
-        addHole(new UIHole(10, 200 + (UI_HOLE_HEIGHT * 2), null));
+        addHole(new UIHole(40, 200 + (UI_HOLE_HEIGHT * 2), null));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 200 + (UI_HOLE_HEIGHT * 2), null));
 
  		// Organs
- 		addInteractable(new Organ(_table.x + 20, _table.y + 20, "Heart", this));
- 		addInteractable(new Organ(_table.x + 20, _table.y + UI_HOLE_HEIGHT, "Stomach", this));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100, "Heart", this));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + UI_HOLE_HEIGHT, "Heart", this));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 2), "Lungs", this));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 3), "Guts", this));
 
 		super.create();
 	}
@@ -270,7 +275,7 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		_patient = new Patient(500, FlxG.height, this);
+		_patient = new Patient(300, FlxG.height, this);
 
 		// Add to renderer
 		add(_patient);

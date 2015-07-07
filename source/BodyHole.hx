@@ -68,7 +68,7 @@
         // as a contained sprite
         _name = name;
         var backgroundSprite = new FlxSprite(0, 0);
-        backgroundSprite.loadGraphic("assets/images/BodyHole.png");
+        backgroundSprite.loadGraphic("assets/images/" + _name +  "Hole.png");
         add(backgroundSprite);
 
         // initialize any organs pre-added
