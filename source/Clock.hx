@@ -2,6 +2,7 @@
 
  import flixel.FlxG;
  import flixel.text.FlxText;
+ import haxe.Timer;
 
 /**
  * Clock that shows the current time left in the level
@@ -9,7 +10,8 @@
  class Clock extends UIElement {
 
     private var _text:FlxText;
-    private var _seconds_remaining:Float;
+    private var _start_time:Float;
+    private var _time_to_elapse:Float;
     private var _callback:Clock->Void;
 
     private var _active:Bool = true;
@@ -17,7 +19,8 @@
     public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300, callback:Clock->Void=null)  {
         super(X, Y, "Clock", state);
 
-        _seconds_remaining = seconds_remaining;
+        _start_time = Timer.stamp();
+        _time_to_elapse = seconds_remaining;
         _callback = callback;
 
         // Add some text to the state, and then we can make the text
@@ -34,12 +37,18 @@
      * Convert seconds remaining into a string and put it on the clock.
      */
     private function updateText() {
-        var minutes = Math.floor(_seconds_remaining / 60);
-        var seconds = Std.string(Math.floor(_seconds_remaining % 60));
-        if (seconds.length == 1) {
-            seconds = "0" + seconds;
+        var seconds_remaining = _time_to_elapse - (Timer.stamp() - _start_time);
+        if (seconds_remaining <= 0) {
+                _active = false;
+                timeUp();
+        } else {
+            var minutes = Math.floor(seconds_remaining / 60);
+            var seconds = Std.string(Math.floor(seconds_remaining % 60));
+            if (seconds.length == 1) {
+                seconds = "0" + seconds;
+            }
+            _text.text = minutes + ":" + seconds;
         }
-        _text.text = minutes + ":" + seconds;
     }
 
     public override function update() {
@@ -53,15 +62,7 @@
         // TODO: Adjust font size to match scale of clock
 
         if (_active) {
-            // TODO: This is inconsistent - find a more reliable timer in FlxG.
-            _seconds_remaining -= FlxG.elapsed;
-
-            if (_seconds_remaining <= 0) {
-                _active = false;
-                timeUp();
-            } else {
-                updateText();
-            }
+            updateText();
         }
     }
 
