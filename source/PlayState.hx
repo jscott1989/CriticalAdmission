@@ -28,6 +28,8 @@ class PlayState extends FlxState {
 	private var _background:FlxSprite;
 	private var _table:FlxSprite;
 
+	private var level_end_time:Float = Timer.stamp() + 10;
+
 	// The thing currently being dragged (if any)
 	private var _dragging:Organ;
 	private var _drag_offset_x:Float;
@@ -64,7 +66,7 @@ class PlayState extends FlxState {
  		addHole(new UIHole(40, 0, new Next(0, 0, this)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
         
-        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30, clockComplete)));
+        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
 
         addHole(new UIHole(40, 200 + (UI_HOLE_HEIGHT * 2), null));
@@ -80,11 +82,11 @@ class PlayState extends FlxState {
 	}
 
 	public function clockRemoved(clock:Clock) {
-
+		
 	}
 
 	public function clockAdded(clock:Clock) {
-		// if （clock.getSecondsRemaining()
+		
 	}
 
 	/**

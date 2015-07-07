@@ -19,6 +19,8 @@
 
         _end_time = Timer.stamp() + seconds_remaining;
 
+        state.clockAdded(this);
+
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
         _text = new FlxText(0, 0, width); // x, y, width
@@ -30,7 +32,7 @@
     }
 
     private function getSecondsRemaining() {
-        var seconds_remaining = _end_time - Timer.stamp();
+        return _end_time - Timer.stamp();
     }
 
     /**
@@ -74,7 +76,7 @@
      * Tidy up the text as it's not being managed by anyone else.
      */
     public override function destroy() {
-        state.clockRemoved(this, getSecondsRemaining());
+        state.clockRemoved(this);
         state.remove(_text, true);
         _text.destroy();
         super.destroy();
