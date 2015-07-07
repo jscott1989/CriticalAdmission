@@ -12,12 +12,12 @@
     private var _text:FlxText;
     private var _end_time:Float;
 
-    private var _active:Bool = true;
+    private var _active:Bool = false;
 
     public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300)  {
         super(X, Y, "Clock", state);
 
-        _end_time = Timer.stamp() + seconds_remaining;
+        setTime(seconds_remaining);
 
         state.clockAdded(this);
 
@@ -29,6 +29,11 @@
 
         updateText();
         state.add(_text);
+    }
+
+    public function setTime(seconds_remaining=300) {
+        _end_time = Timer.stamp() + seconds_remaining;
+        _active = true;
     }
 
     private function getSecondsRemaining() {
@@ -70,6 +75,7 @@
 
     private function timeUp() {
         // TODO: Animate
+        state.clockFinished(this);
     }
 
     /**

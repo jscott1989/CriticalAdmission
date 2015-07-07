@@ -27,8 +27,7 @@ class PlayState extends FlxState {
 	// General scene items
 	private var _background:FlxSprite;
 	private var _table:FlxSprite;
-
-	private var level_end_time:Float = Timer.stamp() + 10;
+	private var _clock:Clock;
 
 	// The thing currently being dragged (if any)
 	private var _dragging:Organ;
@@ -65,8 +64,10 @@ class PlayState extends FlxState {
  		// TODO: Set up the correct number for additional UI elements
  		addHole(new UIHole(40, 0, new Next(0, 0, this)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
+
+        _clock = new Clock(0, 0, this, 30);
         
-        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, new Clock(0, 0, this, 30)));
+        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, _clock));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
 
         addHole(new UIHole(40, 200 + (UI_HOLE_HEIGHT * 2), null));
@@ -81,12 +82,35 @@ class PlayState extends FlxState {
 		super.create();
 	}
 
+	/**
+	 * A clock has been removed from the scene.
+	 */
 	public function clockRemoved(clock:Clock) {
 		
 	}
 
+	/**
+	 * A clock has been added to the scene.
+	 */
 	public function clockAdded(clock:Clock) {
 		
+	}
+
+	/**
+	 * A clock has gone off.
+	 */
+	public function clockFinished(clock:Clock) {
+		removePatient(function() {
+			openSubState(new IntrimState(this));
+		});
+	}
+
+	/**
+	 * Start the next level
+	 */
+	public function nextLevel() {
+		// Reset the active clock
+		_clock.setTime(30);
 	}
 
 	/**
@@ -236,25 +260,38 @@ class PlayState extends FlxState {
 	}
 
 	/**
+	 * Remove the patient from surgery
+	 */
+	public function removePatient(callback:Void->Void) {
+		if (_patient != null) {
+			// If we have one, get rid of them first
+			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: function(t:FlxTween) {
+
+				// TODO: Record the patient in the scores
+				
+				destroyPatient();
+				callback();
+			}});
+		} else {
+			// Otherwise just move on
+			callback();
+		}
+	}
+
+	/**
 	 * Call for the next patient
 	 */
 	public function nextPatient() {
 		if (!_addingPatient) { // Avoid spamming patients
 			_addingPatient = true;
-			if (_patient != null) {
-				// If we have one, get rid of them first
-				FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: patientOut});
-			} else {
-				// Otherwise just add the new one
-				addNewPatient();
-			}
+			removePatient(addNewPatient);
 		}
 	}
 
 	/**
-	 * The previous patient has left the screen
+	 * Remove the patient from memory
 	 */
-	public function patientOut(tween:FlxTween) {
+	public function destroyPatient() {
 		// Remove their holes
 		for (hole in _patient._holes) {
  			removeHole(hole);
@@ -263,9 +300,6 @@ class PlayState extends FlxState {
 		// Unload patient
 		_patient.destroy();
 		_patient = null;
-
-		// Create a new patient
-		addNewPatient();
 	}
 
 	/*
@@ -295,6 +329,7 @@ class PlayState extends FlxState {
 
 	/**
 	 * Bring something to the front of a members array, (or in front of something else)
+	 * TODO: Move this somewhere more appropriate
 	 */
 	public static function bringToFront(members:Array<Dynamic>, member:FlxSprite, inFrontOf:FlxSprite=null) {
 		var i = members.indexOf(member);
