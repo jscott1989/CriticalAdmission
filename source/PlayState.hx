@@ -5,8 +5,11 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.util.FlxPoint;
 import haxe.Timer;
+
+using flixel.util.FlxSpriteUtil;
 
 /**
  * The main playstate set in the surgery room.
@@ -24,6 +27,8 @@ class PlayState extends FlxState {
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
+	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
+
 
 	private var _active:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
@@ -34,6 +39,7 @@ class PlayState extends FlxState {
 	private var _clock:Clock;
 
 	public var _seconds_remaining:Float;
+	private var _seconds_since_drip:Float;
 
 	// The thing currently being dragged (if any)
 	private var _dragging:Organ;
@@ -202,9 +208,31 @@ class PlayState extends FlxState {
 			if (_seconds_remaining <= 0) {
 				clockFinished();
 			}
+
+			// Drips
+			if (_dragging != null) {
+				_seconds_since_drip += FlxG.elapsed;
+				if (_seconds_since_drip >= BLOOD_DRIP_TIMEOUT) {
+					dripBlood(FlxG.mouse.x, FlxG.mouse.y);
+					_seconds_since_drip = 0;
+				}
+			}
 		}
 
 		super.update();
+	}
+
+	/**
+	 * Place some blood on the floor.
+	 */
+	function dripBlood(x:Float, y:Float) {
+		var numberOfDrops = Std.random(10);
+
+		for (i in 0...numberOfDrops) {
+			var vx = x + (Std.random(100) - 50);
+			var vy = y + (Std.random(100) - 50);
+			_background.drawCircle(vx, vy, Std.random(100) + 1, 0x22FF0000);
+		}
 	}
 
 	/**
@@ -212,6 +240,7 @@ class PlayState extends FlxState {
 	 */
 	function onMouseDown(sprite:FlxSprite) {
 		_drag_started = Timer.stamp();
+		_seconds_since_drip = 0;
 		_dragging = cast sprite;
 		_drag_offset_x = _dragging.x - FlxG.mouse.x;
 		_drag_offset_y = _dragging.y - FlxG.mouse.y;
