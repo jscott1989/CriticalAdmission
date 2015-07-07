@@ -10,18 +10,14 @@
  class Clock extends UIElement {
 
     private var _text:FlxText;
-    private var _start_time:Float;
-    private var _time_to_elapse:Float;
-    private var _callback:Clock->Void;
+    private var _end_time:Float;
 
     private var _active:Bool = true;
 
-    public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300, callback:Clock->Void=null)  {
+    public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300)  {
         super(X, Y, "Clock", state);
 
-        _start_time = Timer.stamp();
-        _time_to_elapse = seconds_remaining;
-        _callback = callback;
+        _end_time = Timer.stamp() + seconds_remaining;
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
@@ -33,11 +29,15 @@
         state.add(_text);
     }
 
+    private function getSecondsRemaining() {
+        var seconds_remaining = _end_time - Timer.stamp();
+    }
+
     /**
      * Convert seconds remaining into a string and put it on the clock.
      */
     private function updateText() {
-        var seconds_remaining = _time_to_elapse - (Timer.stamp() - _start_time);
+        var seconds_remaining = getSecondsRemaining();
         if (seconds_remaining <= 0) {
                 _active = false;
                 timeUp();
@@ -67,15 +67,14 @@
     }
 
     private function timeUp() {
-        if (_callback != null) {
-            _callback(this);
-        }
+        // TODO: Animate
     }
 
     /**
      * Tidy up the text as it's not being managed by anyone else.
      */
     public override function destroy() {
+        state.clockRemoved(this, getSecondsRemaining());
         state.remove(_text, true);
         _text.destroy();
         super.destroy();

@@ -79,9 +79,12 @@ class PlayState extends FlxState {
 		super.create();
 	}
 
-	public function clockComplete(clock:Clock) {
-		// TODO: Check if there are any active clocks in the scene - if not we end the level
-		FlxG.log.add("CLOCK FINISHED");
+	public function clockRemoved(clock:Clock) {
+
+	}
+
+	public function clockAdded(clock:Clock) {
+		// if （clock.getSecondsRemaining()
 	}
 
 	/**
