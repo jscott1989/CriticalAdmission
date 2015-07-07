@@ -47,15 +47,8 @@
         _text.y = y + 10;
 
         // Always ensure that the text is in front of us in the state
-        var spriteIndex = state.members.indexOf(this);
-        var textIndex = state.members.indexOf(_text);
 
-        if (spriteIndex > textIndex) {
-            // Move text to spriteIndex
-            state.members[textIndex] = state.members[spriteIndex - 1];
-            state.members[spriteIndex - 1] = this;
-            state.members[spriteIndex] = _text;
-        }
+        PlayState.bringToFront(state.members, _text, this);
 
         // TODO: Adjust font size to match scale of clock
 

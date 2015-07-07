@@ -47,16 +47,8 @@
         text.x = x + xoffset;
         text.y = y + yoffset;
 
-        // Always ensure that the text is in front of us in the state
-        var spriteIndex = state.members.indexOf(this);
-        var textIndex = state.members.indexOf(text);
 
-        if (spriteIndex > textIndex) {
-            // Move text to spriteIndex
-            state.members[textIndex] = state.members[spriteIndex - 1];
-            state.members[spriteIndex - 1] = this;
-            state.members[spriteIndex] = text;
-        }
+        PlayState.bringToFront(state.members, text, this);
 
         // TODO: Adjust font size to match scale of clipboard
     }
