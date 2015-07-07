@@ -210,7 +210,7 @@ class PlayState extends FlxState {
 			}
 
 			// Drips
-			if (_dragging != null) {
+			if (_dragging != null && Type.getClass(_dragging) == Organ) {
 				_seconds_since_drip += FlxG.elapsed;
 				if (_seconds_since_drip >= BLOOD_DRIP_TIMEOUT) {
 					dripBlood(FlxG.mouse.x, FlxG.mouse.y);
