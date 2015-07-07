@@ -2,7 +2,6 @@
 
  import flixel.FlxG;
  import flixel.text.FlxText;
- import haxe.Timer;
 
 /**
  * Clock that shows the current time left in the level
@@ -10,16 +9,12 @@
  class Clock extends UIElement {
 
     private var _text:FlxText;
-    private var _end_time:Float;
 
-    private var _active:Bool = false;
+    private var _last_time_check:Float;
+    private var _seconds_remaining:Float;
 
-    public function new(X:Float=0, Y:Float=0, state:PlayState, seconds_remaining=300)  {
+    public function new(X:Float=0, Y:Float=0, state:PlayState)  {
         super(X, Y, "Clock", state);
-
-        setTime(seconds_remaining);
-
-        state.clockAdded(this);
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
@@ -31,24 +26,12 @@
         state.add(_text);
     }
 
-    public function setTime(seconds_remaining=300) {
-        _end_time = Timer.stamp() + seconds_remaining;
-        _active = true;
-    }
-
-    private function getSecondsRemaining() {
-        return _end_time - Timer.stamp();
-    }
-
     /**
      * Convert seconds remaining into a string and put it on the clock.
      */
     private function updateText() {
-        var seconds_remaining = getSecondsRemaining();
-        if (seconds_remaining <= 0) {
-                _active = false;
-                timeUp();
-        } else {
+        var seconds_remaining = state._seconds_remaining;
+        if (seconds_remaining >= 0) {
             var minutes = Math.floor(seconds_remaining / 60);
             var seconds = Std.string(Math.floor(seconds_remaining % 60));
             if (seconds.length == 1) {
@@ -68,21 +51,17 @@
 
         // TODO: Adjust font size to match scale of clock
 
-        if (_active) {
-            updateText();
-        }
+        updateText();
     }
 
     private function timeUp() {
         // TODO: Animate
-        state.clockFinished(this);
     }
 
     /**
      * Tidy up the text as it's not being managed by anyone else.
      */
     public override function destroy() {
-        state.clockRemoved(this);
         state.remove(_text, true);
         _text.destroy();
         super.destroy();

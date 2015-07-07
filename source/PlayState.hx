@@ -24,10 +24,16 @@ class PlayState extends FlxState {
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
+
+	private var _active:Bool = false; // is the scene playing?
+	// (it's not when we're throwing overlays to start/end level)
+
 	// General scene items
 	private var _background:FlxSprite;
 	private var _table:FlxSprite;
 	private var _clock:Clock;
+
+	public var _seconds_remaining:Float;
 
 	// The thing currently being dragged (if any)
 	private var _dragging:Organ;
@@ -65,7 +71,7 @@ class PlayState extends FlxState {
  		addHole(new UIHole(40, 0, new Next(0, 0, this)));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
 
-        _clock = new Clock(0, 0, this, 30);
+        _clock = new Clock(0, 0, this);
         
         addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, _clock));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
@@ -79,27 +85,16 @@ class PlayState extends FlxState {
  		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 2), "Lungs", this));
  		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 3), "Guts", this));
 
+ 		nextLevel();
+
 		super.create();
-	}
-
-	/**
-	 * A clock has been removed from the scene.
-	 */
-	public function clockRemoved(clock:Clock) {
-		
-	}
-
-	/**
-	 * A clock has been added to the scene.
-	 */
-	public function clockAdded(clock:Clock) {
-		
 	}
 
 	/**
 	 * A clock has gone off.
 	 */
-	public function clockFinished(clock:Clock) {
+	public function clockFinished() {
+		_active = false;
 		removePatient(function() {
 			openSubState(new IntrimState(this));
 		});
@@ -109,8 +104,9 @@ class PlayState extends FlxState {
 	 * Start the next level
 	 */
 	public function nextLevel() {
-		// Reset the active clock
-		_clock.setTime(30);
+		// Reset the clock
+		_seconds_remaining = 30;
+		_active = true;
 	}
 
 	/**
@@ -170,35 +166,44 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-		if (_dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
-			// Deal with dragging
+		if (_active) {
+			if (_dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
+				// Deal with dragging
 
-			if (_dragging.hole != null) {
-				// If it was in a hole, remove it
-				_dragging.hole.removeInteractable();
-			}
+				if (_dragging.hole != null) {
+					// If it was in a hole, remove it
+					_dragging.hole.removeInteractable();
+				}
 
-			// maintain offset
-			_dragging.x = FlxG.mouse.x + _drag_offset_x;
-			_dragging.y = FlxG.mouse.y + _drag_offset_y;
+				// maintain offset
+				_dragging.x = FlxG.mouse.x + _drag_offset_x;
+				_dragging.y = FlxG.mouse.y + _drag_offset_y;
 
-			if (!FlxG.mouse.pressed) {
-				// If we're not pressing any more - stop dragging
-				onMouseUp(_dragging);
-			}
-		}
-
-		//Intercom code
-		intercomCounter += FlxG.elapsed;
-		if (intercomCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
-			for (hole in _holes){
-				if (Type.getClass(hole._inter) == Intercom){
-					var intercom:Intercom = cast(hole._inter, Intercom);
-					intercom.generateMessage();
+				if (!FlxG.mouse.pressed) {
+					// If we're not pressing any more - stop dragging
+					onMouseUp(_dragging);
 				}
 			}
-			intercomCounter = 0;
+
+			//Intercom code
+			intercomCounter += FlxG.elapsed;
+			if (intercomCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
+				for (hole in _holes){
+					if (Type.getClass(hole._inter) == Intercom){
+						var intercom:Intercom = cast(hole._inter, Intercom);
+						intercom.generateMessage();
+					}
+				}
+				intercomCounter = 0;
+			}
+
+			// Timer
+			_seconds_remaining -= FlxG.elapsed;
+			if (_seconds_remaining <= 0) {
+				clockFinished();
+			}
 		}
+
 		super.update();
 	}
 
@@ -268,7 +273,7 @@ class PlayState extends FlxState {
 			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: function(t:FlxTween) {
 
 				// TODO: Record the patient in the scores
-				
+
 				destroyPatient();
 				callback();
 			}});
