@@ -43,7 +43,7 @@
         _body_holes = new Array<BodyHole>();
         // _body_holes.push(new BodyHole(165, 5, "Head"));
         _body_holes.push(new BodyHole(400, 500, "Heart", new Organ(0, 0, "Heart", state)));
-        _body_holes.push(new BodyHole(300, 750, "Guts"));
+        _body_holes.push(new BodyHole(300, 750, "Guts"), new Clock(0, 0, state, 60));
         // _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
 
         for (hole in _body_holes) {
