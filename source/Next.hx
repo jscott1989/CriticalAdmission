@@ -12,7 +12,6 @@
     }
 
     public override function interaction() {
-        state.score++;
         state.nextPatient();
     }
  }
