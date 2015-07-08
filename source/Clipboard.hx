@@ -48,7 +48,7 @@
         text.y = y + yoffset;
 
 
-        PlayState.bringToFront(state.members, text, this);
+        Utils.bringToFront(state.members, text, this);
 
         // TODO: Adjust font size to match scale of clipboard
     }

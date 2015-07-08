@@ -47,7 +47,7 @@
 
         // Always ensure that the text is in front of us in the state
 
-        PlayState.bringToFront(state.members, _text, this);
+        Utils.bringToFront(state.members, _text, this);
 
         // TODO: Adjust font size to match scale of clock
 

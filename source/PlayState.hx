@@ -270,7 +270,7 @@ class PlayState extends FlxState {
 		FlxTween.tween(_dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
 
 		// Bring to front
-		bringToFront(members, _dragging);
+		Utils.bringToFront(members, _dragging);
 	}
 
 	/**
@@ -387,24 +387,5 @@ class PlayState extends FlxState {
 
  		// Move on to screen
  		FlxTween.tween(_patient, {y: 20}, 1, {"complete": patientAdded});
-	}
-
-	/**
-	 * Bring something to the front of a members array, (or in front of something else)
-	 * TODO: Move this somewhere more appropriate
-	 */
-	public static function bringToFront(members:Array<Dynamic>, member:FlxSprite, inFrontOf:FlxSprite=null) {
-		var i = members.indexOf(member);
-
-		var target_index = members.length - 1;
-		if (inFrontOf != null) {
-			target_index = members.indexOf(inFrontOf);
-		}
-
-		while (i < target_index) {
-			members[i] = members[i + 1];
-			i++;
-		}
-		members[i] = member;
 	}
 }
