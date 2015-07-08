@@ -7,13 +7,13 @@
  */
  class Next extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0, state:PlayState)  {
-        super(X, Y, "Next", state);
+    public function new(X:Float=0, Y:Float=0)  {
+        super(X, Y, "Next");
     }
 
     public override function interaction() {
-    	if(state.isActive()){
-    		state.nextPatient();	
+    	if(PlayState.getInstance().isActive()){
+    		PlayState.getInstance().nextPatient();	
     	}
     }
  }

@@ -5,8 +5,8 @@
  */
  class Organ extends Interactable {
 
-    public function new(X:Float=0, Y:Float=0, type:String, pState:PlayState)  {
-        super(X, Y, type, pState);
+    public function new(X:Float=0, Y:Float=0, type:String)  {
+        super(X, Y, type);
     }
 
     public override function update() {

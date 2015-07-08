@@ -20,7 +20,7 @@
     private var isMale:Bool;
     public var name:String;
 
-    public function new(X:Float=0, Y:Float=0, state:PlayState)  {
+    public function new(X:Float=0, Y:Float=0)  {
         super(X, Y);
 
         isMale = Std.random(2) == 0;
@@ -49,7 +49,7 @@
         _holes = new Array<Hole>();
         _body_holes = new Array<BodyHole>();
         _body_holes.push(new BodyHole(275, 60, "Brain"));
-        _body_holes.push(new BodyHole(400, 500, "Heart", new Organ(0, 0, "Heart", state)));
+        _body_holes.push(new BodyHole(400, 500, "Heart", new Organ(0, 0, "Heart")));
         _body_holes.push(new BodyHole(300, 750, "Guts"));
         _body_holes.push(new BodyHole(20, 370, "LeftElbow"));
         _body_holes.push(new BodyHole(600, 390, "RightElbow"));
@@ -60,7 +60,7 @@
         _body_holes.push(new BodyHole(10, 670, "LeftHand"));
         _body_holes.push(new BodyHole(580, 670, "RightHand"));
         _body_holes.push(new BodyHole(230, 600, "Lung"));
-        // _holes.push(new UIHole(100, 1100, new Clipboard(0, 0, this, state)));
+        // _holes.push(new UIHole(100, 1100, new Clipboard(0, 0)));
 
         for (hole in _body_holes) {
             _holes.push(hole);

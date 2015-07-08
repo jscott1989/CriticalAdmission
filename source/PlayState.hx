@@ -68,6 +68,16 @@ class PlayState extends FlxState {
 	private var intercomCounter:Float = 0;
 	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 15;
 
+    private static var instance:PlayState;
+  
+    public static inline function getInstance() {
+        if (instance == null) {
+            return instance = new PlayState();
+        } else {
+            return instance;
+        }
+    }
+
 	override public function create():Void
 	{
 		// Enable debugger if in debug mode
@@ -84,10 +94,10 @@ class PlayState extends FlxState {
  		_holes = new Array<Hole>();
  		
  		// TODO: Set up the correct number for additional UI elements
- 		addHole(new UIHole(40, 0, new Next(0, 0, this)));
-        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0, this)));
+ 		addHole(new UIHole(40, 0, new Next(0, 0)));
+        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0)));
 
-        _clock = new Clock(0, 0, this);
+        _clock = new Clock(0, 0);
         
         addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, _clock));
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
@@ -96,10 +106,10 @@ class PlayState extends FlxState {
         addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 200 + (UI_HOLE_HEIGHT * 2), null));
 
  		// Organs
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100, "Heart", this));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + UI_HOLE_HEIGHT, "Heart", this));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 2), "Lungs", this));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 3), "Guts", this));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100, "Heart"));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + UI_HOLE_HEIGHT, "Heart"));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 2), "Lungs"));
+ 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 3), "Guts"));
 
  		nextLevel();
 
@@ -117,7 +127,7 @@ class PlayState extends FlxState {
 		_active = false;
 		//FlxG.camera.fade(FlxColor.BLACK, .33);
 		removePatient(function() {
-			openSubState(new IntrimState(this, _levelCounter, _score, _thisLevelScore));
+			openSubState(new IntrimState(_levelCounter, _score, _thisLevelScore));
 		});
 	}
 
@@ -375,7 +385,7 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		_patient = new Patient(300, FlxG.height, this);
+		_patient = new Patient(300, FlxG.height);
 
 		// Add to renderer
 		add(_patient);

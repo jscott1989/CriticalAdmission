@@ -12,9 +12,9 @@
     private var _name_text:FlxText;
     private var _qol_text:FlxText;
 
-    public function new(X:Float=0, Y:Float=0, patient:Patient, pState:PlayState)  {
+    public function new(X:Float=0, Y:Float=0, patient:Patient)  {
         _patient = patient;
-        super(X, Y, "Clipboard", pState);
+        super(X, Y, "Clipboard");
 
         _name_text = new FlxText(0, 0, width); // x, y, width
         _name_text.alignment = "center";

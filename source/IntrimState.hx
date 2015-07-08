@@ -18,15 +18,13 @@ class IntrimState extends FlxSubState {
     private var _scoreText:FlxText;
     private var _breakdownText:FlxText;
     private var _btnPlay:FlxButton;
-    private var _state:PlayState;
 
     private var _day:Int;
     private var _score:Int;    
 
     private var _levelScore:Array<Patient>;
 
-    public function new(state:PlayState, day:Int, score:Int, levelScore:Array<Patient>)  {
-        _state = state;
+    public function new(day:Int, score:Int, levelScore:Array<Patient>)  {
         _day = day;
         _score = score;
         _levelScore = levelScore;
@@ -59,7 +57,7 @@ class IntrimState extends FlxSubState {
     }
 
     private function clickPlay():Void {
-        _state.nextLevel();
+        PlayState.getInstance().nextLevel();
         close();
     }
     
