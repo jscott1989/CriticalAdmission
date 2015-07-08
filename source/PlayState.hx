@@ -284,19 +284,24 @@ class PlayState extends FlxState {
                 organ.click();
             } else {
                 var placed = false; // Figure out if we're dropping on something
+                var minDistance:Float = 99999;
+                var minHole:Hole = null;
 
                 for (hole in _holes) {
                     // Check each hole
                     var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
 
-                    // TODO: This assumes circular holes - if not - change
-                    if (distance < hole.width && hole.isEmpty()) {
-                        // if the distance is small enough
-                        // Add the _dragging to the _hole
-                        hole.addInteractable(_dragging);
-                        placed = true;
-                        break; // No need to look at other holes
+                    if (hole.isEmpty() && distance < minDistance) {
+                    	minDistance = distance;
+                    	minHole = hole;
                     }
+                }
+
+                if (minDistance < minHole.width) {
+                    // if the distance is small enough
+                    // Add the _dragging to the _hole
+                    minHole.addInteractable(_dragging);
+                    placed = true;
                 }
 
                 if (!placed && _dragging.x < _table.x) {
