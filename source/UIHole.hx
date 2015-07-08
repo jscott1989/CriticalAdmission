@@ -1,7 +1,7 @@
  package;
 
  import flixel.FlxSprite;
- import flixel.FlxState;
+ import flixel.util.FlxColor;
 
 /**
  * This is a hole in the UI - right now the difference is just the background
@@ -15,7 +15,7 @@
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
         var backgroundSprite = new FlxSprite(0, 0);
-        backgroundSprite.loadGraphic("assets/images/UIHole.png");
+        backgroundSprite.makeGraphic(200, 190, FlxColor.TRANSPARENT);
         add(backgroundSprite);
 
         // initialize any organs pre-added

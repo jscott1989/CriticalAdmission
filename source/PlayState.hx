@@ -30,7 +30,7 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 2;
+	private var LEVEL_TIME:Float = 60;
 
 	//Level and score counter for Game Over screen
 	private var _levelCounter:Int = 0;
