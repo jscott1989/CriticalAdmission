@@ -1,12 +1,11 @@
 package;
 
-import flash.display.Sprite;
-import flash.display.StageAlign;
-import flash.display.StageScaleMode;
-import flash.events.Event;
 import flash.Lib;
+import flash.display.Sprite;
+import flash.events.Event;
 import flixel.FlxGame;
 import flixel.FlxState;
+import states.MenuState;
 
 /**
  * Default stuff, don't worry too much about this.
