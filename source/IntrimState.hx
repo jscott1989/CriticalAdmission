@@ -14,20 +14,20 @@ using flixel.util.FlxSpriteUtil;
  * This gives an overview of progress so far, in between levels
  */
 class IntrimState extends FlxSubState {
-    private var _dayText:FlxText;
-    private var _scoreText:FlxText;
-    private var _breakdownText:FlxText;
-    private var _btnPlay:FlxButton;
+    private var dayText:FlxText;
+    private var scoreText:FlxText;
+    private var breakdownText:FlxText;
+    private var btnPlay:FlxButton;
 
-    private var _day:Int;
-    private var _score:Int;    
+    private var day:Int;
+    private var score:Int;    
 
-    private var _levelScore:Array<Patient>;
+    private var levelScore:Array<Patient>;
 
     public function new(day:Int, score:Int, levelScore:Array<Patient>)  {
-        _day = day;
-        _score = score;
-        _levelScore = levelScore;
+        this.day = day;
+        this.score = score;
+        this.levelScore = levelScore;
         super();
     }
 
@@ -40,18 +40,18 @@ class IntrimState extends FlxSubState {
         background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         add(background);
 
-        _dayText = new FlxText(50, 50, 0, "Day "+ _day + ":", 100);
-        add(_dayText);
+        dayText = new FlxText(50, 50, 0, "Day "+ day + ":", 100);
+        add(dayText);
 
-        _scoreText = new FlxText(50, 200, 0, "Patients treated so far: "+ _score, 50);
-        add(_scoreText);
+        scoreText = new FlxText(50, 200, 0, "Patients treated so far: "+ score, 50);
+        add(scoreText);
 
-        _breakdownText = new FlxText(50, 250, 0, "Patient Breakdown:", 50);
-        add(_breakdownText);
+        breakdownText = new FlxText(50, 250, 0, "Patient Breakdown:", 50);
+        add(breakdownText);
 
-        _btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
-        _btnPlay.screenCenter();
-        add(_btnPlay);
+        btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
+        btnPlay.screenCenter();
+        add(btnPlay);
 
         super.create();
     }
@@ -67,7 +67,7 @@ class IntrimState extends FlxSubState {
      */
     override public function destroy():Void {
         super.destroy();
-        _btnPlay = FlxDestroyUtil.destroy(_btnPlay);
+        btnPlay = FlxDestroyUtil.destroy(btnPlay);
     }
 
     /**

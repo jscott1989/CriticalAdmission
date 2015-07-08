@@ -10,15 +10,15 @@ using flixel.util.FlxSpriteUtil;
  * Game's menu. Disabled at the moment.
  */
 class MenuState extends FlxState {
-	 private var _btnPlay:FlxButton;
+	 private var btnPlay:FlxButton;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
-		_btnPlay = new FlxButton(0, 0, "Play", clickPlay);
-		_btnPlay.screenCenter();
-		add(_btnPlay);
+		btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+		btnPlay.screenCenter();
+		add(btnPlay);
 		super.create();
 		FlxG.switchState(PlayState.getInstance());
 	}
@@ -32,7 +32,7 @@ class MenuState extends FlxState {
 	 */
 	override public function destroy():Void {
 		super.destroy();
-		_btnPlay = FlxDestroyUtil.destroy(_btnPlay);
+		btnPlay = FlxDestroyUtil.destroy(btnPlay);
 	}
 
 	/**

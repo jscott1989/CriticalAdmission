@@ -10,13 +10,13 @@ using flixel.util.FlxSpriteUtil;
  * Game's menu. Disabled at the moment.
  */
 class GameOverState extends FlxState {
-	 private var _btnPlay:FlxButton;
-	 private var _level:Int;
-	 private var _score:Int;
+	 private var btnPlay:FlxButton;
+	 private var level:Int;
+	 private var score:Int;
 
 	public function new(level:Int, score:Int) {
-		_level = level;
-		_score = score;
+		this.level = level;
+		this.score = score;
 		super();
 	}
 
@@ -24,9 +24,9 @@ class GameOverState extends FlxState {
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
-		_btnPlay = new FlxButton(0, 0, "Play Again", clickPlay);
-		_btnPlay.screenCenter();
-		add(_btnPlay);
+		btnPlay = new FlxButton(0, 0, "Play Again", clickPlay);
+		btnPlay.screenCenter();
+		add(btnPlay);
 		super.create();
 	}
 
@@ -40,7 +40,7 @@ class GameOverState extends FlxState {
 	 */
 	override public function destroy():Void {
 		super.destroy();
-		_btnPlay = FlxDestroyUtil.destroy(_btnPlay);
+		btnPlay = FlxDestroyUtil.destroy(btnPlay);
 	}
 
 	/**

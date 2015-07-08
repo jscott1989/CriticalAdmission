@@ -20,14 +20,14 @@
     /**
      * Spawn an interactable in this hole.
      */
-    public function initInteractable(inter:Interactable) {
+    public function initInteractable(interactable:Interactable) {
 
         // center it
-        inter.x = x + ((width - inter.width)/2);
-        inter.y = y + ((height - inter.height)/2);
+        interactable.x = x + ((width - interactable.width)/2);
+        interactable.y = y + ((height - interactable.height)/2);
 
         // then add as normal - making sure we don't move it
-        addInteractable(inter, false);
+        addInteractable(interactable, false);
     }
 
     /**
@@ -37,8 +37,8 @@
         return interactable == null;
     }
 
-    public function addInteractable(inter:Interactable, position:Bool = true) {
-        interactable = inter;
+    public function addInteractable(interactable:Interactable, position:Bool = true) {
+        this.interactable = interactable;
         interactable.hole = this;
 
         // We get the size BEFORE adding the interactable
@@ -55,7 +55,7 @@
 
         if (position) {
             // Then move it to the center
-            FlxTween.tween(interactable, {x: x + ((bWidth - inter.width)/2), y: y + ((bHeight - inter.height)/2)}, 0.1);
+            FlxTween.tween(interactable, {x: x + ((bWidth - interactable.width)/2), y: y + ((bHeight - interactable.height)/2)}, 0.1);
         }
 
     }
