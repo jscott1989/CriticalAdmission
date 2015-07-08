@@ -30,7 +30,7 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 30;
+	private var LEVEL_TIME:Float = 2;
 
 	//Level and score counter for Game Over screen
 	private var _levelCounter:Int = 0;
@@ -113,7 +113,7 @@ class PlayState extends FlxState {
 		_active = false;
 		//FlxG.camera.fade(FlxColor.BLACK, .33);
 		removePatient(function() {
-			openSubState(new IntrimState(this, _thisLevelScore));
+			openSubState(new IntrimState(this, _levelCounter, _score, _thisLevelScore));
 		});
 	}
 
