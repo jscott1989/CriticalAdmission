@@ -12,8 +12,6 @@
     }
 
     public override function interaction() {
-    	if(PlayState.getInstance().isActive()){
-    		PlayState.getInstance().nextPatient();	
-    	}
+		PlayState.getInstance().nextPatient();
     }
  }

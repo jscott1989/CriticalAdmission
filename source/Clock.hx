@@ -31,7 +31,7 @@
      * Convert seconds remaining into a string and put it on the clock.
      */
     private function updateText() {
-        var seconds_remaining = PlayState.getInstance()._seconds_remaining;
+        var seconds_remaining = PlayState.getInstance().seconds_remaining;
         if (seconds_remaining >= 0) {
             var minutes = Math.floor(seconds_remaining / 60);
             var seconds = Std.string(Math.floor(seconds_remaining % 60));

@@ -27,9 +27,6 @@ class PlayState extends FlxState {
 	public static inline var GRABBED_SCALE = 1.3;
 	public static inline  var DEFAULT_SCALE = 1;
 
-	public static inline  var UI_HOLE_HEIGHT = 200;
-	public static inline  var UI_HOLE_WIDTH = 190;
-
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
@@ -39,32 +36,32 @@ class PlayState extends FlxState {
 	private var LEVEL_TIME:Float = 60;
 
 	//Level and score counter for Game Over screen
-	private var _levelCounter:Int = 0;
-	private var _score:Int = 0;
+	private var levelCounter:Int = 0;
+	private var score:Int = 0;
 	//Store all the patients "fixed" this level for interim screen
-	private var _thisLevelScore:Array<Patient>;
+	private var thisLevelScore:Array<Patient>;
 
 
-	private var _gameover:Bool = false; //has the player lost yet?
-	private var _active:Bool = false; // is the scene playing?
+	private var gameover:Bool = false; //has the player lost yet?
+	private var isActive:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
 
 	// General scene items
-	private var _background:FlxSprite;
+	private var background:FlxSprite;
 	private var table:Rectangle;
 
-	public var _seconds_remaining:Float;
-	private var _seconds_since_drip:Float;
+	public var seconds_remaining:Float;
+	private var seconds_since_drip:Float;
 
 	// The thing currently being dragged (if any)
 	private var dragging:Organ;
-	private var _drag_offset_x:Float;
-	private var _drag_offset_y:Float;
-	private var _drag_started:Float;
+	private var drag_offset_x:Float;
+	private var drag_offset_y:Float;
+	private var drag_started:Float;
 
 	// Patient
-	private var _addingPatient:Bool;
-	private var _patient:Patient;
+	private var addingPatient:Bool;
+	private var patient:Patient;
 
 	// Holes to check for drop targets
 	private var holes = new Array<Hole>();
@@ -89,9 +86,9 @@ class PlayState extends FlxState {
 		FlxG.debugger.visible = true;
 
 		// Scene
-		_background = new FlxSprite(0,0);
-		_background.loadGraphic("assets/images/Background.png");
-		add(_background);
+		background = new FlxSprite(0,0);
+		background.loadGraphic("assets/images/Background.png");
+		add(background);
 
 		table = new Rectangle(1300,112,730,1359);
  		
@@ -138,18 +135,14 @@ class PlayState extends FlxState {
         watchInteractable(interactable);
     }
 
-	public function isActive(){
-		return _active;
-	}
-
 	/**
 	 * A clock has gone off.
 	 */
 	public function clockFinished() {
-		_active = false;
+		isActive = false;
 		//FlxG.camera.fade(FlxColor.BLACK, .33);
 		removePatient(function() {
-			openSubState(new IntrimState(_levelCounter, _score, _thisLevelScore));
+			openSubState(new IntrimState(levelCounter, score, thisLevelScore));
 		});
 	}
 
@@ -158,10 +151,10 @@ class PlayState extends FlxState {
 	 */
 	public function nextLevel() {
 		// Reset the clock
-		_seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
-		_active = true;
-		_levelCounter++;
-		_thisLevelScore = new Array<Patient>();
+		seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+		isActive = true;
+		levelCounter++;
+		thisLevelScore = new Array<Patient>();
 	}
 
 	/**
@@ -221,12 +214,12 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-		if (_gameover){
-			FlxG.switchState(new GameOverState(_levelCounter, _score));
+		if (gameover){
+			FlxG.switchState(new GameOverState(levelCounter, score));
 		}
 
-		else if (_active) {
-			if (dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
+		else if (isActive) {
+			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
 				if (dragging.hole != null) {
@@ -235,8 +228,8 @@ class PlayState extends FlxState {
 				}
 
 				// maintain offset
-				dragging.x = FlxG.mouse.x + _drag_offset_x;
-				dragging.y = FlxG.mouse.y + _drag_offset_y;
+				dragging.x = FlxG.mouse.x + drag_offset_x;
+				dragging.y = FlxG.mouse.y + drag_offset_y;
 
 				if (!FlxG.mouse.pressed) {
 					// If we're not pressing any more - stop dragging
@@ -257,17 +250,17 @@ class PlayState extends FlxState {
 			}
 
 			// Timer
-			_seconds_remaining -= FlxG.elapsed;
-			if (_seconds_remaining <= 0) {
+			seconds_remaining -= FlxG.elapsed;
+			if (seconds_remaining <= 0) {
 				clockFinished();
 			}
 
 			// Drips
 			if (dragging != null && Type.getClass(dragging) == Organ) {
-				_seconds_since_drip += FlxG.elapsed;
-				if (_seconds_since_drip >= BLOOD_DRIP_TIMEOUT) {
+				seconds_since_drip += FlxG.elapsed;
+				if (seconds_since_drip >= BLOOD_DRIP_TIMEOUT) {
 					dripBlood(FlxG.mouse.x, FlxG.mouse.y);
-					_seconds_since_drip = 0;
+					seconds_since_drip = 0;
 				}
 			}
 		}
@@ -284,7 +277,7 @@ class PlayState extends FlxState {
 		for (i in 0...numberOfDrops) {
 			var vx = x + (Std.random(100) - 50);
 			var vy = y + (Std.random(100) - 50);
-			_background.drawCircle(vx, vy, Std.random(100) + 1, 0x22FF0000);
+			background.drawCircle(vx, vy, Std.random(100) + 1, 0x22FF0000);
 		}
 	}
 
@@ -292,11 +285,11 @@ class PlayState extends FlxState {
 	 * There has been a mouse press on an organ
 	 */
 	function onMouseDown(sprite:FlxSprite) {
-		_drag_started = Timer.stamp();
-		_seconds_since_drip = 0;
+		drag_started = Timer.stamp();
+		seconds_since_drip = 0;
 		dragging = cast sprite;
-		_drag_offset_x = dragging.x - FlxG.mouse.x;
-		_drag_offset_y = dragging.y - FlxG.mouse.y;
+		drag_offset_x = dragging.x - FlxG.mouse.x;
+		drag_offset_y = dragging.y - FlxG.mouse.y;
 
 		// Make it bigger when grabbed
 		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
@@ -310,7 +303,7 @@ class PlayState extends FlxState {
 	 */
 	function onMouseUp(sprite:FlxSprite) {
         if (dragging != null) {
-            if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
+            if (Timer.stamp() - drag_started < CLICK_TIMEOUT) {
                 // We're clicking not dragging
                 var organ:Organ = cast sprite;
                 organ.click();
@@ -355,12 +348,12 @@ class PlayState extends FlxState {
 	 * Remove the patient from surgery
 	 */
 	public function removePatient(callback:Void->Void) {
-		if (_patient != null) {
+		if (patient != null) {
 			// If we have one, get rid of them first
-			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: function(t:FlxTween) {
+			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
 
-				_score++;// Still record them if the clock timed out?
-				_thisLevelScore.push(_patient);
+				score++;// Still record them if the clock timed out?
+				thisLevelScore.push(patient);
 				//Destroy patient here or once the score is displayed?
 				//destroyPatient();
 				//If not here, better destroy them all in start_new
@@ -376,8 +369,8 @@ class PlayState extends FlxState {
 	 * Call for the next patient
 	 */
 	public function nextPatient() {
-		if (!_addingPatient) { // Avoid spamming patients
-			_addingPatient = true;
+		if (!addingPatient && isActive) { // Avoid spamming patients
+			addingPatient = true;
 			removePatient(addNewPatient);
 		}
 	}
@@ -387,37 +380,37 @@ class PlayState extends FlxState {
 	 */
 	public function destroyPatient() {
 		// Remove their holes
-		for (hole in _patient.holes) {
+		for (hole in patient.holes) {
  			removeHole(hole);
  		}
 
 		// Unload patient
-		_patient.destroy();
-		_patient = null;
+		patient.destroy();
+		patient = null;
 	}
 
 	/*
 	 * The new patient has moved on to the screen
 	 */
 	public function patientAdded(tween:FlxTween) {
-		_addingPatient = false;
+		addingPatient = false;
 	}
 
 	/**
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		_patient = new Patient(300, FlxG.height);
+		patient = new Patient(300, FlxG.height);
 
 		// Add to renderer
-		add(_patient);
+		add(patient);
 
 		// Add each hole
-		for (hole in _patient.holes) {
+		for (hole in patient.holes) {
  			watchHole(hole);
  		}
 
  		// Move on to screen
- 		FlxTween.tween(_patient, {y: 20}, 1, {"complete": patientAdded});
+ 		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
 	}
 }
