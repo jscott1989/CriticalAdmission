@@ -14,7 +14,7 @@
 
     public var type:String;
 
-    public function new(X:Float=0, Y:Float=0, type:String)  {
+    public function new(type:String, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.type = type;
         // Load the correct type onto this sprite

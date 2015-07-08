@@ -7,8 +7,8 @@ import flixel.FlxG;
  */
  class UIElement extends Interactable {
 
-    public function new(X:Float=0, Y:Float=0, type:String)  {
-        super(X, Y, type);
+    public function new(type:String, X:Float=0, Y:Float=0)  {
+        super(type, X, Y);
     }
 
     public override function update() {
