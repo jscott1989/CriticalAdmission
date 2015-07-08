@@ -106,6 +106,10 @@ class PlayState extends FlxState {
 		super.create();
 	}
 
+	public function isActive(){
+		return _active;
+	}
+
 	/**
 	 * A clock has gone off.
 	 */

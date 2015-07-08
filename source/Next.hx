@@ -12,6 +12,8 @@
     }
 
     public override function interaction() {
-        state.nextPatient();
+    	if(state.isActive()){
+    		state.nextPatient();	
+    	}
     }
  }
