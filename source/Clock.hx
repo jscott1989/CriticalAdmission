@@ -1,29 +1,30 @@
  package;
 
- import flixel.FlxG;
  import flixel.text.FlxText;
+ import flixel.util.FlxColor;
 
 /**
  * Clock that shows the current time left in the level
  */
  class Clock extends UIElement {
 
-    private var _text:FlxText;
+    public static inline var TEXT_X_OFFSET = 0;
+    public static inline var TEXT_Y_OFFSET = 70;
 
-    private var _last_time_check:Float;
-    private var _seconds_remaining:Float;
+    private var text:FlxText;
 
     public function new(X:Float=0, Y:Float=0)  {
         super("Clock", X, Y);
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
-        _text = new FlxText(0, 0, width); // x, y, width
-        _text.alignment = "center";
-        _text.size = 40;
+        text = new FlxText(0, 0, width); // x, y, width
+        text.alignment = "center";
+        text.color = FlxColor.BLACK;
+        text.size = 40;
 
         updateText();
-        PlayState.getInstance().add(_text);
+        PlayState.getInstance().add(text);
     }
 
     /**
@@ -37,17 +38,17 @@
             if (seconds.length == 1) {
                 seconds = "0" + seconds;
             }
-            _text.text = minutes + ":" + seconds;
+            text.text = minutes + ":" + seconds;
         }
     }
 
     public override function update() {
-        _text.x = x;
-        _text.y = y + 10;
+        text.x = x + TEXT_X_OFFSET;
+        text.y = y + TEXT_Y_OFFSET;
 
         // Always ensure that the text is in front of us in the state
 
-        Utils.bringToFront(PlayState.getInstance().members, _text, this);
+        Utils.bringToFront(PlayState.getInstance().members, text, this);
 
         // TODO: Adjust font size to match scale of clock
 
@@ -62,8 +63,8 @@
      * Tidy up the text as it's not being managed by anyone else.
      */
     public override function destroy() {
-        PlayState.getInstance().remove(_text, true);
-        _text.destroy();
+        PlayState.getInstance().remove(text, true);
+        text.destroy();
         super.destroy();
     }
  }
