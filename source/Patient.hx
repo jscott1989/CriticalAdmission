@@ -32,16 +32,65 @@
         add(bedSprite);
 
         var bodySprite = new FlxSprite(-5, -10);
-        // if (isMale) {
-        //     bodySprite.loadGraphic("assets/images/Man" + (Std.random(3) + 1) + ".png");
-        // } else {
-        //     bodySprite.loadGraphic("assets/images/Woman" + (Std.random(3) + 1) + ".png");
-        // }
-        bodySprite.loadGraphic("assets/images/Man" + (Std.random(3) + 1) + ".png");
+        if (isMale) {
+            bodySprite.loadGraphic("assets/images/Man" + (Std.random(3) + 1) + ".png");
+        } else {
+            bodySprite.loadGraphic("assets/images/Woman" + (Std.random(3) + 1) + ".png");
+            bodySprite.x = -70;
+            bodySprite.y = -10;
+        }
         add(bodySprite);
 
-        var hairSprite = new FlxSprite(185, 0);
-        hairSprite.loadGraphic("assets/images/Hair" + (Std.random(16) + 1) + "-" + (Std.random(3) + 1) + ".png");
+        var hairSprite = new FlxSprite();
+        var hairStyle = Std.random(15)+1;
+        hairSprite.loadGraphic("assets/images/Hair" + hairStyle + "-" + (Std.random(3) + 1) + ".png");
+
+        if (hairStyle == 1) {
+            hairSprite.x = 225;
+            hairSprite.y = 10;
+        } else if (hairStyle == 2) {
+            hairSprite.x = 205;
+            hairSprite.y = 10;
+        } else if (hairStyle == 3) {
+            hairSprite.x = 215;
+            hairSprite.y = -10;
+        } else if (hairStyle == 4) {
+            hairSprite.x = 175;
+            hairSprite.y = -70;
+        } else if (hairStyle == 5) {
+            hairSprite.x = 110;
+            hairSprite.y = 5;
+        } else if (hairStyle == 6) {
+            hairSprite.x = 215;
+            hairSprite.y = -5;
+        } else if (hairStyle == 7) {
+            hairSprite.x = 225;
+            hairSprite.y = -5;
+        } else if (hairStyle == 8) {
+            hairSprite.x = 310;
+            hairSprite.y = -40;
+        } else if (hairStyle == 9) {
+            hairSprite.x = 245;
+            hairSprite.y = 10;
+        } else if (hairStyle == 10) {
+            hairSprite.x = 220;
+            hairSprite.y = -10;
+        } else if (hairStyle == 11) {
+            hairSprite.x = 270;
+            hairSprite.y = -10;
+        } else if (hairStyle == 12) {
+            hairSprite.x = 222;
+            hairSprite.y = -40;
+        } else if (hairStyle == 13) {
+            hairSprite.x = 172;
+            hairSprite.y = 0;
+        } else if (hairStyle == 14) {
+            hairSprite.x = 200;
+            hairSprite.y = -50;
+        } else if (hairStyle == 15) {
+            hairSprite.x = 240;
+            hairSprite.y = 0;
+        }
         add(hairSprite);
 
         // TODO: They should have all of the holes - but some should be
@@ -53,12 +102,12 @@
         _body_holes.push(new BodyHole(300, 750, "Guts"));
         _body_holes.push(new BodyHole(20, 370, "LeftElbow"));
         _body_holes.push(new BodyHole(600, 390, "RightElbow"));
-        _body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
-        _body_holes.push(new BodyHole(570, 1280, "RightFoot"));
+        // _body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
+        // _body_holes.push(new BodyHole(570, 1280, "RightFoot"));
         _body_holes.push(new BodyHole(140, 1050, "LeftKnee"));
         _body_holes.push(new BodyHole(500, 1050, "RightKnee"));
-        _body_holes.push(new BodyHole(10, 670, "LeftHand"));
-        _body_holes.push(new BodyHole(580, 670, "RightHand"));
+        // _body_holes.push(new BodyHole(10, 670, "LeftHand"));
+        // _body_holes.push(new BodyHole(580, 670, "RightHand"));
         _body_holes.push(new BodyHole(230, 600, "Lung"));
         // _holes.push(new UIHole(100, 1100, new Clipboard()));
 
