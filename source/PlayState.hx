@@ -34,7 +34,7 @@ class PlayState extends FlxState {
 
 	//Level and score counter for Game Over screen
 	private var _levelCounter:Int = 0;
-	private var _score:Int = 0;
+	public var score:Int = 0;
 	//Store all the patients "fixed" this level for interim screen
 	private var _thisLevelScore:Array<Patient>;
 
@@ -113,7 +113,7 @@ class PlayState extends FlxState {
 		_active = false;
 		//FlxG.camera.fade(FlxColor.BLACK, .33);
 		removePatient(function() {
-			openSubState(new IntrimState(this, _levelCounter, _score, _thisLevelScore));
+			openSubState(new IntrimState(this, _levelCounter, score, _thisLevelScore));
 		});
 	}
 
@@ -126,6 +126,7 @@ class PlayState extends FlxState {
 		_active = true;
 		_levelCounter++;
 		_thisLevelScore = new Array<Patient>();
+		nextPatient();
 	}
 
 	/**
@@ -186,7 +187,7 @@ class PlayState extends FlxState {
 	override public function update():Void
 	{
 		if (_gameover){
-			FlxG.switchState(new GameOverState(_levelCounter, _score));
+			FlxG.switchState(new GameOverState(_levelCounter, score));
 		}
 
 		else if (_active) {
@@ -317,8 +318,6 @@ class PlayState extends FlxState {
 		if (_patient != null) {
 			// If we have one, get rid of them first
 			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: function(t:FlxTween) {
-
-				_score++;// Still record them if the clock timed out?
 				_thisLevelScore.push(_patient);
 				//Destroy patient here or once the score is displayed?
 				//destroyPatient();
