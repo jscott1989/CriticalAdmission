@@ -27,12 +27,13 @@ package states.playstate;
 
         if (canBeFlipped && this.hole.requiresFlip) {
             this.flipX = true;
+        } else {
+            this.flipX = false;
         }
     }
 
     public function resetHole() {
         this.hole = null;
-        this.flipX = false;
     }
 
     public function getHole() {

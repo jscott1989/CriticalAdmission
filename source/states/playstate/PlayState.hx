@@ -107,9 +107,9 @@ class PlayState extends FlxState {
 
  		spawnInteractable(new Organ("Heart"));
  		spawnInteractable(new Organ("Brain"));
- 		spawnInteractable(new Organ("Elbow"));
+ 		spawnInteractable(new Organ("Elbow", true));
  		spawnInteractable(new Organ("Guts"));
- 		spawnInteractable(new Organ("Knee"));
+ 		spawnInteractable(new Organ("Knee", true));
  		spawnInteractable(new Organ("Lungs"));
 
  		nextLevel();
