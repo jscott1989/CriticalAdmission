@@ -1,11 +1,12 @@
 package;
 
+import flash.geom.Point;
+import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 import flixel.util.FlxPoint;
 import haxe.Timer;
 
@@ -15,6 +16,11 @@ using flixel.util.FlxSpriteUtil;
  * The main playstate set in the surgery room.
  */
 class PlayState extends FlxState {
+
+	// UI Grid
+    public static inline var UI_GRID_PADDING = 100;
+    public static inline var UI_GRID_WIDTH = 900;
+    public static inline var UI_GRID_HEIGHT = 600;
 
 	// Consants
 	// Scaling when picking things up
@@ -45,14 +51,13 @@ class PlayState extends FlxState {
 
 	// General scene items
 	private var _background:FlxSprite;
-	private var _table:FlxSprite;
-	private var _clock:Clock;
+	private var table:Rectangle;
 
 	public var _seconds_remaining:Float;
 	private var _seconds_since_drip:Float;
 
 	// The thing currently being dragged (if any)
-	private var _dragging:Organ;
+	private var dragging:Organ;
 	private var _drag_offset_x:Float;
 	private var _drag_offset_y:Float;
 	private var _drag_started:Float;
@@ -88,33 +93,53 @@ class PlayState extends FlxState {
 		_background.loadGraphic("assets/images/Background.png");
 		add(_background);
 
-		_table = new FlxSprite(1300,0);
+		table = new Rectangle(1300,112,730,1359);
 
 		// Holes
  		_holes = new Array<Hole>();
  		
- 		// TODO: Set up the correct number for additional UI elements
- 		addHole(new UIHole(40, 0, new Next(0, 0)));
-        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50 , 10, new Intercom(0, 0)));
+ 		// Set up UI holes
+        spawnUIHole(new UIHole(new Next()), 0, 0);
+        spawnUIHole(new UIHole(new Intercom()), 0, 1);
+        spawnUIHole(new UIHole(new Clock()), 0, 2);
 
-        _clock = new Clock(0, 0);
-        
-        addHole(new UIHole(40, 100 + UI_HOLE_HEIGHT, _clock));
-        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 100 + UI_HOLE_HEIGHT, null));
-
-        addHole(new UIHole(40, 200 + (UI_HOLE_HEIGHT * 2), null));
-        addHole(new UIHole(_table.x - UI_HOLE_WIDTH - 50, 200 + (UI_HOLE_HEIGHT * 2), null));
+        spawnUIHole(new UIHole(), 1, 0);
+        spawnUIHole(new UIHole(), 1, 1);
+        spawnUIHole(new UIHole(), 1, 2);
 
  		// Organs
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100, "Heart"));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + UI_HOLE_HEIGHT, "Heart"));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 2), "Lungs"));
- 		addInteractable(new Organ(_table.x + 100, _table.y + 100 + (UI_HOLE_HEIGHT * 3), "Guts"));
+
+ 		spawnInteractable(new Organ("Heart"));
+ 		spawnInteractable(new Organ("Brain"));
+ 		spawnInteractable(new Organ("Elbow"));
+ 		spawnInteractable(new Organ("Guts"));
+ 		spawnInteractable(new Organ("Knee"));
+ 		spawnInteractable(new Organ("Lungs"));
 
  		nextLevel();
 
 		super.create();
 	}
+
+    /**
+     * Add a UI hole to the interface
+     *
+     * This uses a 2x6 grid, 0 based
+     */
+    private function spawnUIHole(hole:UIHole, x:Int, y:Int) { 
+        hole.x =  UI_GRID_PADDING + UI_GRID_WIDTH * x;
+        hole.y =  UI_GRID_PADDING + UI_GRID_HEIGHT * y;
+        watchHole(hole);
+    }
+
+	/**
+     * Add an interactable on the table.
+     */
+    private function spawnInteractable(interactable:Interactable) { 
+        interactable.x = table.left + Std.random(Std.int(table.width - interactable.width));
+        interactable.y = table.top + Std.random(Std.int(table.height - interactable.height));
+        watchInteractable(interactable);
+    }
 
 	public function isActive(){
 		return _active;
@@ -145,7 +170,7 @@ class PlayState extends FlxState {
 	/**
 	 * Add a hole to the game
 	 */
-	public function addHole(hole:Hole) {
+	public function watchHole(hole:Hole) {
 
 		// Add to drop list
 		_holes.push(hole);
@@ -155,14 +180,14 @@ class PlayState extends FlxState {
 
 		if (hole._inter != null) {
 			// If there's an organ, add that too
-			addInteractable(hole._inter);
+			watchInteractable(hole._inter);
 		}
 	}
 
 	/**
 	 * Add an organ to the game
 	 */
-	public function addInteractable(inter:Interactable) {
+	public function watchInteractable(inter:Interactable) {
 		// Add to renderer
 		add(inter);
 
@@ -204,21 +229,21 @@ class PlayState extends FlxState {
 		}
 
 		else if (_active) {
-			if (_dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
+			if (dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
-				if (_dragging.hole != null) {
+				if (dragging.hole != null) {
 					// If it was in a hole, remove it
-					_dragging.hole.removeInteractable();
+					dragging.hole.removeInteractable();
 				}
 
 				// maintain offset
-				_dragging.x = FlxG.mouse.x + _drag_offset_x;
-				_dragging.y = FlxG.mouse.y + _drag_offset_y;
+				dragging.x = FlxG.mouse.x + _drag_offset_x;
+				dragging.y = FlxG.mouse.y + _drag_offset_y;
 
 				if (!FlxG.mouse.pressed) {
 					// If we're not pressing any more - stop dragging
-					onMouseUp(_dragging);
+					onMouseUp(dragging);
 				}
 			}
 
@@ -241,7 +266,7 @@ class PlayState extends FlxState {
 			}
 
 			// Drips
-			if (_dragging != null && Type.getClass(_dragging) == Organ) {
+			if (dragging != null && Type.getClass(dragging) == Organ) {
 				_seconds_since_drip += FlxG.elapsed;
 				if (_seconds_since_drip >= BLOOD_DRIP_TIMEOUT) {
 					dripBlood(FlxG.mouse.x, FlxG.mouse.y);
@@ -272,22 +297,22 @@ class PlayState extends FlxState {
 	function onMouseDown(sprite:FlxSprite) {
 		_drag_started = Timer.stamp();
 		_seconds_since_drip = 0;
-		_dragging = cast sprite;
-		_drag_offset_x = _dragging.x - FlxG.mouse.x;
-		_drag_offset_y = _dragging.y - FlxG.mouse.y;
+		dragging = cast sprite;
+		_drag_offset_x = dragging.x - FlxG.mouse.x;
+		_drag_offset_y = dragging.y - FlxG.mouse.y;
 
 		// Make it bigger when grabbed
-		FlxTween.tween(_dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
+		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
 
 		// Bring to front
-		Utils.bringToFront(members, _dragging);
+		Utils.bringToFront(members, dragging);
 	}
 
 	/**
 	 * Mouse up on an organ
 	 */
 	function onMouseUp(sprite:FlxSprite) {
-        if (_dragging != null) {
+        if (dragging != null) {
             if (Timer.stamp() - _drag_started < CLICK_TIMEOUT) {
                 // We're clicking not dragging
                 var organ:Organ = cast sprite;
@@ -299,7 +324,7 @@ class PlayState extends FlxState {
 
                 for (hole in _holes) {
                     // Check each hole
-                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(_dragging.x, _dragging.y));
+                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(dragging.x, dragging.y));
 
                     if (hole.isEmpty() && distance < minDistance) {
                     	minDistance = distance;
@@ -309,23 +334,23 @@ class PlayState extends FlxState {
 
                 if (minDistance < minHole.width) {
                     // if the distance is small enough
-                    // Add the _dragging to the _hole
-                    minHole.addInteractable(_dragging);
+                    // Add the dragging to the _hole
+                    minHole.addInteractable(dragging);
                     placed = true;
                 }
 
-                if (!placed && _dragging.x < _table.x) {
+                if (!placed && !table.containsPoint(new Point(dragging.x, dragging.y))) {
                     // If it's not on the table and not placed, put it on the table
-                    FlxTween.tween(_dragging, {x: (_table.x + 20)}, 0.1);
+                    FlxTween.tween(dragging, {x: (table.left + 20)}, 0.1);
                 }
 
             }
 
             // Resize to default
-            FlxTween.tween(_dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
+            FlxTween.tween(dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
 
             // No longer dragging
-            _dragging = null;
+            dragging = null;
         }
 	}
 
@@ -392,7 +417,7 @@ class PlayState extends FlxState {
 
 		// Add each hole
 		for (hole in _patient._holes) {
- 			addHole(hole);
+ 			watchHole(hole);
  		}
 
  		// Move on to screen

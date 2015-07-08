@@ -14,7 +14,7 @@
     private var _seconds_remaining:Float;
 
     public function new(X:Float=0, Y:Float=0)  {
-        super(X, Y, "Clock");
+        super("Clock", X, Y);
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite

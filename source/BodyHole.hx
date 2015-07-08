@@ -67,7 +67,7 @@
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
         _name = name;
-        var backgroundSprite = new FlxSprite(0, 0);
+        var backgroundSprite = new FlxSprite();
         backgroundSprite.loadGraphic("assets/images/" + _name +  "Hole.png");
         add(backgroundSprite);
 

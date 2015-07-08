@@ -14,7 +14,7 @@
         super(X, Y);
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
-        var backgroundSprite = new FlxSprite(0, 0);
+        var backgroundSprite = new FlxSprite();
         backgroundSprite.makeGraphic(200, 190, FlxColor.TRANSPARENT);
         add(backgroundSprite);
 
