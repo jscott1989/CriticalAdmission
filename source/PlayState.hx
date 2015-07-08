@@ -29,7 +29,17 @@ class PlayState extends FlxState {
 
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
+	//Default level time; tweak for testing
+	private var LEVEL_TIME:Float = 30;
 
+	//Level and score counter for Game Over screen
+	private var _levelCounter:Int = 0;
+	private var _score:Int = 0;
+	//Store all the patients "fixed" this level for interim screen
+	private var _thisLevelScore:Array<Patient>;
+
+
+	private var _gameover:Bool = false; //has the player lost yet?
 	private var _active:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
 
@@ -101,8 +111,9 @@ class PlayState extends FlxState {
 	 */
 	public function clockFinished() {
 		_active = false;
+		//FlxG.camera.fade(FlxColor.BLACK, .33);
 		removePatient(function() {
-			openSubState(new IntrimState(this));
+			openSubState(new IntrimState(this, _thisLevelScore));
 		});
 	}
 
@@ -111,8 +122,10 @@ class PlayState extends FlxState {
 	 */
 	public function nextLevel() {
 		// Reset the clock
-		_seconds_remaining = 30;
+		_seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
 		_active = true;
+		_levelCounter++;
+		_thisLevelScore = new Array<Patient>();
 	}
 
 	/**
@@ -172,7 +185,11 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-		if (_active) {
+		if (_gameover){
+			FlxG.switchState(new GameOverState(_levelCounter, _score));
+		}
+
+		else if (_active) {
 			if (_dragging != null && (Timer.stamp() - _drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
@@ -301,9 +318,11 @@ class PlayState extends FlxState {
 			// If we have one, get rid of them first
 			FlxTween.tween(_patient, {y: 0-(_patient.height)}, 1, {complete: function(t:FlxTween) {
 
-				// TODO: Record the patient in the scores
-
-				destroyPatient();
+				_score++;// Still record them if the clock timed out?
+				_thisLevelScore.push(_patient);
+				//Destroy patient here or once the score is displayed?
+				//destroyPatient();
+				//If not here, better destroy them all in start_new
 				callback();
 			}});
 		} else {

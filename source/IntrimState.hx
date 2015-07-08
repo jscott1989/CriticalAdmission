@@ -16,8 +16,11 @@ class IntrimState extends FlxSubState {
     private var _btnPlay:FlxButton;
     private var _state:PlayState;
 
-    public function new(state:PlayState)  {
+    private var _levelScore:Array<Patient>;
+
+    public function new(state:PlayState, levelScore:Array<Patient>)  {
         _state = state;
+        _levelScore = levelScore;
         super();
     }
 
