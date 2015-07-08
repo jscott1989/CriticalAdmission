@@ -67,7 +67,7 @@ class PlayState extends FlxState {
 	private var _patient:Patient;
 
 	// Holes to check for drop targets
-	private var _holes:Array<Hole>;
+	private var holes = new Array<Hole>();
 
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
@@ -94,9 +94,6 @@ class PlayState extends FlxState {
 		add(_background);
 
 		table = new Rectangle(1300,112,730,1359);
-
-		// Holes
- 		_holes = new Array<Hole>();
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
@@ -173,7 +170,7 @@ class PlayState extends FlxState {
 	public function watchHole(hole:Hole) {
 
 		// Add to drop list
-		_holes.push(hole);
+		holes.push(hole);
 
 		// Add to renderer
 		add(hole);
@@ -200,7 +197,7 @@ class PlayState extends FlxState {
 	 */
 	public function removeHole(hole:Hole) {
 		// Remove from drop targets
-		_holes.remove(hole);
+		holes.remove(hole);
 
 		// Remove from renderer
 		remove(hole, true);
@@ -250,7 +247,7 @@ class PlayState extends FlxState {
 			//Tannoy code
 			tannoyCounter += FlxG.elapsed;
 			if (tannoyCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
-				for (hole in _holes){
+				for (hole in holes){
 					if (Type.getClass(hole._inter) == Tannoy){
 						var tannoy:Tannoy = cast(hole._inter, Tannoy);
 						tannoy.generateMessage();
@@ -322,7 +319,7 @@ class PlayState extends FlxState {
                 var minDistance:Float = 99999;
                 var minHole:Hole = null;
 
-                for (hole in _holes) {
+                for (hole in holes) {
                     // Check each hole
                     var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(dragging.x, dragging.y));
 
@@ -390,7 +387,7 @@ class PlayState extends FlxState {
 	 */
 	public function destroyPatient() {
 		// Remove their holes
-		for (hole in _patient._holes) {
+		for (hole in _patient.holes) {
  			removeHole(hole);
  		}
 
@@ -416,7 +413,7 @@ class PlayState extends FlxState {
 		add(_patient);
 
 		// Add each hole
-		for (hole in _patient._holes) {
+		for (hole in _patient.holes) {
  			watchHole(hole);
  		}
 

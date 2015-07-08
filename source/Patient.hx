@@ -10,8 +10,8 @@
  * will be covered
  */
  class Patient extends FlxSpriteGroup {
-    public var _holes:Array<Hole>;
-    public var _body_holes:Array<BodyHole>;
+    public var holes:Array<Hole>;
+    public var body_holes:Array<BodyHole>;
 
     // TODO: Fill in these lists
     public static var FIRST_NAMES:Array<String> = ["Pamella","Lyndsey","Margaretta","Sherley","Brittany","Mayola","Latia","Clifford","Mei","Kristofer","Nieves","Terina","Marybeth","Celia","Barbie","Georgiana","Tajuana","Harland","Caitlyn","Sandee","Fumiko","Halley","Alane","Christena","Annetta","Ivey","Elease","Greg","Kia","Shayla","Marya","Vena","Edgar","Dorthy","Rosy","Sam","Berniece","Lia","Catherina","Elden","Trisha","Brittni","Nereida","Coy","Danika","Lucia","Cathleen","Tamar","Sanda","Cherri"];
@@ -95,28 +95,28 @@
 
         // TODO: They should have all of the holes - but some should be
         // covered and disabled
-        _holes = new Array<Hole>();
-        _body_holes = new Array<BodyHole>();
-        _body_holes.push(new BodyHole(275, 60, "Brain"));
-        _body_holes.push(new BodyHole(400, 500, "Heart", new Organ("Heart")));
-        _body_holes.push(new BodyHole(300, 750, "Guts"));
-        _body_holes.push(new BodyHole(20, 370, "LeftElbow"));
-        _body_holes.push(new BodyHole(600, 390, "RightElbow"));
-        // _body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
-        // _body_holes.push(new BodyHole(570, 1280, "RightFoot"));
-        _body_holes.push(new BodyHole(140, 1050, "LeftKnee"));
-        _body_holes.push(new BodyHole(500, 1050, "RightKnee"));
-        // _body_holes.push(new BodyHole(10, 670, "LeftHand"));
-        // _body_holes.push(new BodyHole(580, 670, "RightHand"));
-        _body_holes.push(new BodyHole(230, 600, "Lung"));
-        // _holes.push(new UIHole(100, 1100, new Clipboard()));
+        holes = new Array<Hole>();
+        body_holes = new Array<BodyHole>();
+        body_holes.push(new BodyHole(275, 60, "Brain"));
+        body_holes.push(new BodyHole(400, 500, "Heart", new Organ("Heart")));
+        body_holes.push(new BodyHole(300, 750, "Guts"));
+        body_holes.push(new BodyHole(20, 370, "LeftElbow"));
+        body_holes.push(new BodyHole(600, 390, "RightElbow"));
+        // body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
+        // body_holes.push(new BodyHole(570, 1280, "RightFoot"));
+        body_holes.push(new BodyHole(140, 1050, "LeftKnee"));
+        body_holes.push(new BodyHole(500, 1050, "RightKnee"));
+        // body_holes.push(new BodyHole(10, 670, "LeftHand"));
+        // body_holes.push(new BodyHole(580, 670, "RightHand"));
+        body_holes.push(new BodyHole(230, 600, "Lung"));
+        // holes.push(new UIHole(100, 1100, new Clipboard()));
 
-        for (hole in _body_holes) {
-            _holes.push(hole);
+        for (hole in body_holes) {
+            holes.push(hole);
         }
 
         // Add the hole into the group
-        for (hole in _holes) {
+        for (hole in holes) {
             add(hole);
         }
     }
@@ -129,10 +129,10 @@
 
         var total = 0;
 
-        for (hole in _body_holes) {
+        for (hole in body_holes) {
             total += hole.getQOL();
         }
 
-        return Math.floor(total / _body_holes.length);
+        return Math.floor(total / body_holes.length);
     }
  }
