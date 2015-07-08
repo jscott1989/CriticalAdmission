@@ -69,8 +69,8 @@ class PlayState extends FlxState {
 	// Holes to check for drop targets
 	private var _holes:Array<Hole>;
 
-	//Checking for Intercom messages
-	private var intercomCounter:Float = 0;
+	//Checking for Tannoy messages
+	private var tannoyCounter:Float = 0;
 	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 15;
 
     private static var instance:PlayState;
@@ -100,7 +100,7 @@ class PlayState extends FlxState {
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
-        spawnUIHole(new UIHole(new Intercom()), 0, 1);
+        spawnUIHole(new UIHole(new Tannoy()), 0, 1);
         spawnUIHole(new UIHole(new Clock()), 0, 2);
 
         spawnUIHole(new UIHole(), 1, 0);
@@ -247,16 +247,16 @@ class PlayState extends FlxState {
 				}
 			}
 
-			//Intercom code
-			intercomCounter += FlxG.elapsed;
-			if (intercomCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
+			//Tannoy code
+			tannoyCounter += FlxG.elapsed;
+			if (tannoyCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
 				for (hole in _holes){
-					if (Type.getClass(hole._inter) == Intercom){
-						var intercom:Intercom = cast(hole._inter, Intercom);
-						intercom.generateMessage();
+					if (Type.getClass(hole._inter) == Tannoy){
+						var tannoy:Tannoy = cast(hole._inter, Tannoy);
+						tannoy.generateMessage();
 					}
 				}
-				intercomCounter = 0;
+				tannoyCounter = 0;
 			}
 
 			// Timer
