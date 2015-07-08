@@ -39,22 +39,17 @@ class IntrimState extends FlxSubState {
     override public function create():Void {
         // fill background with black
         var background = new FlxSprite();
-        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.GRAY);
+        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         add(background);
 
-        _dayText = new FlxText(50, 50); // x, y, width
-        //_dayText.setFormat("assets/font.ttf", 20, FlxColor.WHITE, "center");
-        _dayText.autoSize = true;
-        _dayText.text = "Day "+ _day + ":";
+        _dayText = new FlxText(50, 50, 0, "Day "+ _day + ":", 100);
+        add(_dayText);
 
-        _scoreText = new FlxText(50, 100); // x, y, width
-        _scoreText.autoSize = true;
-        _scoreText.text = "Patients treated so far: "+ _score;
+        _scoreText = new FlxText(50, 200, 0, "Patients treated so far: "+ _score, 50);
+        add(_scoreText);
 
-        _breakdownText = new FlxText(50, 150); // x, y, width
-        _breakdownText.autoSize = true;
-        _breakdownText.text = "Patient Breakdown:";
-
+        _breakdownText = new FlxText(50, 250, 0, "Patient Breakdown:", 50);
+        add(_breakdownText);
 
         _btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
         _btnPlay.screenCenter();
