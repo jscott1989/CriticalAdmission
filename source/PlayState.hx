@@ -168,9 +168,9 @@ class PlayState extends FlxState {
 		// Add to renderer
 		add(hole);
 
-		if (hole._inter != null) {
+		if (hole.interactable != null) {
 			// If there's an organ, add that too
-			watchInteractable(hole._inter);
+			watchInteractable(hole.interactable);
 		}
 	}
 
@@ -195,9 +195,9 @@ class PlayState extends FlxState {
 		// Remove from renderer
 		remove(hole, true);
 
-		if (hole._inter != null) {
+		if (hole.interactable != null) {
 			// Remove organ if needed
-			removeInteractable(hole._inter);
+			removeInteractable(hole.interactable);
 		}
 	}
 
@@ -241,8 +241,8 @@ class PlayState extends FlxState {
 			tannoyCounter += FlxG.elapsed;
 			if (tannoyCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
 				for (hole in holes){
-					if (Type.getClass(hole._inter) == Tannoy){
-						var tannoy:Tannoy = cast(hole._inter, Tannoy);
+					if (Type.getClass(hole.interactable) == Tannoy){
+						var tannoy:Tannoy = cast(hole.interactable, Tannoy);
 						tannoy.generateMessage();
 					}
 				}

@@ -39,24 +39,24 @@
     ];
 
     // The type of hole
-    private var _name:String;
+    private var type:String;
 
     /**
      * Get the QOL of this hole (how appropriate the contents are)
      */
     public function getQOL():Int {
-        if (_inter == null) {
+        if (interactable == null) {
             return 0;
         }
 
-        var h = HEALTH_VALUES.get(_inter.type);
+        var h = HEALTH_VALUES.get(interactable.type);
 
         if (h == null) {
             h = new Map<String, Int>();
         }
 
-        if (h.get(_name) != null) {
-            return h.get(_name);
+        if (h.get(type) != null) {
+            return h.get(type);
         }
 
         return 0;
@@ -66,9 +66,9 @@
         super(X, Y);
         // Because a hole contains multiple sprites - we set the background
         // as a contained sprite
-        _name = name;
+        type = name;
         var backgroundSprite = new FlxSprite();
-        backgroundSprite.loadGraphic("assets/images/" + _name +  "Hole.png");
+        backgroundSprite.loadGraphic("assets/images/" + type +  "Hole.png");
         add(backgroundSprite);
 
         // initialize any organs pre-added

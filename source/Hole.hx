@@ -11,7 +11,7 @@
  class Hole extends FlxSpriteGroup {
 
     // The contained organ
-    public var _inter:Interactable;
+    public var interactable:Interactable;
 
     public function new(X:Float=0, Y:Float=0)  {
         super(X, Y);
@@ -34,28 +34,28 @@
      * Is this hole empty?
      */
     public function isEmpty() {
-        return _inter == null;
+        return interactable == null;
     }
 
     public function addInteractable(inter:Interactable, position:Bool = true) {
-        _inter = inter;
-        _inter.hole = this;
+        interactable = inter;
+        interactable.hole = this;
 
         // We get the size BEFORE adding the interactable
         // so that centering works correctly
         var bWidth = width;
         var bHeight = height;
-        var bx = _inter.x;
-        var by = _inter.y;
-        add(_inter);
+        var bx = interactable.x;
+        var by = interactable.y;
+        add(interactable);
 
         // Re-set the interactable position
-        _inter.x = bx;
-        _inter.y = by;
+        interactable.x = bx;
+        interactable.y = by;
 
         if (position) {
             // Then move it to the center
-            FlxTween.tween(_inter, {x: x + ((bWidth - inter.width)/2), y: y + ((bHeight - inter.height)/2)}, 0.1);
+            FlxTween.tween(interactable, {x: x + ((bWidth - inter.width)/2), y: y + ((bHeight - inter.height)/2)}, 0.1);
         }
 
     }
@@ -64,8 +64,8 @@
      * Remove the organ from the hole
      */
     public function removeInteractable() {
-        _inter.hole = null;
-        remove(_inter, true);
-        _inter = null;
+        interactable.hole = null;
+        remove(interactable, true);
+        interactable = null;
     }
  }
