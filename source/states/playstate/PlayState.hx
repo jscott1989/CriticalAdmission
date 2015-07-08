@@ -99,9 +99,9 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new Tannoy()), 0, 1);
         spawnUIHole(new UIHole(new Clock()), 0, 2);
 
-        spawnUIHole(new UIHole(), 1, 0);
-        spawnUIHole(new UIHole(), 1, 1);
-        spawnUIHole(new UIHole(), 1, 2);
+        spawnUIHole(new UIHole(true), 1, 0);
+        spawnUIHole(new UIHole(true), 1, 1);
+        spawnUIHole(new UIHole(true), 1, 2);
 
  		// Organs
 
@@ -224,9 +224,9 @@ class PlayState extends FlxState {
 			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
-				if (dragging.hole != null) {
+				if (dragging.getHole() != null) {
 					// If it was in a hole, remove it
-					dragging.hole.removeInteractable();
+					dragging.getHole().removeInteractable();
 				}
 
 				// maintain offset

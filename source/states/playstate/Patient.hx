@@ -96,7 +96,7 @@ package states.playstate;
         // covered and disabled
         holes = new Array<Hole>();
         body_holes = new Array<BodyHole>();
-        body_holes.push(new BodyHole(275, 60, "Brain", new Organ("Brain"), true));
+        body_holes.push(new BodyHole(275, 60, "Brain", new Organ("Brain"), false, true));
         body_holes.push(new BodyHole(400, 500, "Heart", new Organ("Heart")));
         body_holes.push(new BodyHole(300, 750, "Guts"));
         body_holes.push(new BodyHole(20, 370, "LeftElbow"));
@@ -108,7 +108,7 @@ package states.playstate;
         // body_holes.push(new BodyHole(10, 670, "LeftHand"));
         // body_holes.push(new BodyHole(580, 670, "RightHand"));
         body_holes.push(new BodyHole(230, 600, "Lung"));
-        holes.push(new UIHole(100, 1100, new Clipboard(this)));
+        // holes.push(new UIHole(100, 1100, new Clipboard(this)));
 
         for (hole in body_holes) {
             holes.push(hole);

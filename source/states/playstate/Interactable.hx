@@ -8,15 +8,35 @@ package states.playstate;
  class Interactable extends FlxSprite {
 
     // The hole it's contained in (if any)
-    public var hole:Hole;
+    private var hole:Hole;
 
     public var type:String;
 
-    public function new(type:String, X:Float=0, Y:Float=0)  {
+    private var canBeFlipped = false;
+
+    public function new(type:String, canBeFlipped:Bool=false, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.type = type;
+        this.canBeFlipped = canBeFlipped;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
+    }
+
+    public function setHole(hole:Hole) {
+        this.hole = hole;
+
+        if (canBeFlipped && this.hole.requiresFlip) {
+            this.flipX = true;
+        }
+    }
+
+    public function resetHole() {
+        this.hole = null;
+        this.flipX = false;
+    }
+
+    public function getHole() {
+        return hole;
     }
 
     public override function update() {

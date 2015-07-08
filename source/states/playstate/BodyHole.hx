@@ -66,11 +66,11 @@
         return 0;
     }
 
-    public function new(X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, hidden:Bool=false)  {
+    public function new(X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, requiresFlip:Bool=false, hidden:Bool=false)  {
         this.type = type;
         var backgroundSprite = new FlxSprite();
         backgroundSprite.loadGraphic("assets/images/" + type +  "Hole.png");
-        super(backgroundSprite, interactable, X, Y);
+        super(backgroundSprite, interactable, requiresFlip, X, Y);
 
         if (hidden) {
             hide();

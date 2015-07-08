@@ -16,11 +16,13 @@ package states.playstate;
     private var backgroundSprite:FlxSprite;
     private var hiddenSprite:FlxSprite;
 
+    public var requiresFlip:Bool = false;
     public var isHidden:Bool = false;
 
-    public function new(backgroundSprite:FlxSprite, interactable:Interactable, X:Float=0, Y:Float=0)  {
+    public function new(backgroundSprite:FlxSprite, interactable:Interactable, requiresFlip:Bool, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.backgroundSprite = backgroundSprite;
+        this.requiresFlip = requiresFlip;
         add(backgroundSprite);
         if (interactable != null) {
             initInteractable(interactable);
@@ -49,7 +51,7 @@ package states.playstate;
 
     public function addInteractable(interactable:Interactable, position:Bool = true) {
         this.interactable = interactable;
-        interactable.hole = this;
+        interactable.setHole(this);
 
         // We get the size BEFORE adding the interactable
         // so that centering works correctly
@@ -74,7 +76,7 @@ package states.playstate;
      * Remove the organ from the hole
      */
     public function removeInteractable() {
-        interactable.hole = null;
+        interactable.resetHole();
         remove(interactable, true);
         interactable = null;
     }
