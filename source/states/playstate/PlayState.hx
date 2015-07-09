@@ -88,7 +88,25 @@ class PlayState extends FlxState {
      * Ensure the game is winnable given the level and the objects in the scene
      */
     public static function generateLevel(level:Int, existingObjects:Array<String>) {
+        // Target 40-60% health - TODO: Depend on level
+        var targetHealth = 0.5;
+
         var patientSet = new Array<PatientInfo>();
+
+        // First generate a number of health patients with everything covered
+        for (i in 0...10) {
+            // generate 10 patients
+            patientSet.push(new PatientInfo());
+
+            // Now swap things around to ensure the health of each patient is within the bounds
+        }
+
+        // Now open the holes required
+
+
+        // Now generate the additional organs required that can't be gained from the bodies
+
+        return patientSet;
     }
 
 	override public function create():Void

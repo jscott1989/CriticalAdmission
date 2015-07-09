@@ -108,7 +108,7 @@ package states.playstate;
         // body_holes.push(new BodyHole(10, 670, "LeftHand"));
         // body_holes.push(new BodyHole(580, 670, "RightHand"));
         body_holes.push(new BodyHole(230, 600, "Lung"));
-        // holes.push(new UIHole(100, 1100, new Clipboard(this)));
+        holes.push(new UIHole(100, 1100, new Clipboard(this)));
 
         for (hole in body_holes) {
             holes.push(hole);
