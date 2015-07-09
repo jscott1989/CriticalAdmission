@@ -56,7 +56,7 @@ class PlayState extends FlxState {
 	private var seconds_since_drip:Float;
 
 	// The thing currently being dragged (if any)
-	private var dragging:Organ;
+	private var dragging:Interactable;
 	private var drag_offset_x:Float;
 	private var drag_offset_y:Float;
 	private var drag_started:Float;
@@ -80,6 +80,15 @@ class PlayState extends FlxState {
         } else {
             return instance;
         }
+    }
+
+    /**
+     * Generate a collection of patients
+     *
+     * Ensure the game is winnable given the level and the objects in the scene
+     */
+    public static function generateLevel(level:Int, existingObjects:Array<String>) {
+        var patientSet = new Array<PatientInfo>();
     }
 
 	override public function create():Void
@@ -218,9 +227,7 @@ class PlayState extends FlxState {
 	{
 		if (gameover){
 			FlxG.switchState(new GameOverState(levelCounter, score));
-		}
-
-		else if (isActive) {
+		} else if (isActive) {
 			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
@@ -297,7 +304,7 @@ class PlayState extends FlxState {
 		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
 
 		// Bring to front
-		Utils.bringToFront(members, dragging);
+		Utils.bringToFront(members, sprite);
 	}
 
 	/**
@@ -307,8 +314,8 @@ class PlayState extends FlxState {
         if (dragging != null) {
             if (Timer.stamp() - drag_started < CLICK_TIMEOUT) {
                 // We're clicking not dragging
-                var organ:Organ = cast sprite;
-                organ.click();
+                var interactable:Interactable = cast sprite;
+                interactable.click();
             } else {
                 var placed = false; // Figure out if we're dropping on something
                 var minDistance:Float = 99999;
