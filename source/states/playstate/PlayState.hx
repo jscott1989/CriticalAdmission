@@ -8,6 +8,7 @@ import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxPoint;
+import flixel.util.FlxColorUtil;
 import haxe.Timer;
 import states.GameOverState;
 import states.IntrimState;
@@ -277,7 +278,10 @@ class PlayState extends FlxState {
 		for (i in 0...numberOfDrops) {
 			var vx = x + (Std.random(100) - 50);
 			var vy = y + (Std.random(100) - 50);
-			background.drawCircle(vx, vy, Std.random(100) + 1, 0x22CC0000);
+
+			var alpha = flixel.util.FlxRandom.intRanged(2, 5) * 10;
+			var red = flixel.util.FlxRandom.intRanged(13, 23) * 10;
+			background.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
 		}
 	}
 
