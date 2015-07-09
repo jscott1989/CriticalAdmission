@@ -40,6 +40,10 @@ class PlayState extends FlxState {
 	//Level and score counter for Game Over screen
 	private var levelCounter:Int = 0;
 	private var score:Int = 0;
+
+	//What patients are incoming this level
+	private var incomingPatients:Array<Patient>;
+
 	//Store all the patients "fixed" this level for interim screen
 	private var thisLevelScore:Array<Patient>;
 
@@ -130,15 +134,6 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(true), 1, 1);
         spawnUIHole(new UIHole(true), 1, 2);
 
- 		// Organs
-
- 		spawnInteractable(new Organ("Heart"));
- 		spawnInteractable(new Organ("Brain"));
- 		spawnInteractable(new Organ("Elbow", true));
- 		spawnInteractable(new Organ("Guts"));
- 		spawnInteractable(new Organ("Knee", true));
- 		spawnInteractable(new Organ("Lungs"));
-
  		nextLevel();
 
 		super.create();
@@ -184,6 +179,9 @@ class PlayState extends FlxState {
 		isActive = true;
 		levelCounter++;
 		thisLevelScore = new Array<Patient>();
+
+		incomingPatients = generatePatientArray(); //This needs to be moved to Interim state when we have the visualiser working
+		generateNewOrgans();
 	}
 
 	/**
@@ -304,7 +302,7 @@ class PlayState extends FlxState {
 		for (i in 0...numberOfDrops) {
 			var vx = x + (Std.random(100) - 50);
 			var vy = y + (Std.random(100) - 50);
-			background.drawCircle(vx, vy, Std.random(100) + 1, 0x22FF0000);
+			background.drawCircle(vx, vy, Std.random(100) + 1, 0x22CC0000);
 		}
 	}
 
@@ -423,11 +421,33 @@ class PlayState extends FlxState {
 		addingPatient = false;
 	}
 
+	public function generateNewOrgans(){
+		if (levelCounter == 1){
+			spawnInteractable(new Organ("Heart"));
+	 		spawnInteractable(new Organ("Brain"));
+	 		spawnInteractable(new Organ("Elbow", true));
+	 		spawnInteractable(new Organ("Guts"));
+	 		spawnInteractable(new Organ("Knee", true));
+	 		spawnInteractable(new Organ("Lungs"));
+ 		}
+	}
+
+	public function generatePatientArray(){
+		//For x in patientsThisLevel:
+		//Generate patient
+		//Generate illnesses
+		//Cut open patient
+		//incomingPatients.push(patient);
+
+		return new Array<Patient>();
+	}
+
 	/**
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
 		patient = new Patient(300, FlxG.height);
+		//patient = incomingPatients.pop();
 
 		// Add to renderer
 		add(patient);

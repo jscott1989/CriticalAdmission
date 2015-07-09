@@ -51,7 +51,7 @@ class IntrimState extends FlxSubState {
         breakdownText = new FlxText(50, 250, 0, "Patient Breakdown:", 50);
         add(breakdownText);
 
-        btnPlay = new FlxButton(0, 0, "Continue", clickPlay);
+        btnPlay = Utils.createButton("Continue", clickPlay, 5, 30);
         btnPlay.screenCenter();
         add(btnPlay);
 

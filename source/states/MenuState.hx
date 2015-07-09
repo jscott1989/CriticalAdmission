@@ -2,9 +2,11 @@ package states;
 
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.ui.FlxButton;
 import flixel.util.FlxDestroyUtil;
 import states.playstate.PlayState;
+import flixel.ui.FlxButton;
+
+import Utils;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -18,14 +20,17 @@ class MenuState extends FlxState {
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
-		btnPlay = new FlxButton(0, 0, "Play", clickPlay);
+		btnPlay = Utils.createButton("New Game", clickPlay, 5, 30);
 		btnPlay.screenCenter();
+		//btnPlay.x = (FlxG.width / 2) - btnPlay.width - 10;
+		//btnPlay.y = FlxG.height - btnPlay.height - 10;
 		add(btnPlay);
 		super.create();
-		FlxG.switchState(PlayState.getInstance());
+		
 	}
 
 	private function clickPlay():Void {
+		FlxG.switchState(PlayState.getInstance());
 	}
 	
 	/**
