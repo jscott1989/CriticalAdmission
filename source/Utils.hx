@@ -1,10 +1,13 @@
 package;
 
+import flixel.FlxG;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
+import flixel.ui.FlxButton;
+import flixel.text.FlxText;
 
 /**
  * Useful functions that don't fit anywhere else
@@ -60,5 +63,19 @@ class Utils
         original.makeGraphic(Std.int(original.width), Std.int(original.height), FlxColor.TRANSPARENT);
         original.pixels.copyPixels(appliedMask.pixels, new Rectangle(copyPoint.x, copyPoint.y, original.width, original.height), new Point(0, 0));
 
+    }
+
+    public static function createButton(text:String, callback:Void->Void, scale:Float, labelSize:Float){
+        var button:FlxButton = new FlxButton(0, 0, text, callback);
+        button.scale.x = button.scale.y = scale;
+        button.width = button.scale.x * button.frameWidth;
+        button.height = button.scale.y * button.frameHeight;
+        button.centerOffsets(true);
+        
+        button.label = new FlxText(0, 0, button.width, text);
+        button.label.setFormat(null, labelSize, 0x333333, "center");
+        button.label.y = 2000;
+
+        return button;
     }
 }
