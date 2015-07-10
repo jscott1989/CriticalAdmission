@@ -7,15 +7,17 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxPoint;
+import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
 using flixel.util.FlxSpriteUtil;
+import flixel.util.FlxPoint;
 import haxe.Timer;
-import states.GameOverState;
-import states.IntrimState;
 import sounds.SoundManager;
 import sounds.speech.Receptionist;
 import Config;
+import states.GameOverState;
+import states.IntrimState;
+
 
 /**
  * The main playstate set in the surgery room.
@@ -38,14 +40,14 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 60;
+	private var LEVEL_TIME:Float = 10;
 
 	//Level and score counter for Game Over screen
 	private var levelCounter:Int = 0;
 	private var score:Int = 0;
 
 	//What patients are incoming this level
-	private var incomingPatients:Array<Patient>;
+	private var incomingPatients:Array<PatientInfo>;
 
 	//Store all the patients "fixed" this level for interim screen
 	private var thisLevelScore:Array<Patient>;
@@ -60,6 +62,7 @@ class PlayState extends FlxState {
     private var tableSprite:FlxSprite;
 	private var table:Rectangle;
 
+    private var clockActive = false;
 	public var seconds_remaining:Float;
 	private var seconds_since_drip:Float;
 
@@ -105,7 +108,7 @@ class PlayState extends FlxState {
         var patientSet = new Array<PatientInfo>();
 
         // First generate a number of health patients with everything covered
-        for (i in 0...10) {
+        for (i in 0...2) {
             // generate 10 patients
             patientSet.push(new PatientInfo());
             // Now swap things around to ensure the health of each patient is within the bounds
@@ -172,24 +175,34 @@ class PlayState extends FlxState {
 	 * A clock has gone off.
 	 */
 	public function clockFinished() {
-		isActive = false;
-		//FlxG.camera.fade(FlxColor.BLACK, .33);
-		removePatient(function() {
-			openSubState(new IntrimState(levelCounter, score, thisLevelScore));
-		});
+        clockActive = false;
+        removePatient(addNewPatient);
 	}
+
+    public function levelComplete() {
+        isActive = false;
+        FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+            openSubState(new IntrimState(levelCounter, score, thisLevelScore));
+        });
+    }
 
 	/**
 	 * Start the next level
 	 */
 	public function nextLevel() {
-		// Reset the clock
-		seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+        // Fade in
+        FlxG.camera.fade(FlxColor.BLACK, .33, true);
+
+        // Reset the clock
+        clockActive = false;
+        seconds_remaining = 0;
+
 		isActive = true;
+        addingPatient = false;
 		levelCounter++;
 		thisLevelScore = new Array<Patient>();
 
-		// incomingPatients = generatePatientArray(); //This needs to be moved to Interim state when we have the visualiser working
+		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
 	}
 
@@ -283,10 +296,12 @@ class PlayState extends FlxState {
 			}
 
 			// Timer
-			seconds_remaining -= FlxG.elapsed;
-			if (seconds_remaining <= 0) {
-				clockFinished();
-			}
+            if (clockActive) {
+    			seconds_remaining -= FlxG.elapsed;
+    			if (seconds_remaining <= 0) {
+    				clockFinished();
+    			}
+            }
 
 			// Drips
 			if (dragging != null && Type.getClass(dragging) == Organ) {
@@ -456,18 +471,25 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		patient = new Patient(new PatientInfo(), 300, FlxG.height);
-		//patient = incomingPatients.pop();
 
-		// Add to renderer
-		add(patient);
+        if (incomingPatients.length == 0) {
+            levelComplete();
+        } else {
+    		patient = new Patient(incomingPatients.pop(), 300, FlxG.height);
+    		//patient = incomingPatients.pop();
 
-		// Add each hole
-		for (hole in patient.holes) {
- 			watchHole(hole);
- 		}
+    		// Add to renderer
+    		add(patient);
 
- 		// Move on to screen
- 		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+    		// Add each hole
+    		for (hole in patient.holes) {
+     			watchHole(hole);
+     		}
+
+     		// Move on to screen
+     		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+            seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+            clockActive = true;
+        }
 	}
 }

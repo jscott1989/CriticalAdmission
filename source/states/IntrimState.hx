@@ -55,12 +55,16 @@ class IntrimState extends FlxSubState {
         btnPlay.screenCenter();
         add(btnPlay);
 
+
         super.create();
+
+        // Cancel the fade
+        FlxG.camera.stopFX();
     }
 
     private function clickPlay():Void {
-        PlayState.getInstance().nextLevel();
         close();
+        PlayState.getInstance().nextLevel();
     }
     
     /**
