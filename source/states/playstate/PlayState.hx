@@ -295,6 +295,8 @@ class PlayState extends FlxState {
 				tannoyCounter = 0;
 			}
 
+			Utils.bringToFront(members, soundManager.subtitle);
+
 			// Timer
             if (clockActive) {
     			seconds_remaining -= FlxG.elapsed;

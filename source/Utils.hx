@@ -22,17 +22,18 @@ class Utils
      */
     public static function bringToFront(members:Array<Dynamic>, member:FlxSprite, inFrontOf:FlxSprite=null) {
         var i = members.indexOf(member);
+        if (i > -1) {
+            var target_index = members.length - 1;
+            if (inFrontOf != null) {
+                target_index = members.indexOf(inFrontOf);
+            }
 
-        var target_index = members.length - 1;
-        if (inFrontOf != null) {
-            target_index = members.indexOf(inFrontOf);
+            while (i < target_index) {
+                members[i] = members[i + 1];
+                i++;
+            }
+            members[i] = member;
         }
-
-        while (i < target_index) {
-            members[i] = members[i + 1];
-            i++;
-        }
-        members[i] = member;
     }
 
     /**

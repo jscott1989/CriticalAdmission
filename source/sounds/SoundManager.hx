@@ -19,7 +19,7 @@ class SoundManager {
 
 	private var SUBTITLE_TIMEOUT:Float = 3;
 
-	private var subtitle:FlxText;
+	public var subtitle:FlxText;
 
 	public function new(){}
 
