@@ -24,9 +24,9 @@ class IntrimState extends FlxSubState {
     private var day:Int;
     private var score:Int;    
 
-    private var levelScore:Array<Patient>;
+    private var levelScore:Array<PatientInfo>;
 
-    public function new(day:Int, score:Int, levelScore:Array<Patient>)  {
+    public function new(day:Int, score:Int, levelScore:Array<PatientInfo>)  {
         this.day = day;
         this.score = score;
         this.levelScore = levelScore;

@@ -46,11 +46,14 @@ class PlayState extends FlxState {
 	private var levelCounter:Int = 0;
 	private var score:Int = 0;
 
+    // Our reputation
+    public var reputation:Int = 100;
+
 	//What patients are incoming this level
 	public var incomingPatients:Array<PatientInfo>;
 
 	//Store all the patients "fixed" this level for interim screen
-	private var thisLevelScore:Array<Patient>;
+	private var thisLevelScore:Array<PatientInfo>;
 
 	private var gameover:Bool = false; //has the player lost yet?
 	private var isActive:Bool = false; // is the scene playing?
@@ -143,7 +146,7 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
-        spawnUIHole(new UIHole(new Radio(), true), 1, 1);
+        spawnUIHole(new UIHole(new PressureGauge(), true), 1, 1);
         spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
 
  		nextLevel();
@@ -200,7 +203,7 @@ class PlayState extends FlxState {
 		isActive = true;
         addingPatient = false;
 		levelCounter++;
-		thisLevelScore = new Array<Patient>();
+		thisLevelScore = new Array<PatientInfo>();
 
 		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
@@ -464,9 +467,9 @@ class PlayState extends FlxState {
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
 
 				score++;// Still record them if the clock timed out?
-				thisLevelScore.push(patient);
+				thisLevelScore.push(patient.info);
 				//Destroy patient here or once the score is displayed?
-				//destroyPatient();
+				destroyPatient();
 				//If not here, better destroy them all in start_new
 				callback();
 			}});
@@ -490,6 +493,8 @@ class PlayState extends FlxState {
 	 * Remove the patient from memory
 	 */
 	public function destroyPatient() {
+        reputation -= 5;
+
 		// Remove their holes
 		for (hole in patient.holes) {
  			removeHole(hole);
