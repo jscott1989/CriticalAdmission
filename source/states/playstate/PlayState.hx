@@ -37,7 +37,7 @@ class PlayState extends FlxState {
 	// How long do we need to hold to make it a drag (seconds)
 	public static inline  var CLICK_TIMEOUT = 0.2;
 
-	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
+	public static inline var BLOOD_DRIP_TIMEOUT = 0.1;
 
 	//Default level time; tweak for testing
 	private var LEVEL_TIME:Float = 60;
@@ -58,8 +58,7 @@ class PlayState extends FlxState {
 
 	// General scene items
 	private var background:FlxSprite;
-    private var tableSprite:FlxSprite;
-	private var table:Rectangle;
+	private var table:FlxSprite;
 
     private var clockActive = false;
 	public var seconds_remaining:Float;
@@ -134,10 +133,9 @@ class PlayState extends FlxState {
 		background.loadGraphic("assets/images/Background.png");
 		add(background);
 
-		table = new Rectangle(1265,87,730,1359);
-        tableSprite = new FlxSprite(table.x, table.y);
-        tableSprite.loadGraphic("assets/images/Table.png");
-        add(tableSprite);
+        table = new FlxSprite(1265, 87);
+        table.loadGraphic("assets/images/Table.png");
+        add(table);
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
@@ -168,8 +166,8 @@ class PlayState extends FlxState {
      * Add an interactable on the table.
      */
     private function spawnInteractable(interactable:Interactable) { 
-        interactable.x = table.left + Std.random(Std.int(table.width - interactable.width));
-        interactable.y = table.top + Std.random(Std.int(table.height - interactable.height));
+        interactable.x = table.x + Std.random(Std.int(table.width - interactable.width));
+        interactable.y = table.y + Std.random(Std.int(table.height - interactable.height));
         watchInteractable(interactable);
     }
 
@@ -326,6 +324,30 @@ class PlayState extends FlxState {
 	 * Place some blood on the floor.
 	 */
 	function dripBlood(x:Float, y:Float) {
+
+        var drawTargets = [table];
+
+        // if (patient != null) {
+        //     drawTargets.push(patient.bodySprite);
+        //     drawTargets.push(patient.bedSprite);
+        // }
+
+        var drawTarget = background;
+
+        for (d in drawTargets) {
+            if (Utils.getSpriteRectangle(d).containsPoint(new Point(x, y))) {
+                drawTarget = d;
+                break;
+            }
+        }
+
+        x -= drawTarget.x;
+        y -= drawTarget.y;
+
+        // Draw on this then we'll merge it with drawTarget
+        var s = new FlxSprite();
+        s.makeGraphic(Std.int(drawTarget.width), Std.int(drawTarget.height), FlxColor.TRANSPARENT, true);
+
 		var numberOfDrops = Std.random(10);
 
 		for (i in 0...numberOfDrops) {
@@ -334,17 +356,18 @@ class PlayState extends FlxState {
 
 			var alpha = flixel.util.FlxRandom.intRanged(2, 5) * 10;
 			var red = flixel.util.FlxRandom.intRanged(13, 23) * 10;
-
-            if (table.containsPoint(new Point(x, y))) {
-                // Draw on table
-                vx -= table.x;
-                vy -= table.y;
-                tableSprite.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
-            } else {
-                // Draw on floor
-                background.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
-            }
+            // Draw on target
+            s.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
 		}
+
+        drawTarget.pixels.draw(s.pixels);
+
+        // var s2 = new FlxSprite();
+        // s2.makeGraphic(Std.int(drawTarget.width), Std.int(drawTarget.height), FlxColor.TRANSPARENT, true);
+
+        // FlxSpriteUtil.alphaMaskFlxSprite(s, drawTarget, drawTarget);
+
+        // // drawTarget.pixels.draw(s2.pixels);
 	}
 
 	/**
@@ -382,7 +405,7 @@ class PlayState extends FlxState {
 
                     if (closestHole != null) {
                         closestHole.addInteractable(dragging);
-                    } else if (!table.containsPoint(new Point(dragging.x, dragging.y))) {
+                    } else if (!Utils.getSpriteRectangle(table).containsPoint(new Point(dragging.x, dragging.y))) {
                         // If it's not on the table and not placed, put it on the table
                         returnDragged();
                     }

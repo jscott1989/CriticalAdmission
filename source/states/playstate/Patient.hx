@@ -14,16 +14,19 @@ package states.playstate;
 
     public var info:PatientInfo;
 
+    public var bodySprite:FlxSprite;
+    public var bedSprite:FlxSprite;
+
     public function new(info:PatientInfo, X:Float=0, Y:Float=0)  {
         super(X, Y);
 
         this.info = info;
 
-        var bedSprite = new FlxSprite();
+        bedSprite = new FlxSprite();
         bedSprite.loadGraphic("assets/images/Bed.png");
         add(bedSprite);
 
-        var bodySprite = new FlxSprite(-5, -10);
+        bodySprite = new FlxSprite(-5, -10);
         if (info.isMale) {
             bodySprite.loadGraphic("assets/images/Man" + info.bodySprite + ".png");
         } else {

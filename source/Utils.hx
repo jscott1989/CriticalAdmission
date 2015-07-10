@@ -79,4 +79,8 @@ class Utils
 
         return button;
     }
+
+    public static function getSpriteRectangle(sprite:FlxSprite) {
+        return new Rectangle(sprite.x, sprite.y, sprite.width, sprite.height);
+    }
 }
