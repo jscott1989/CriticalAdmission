@@ -14,7 +14,7 @@ using flixel.util.FlxSpriteUtil;
  * Game's menu. Disabled at the moment.
  */
 class MenuState extends FlxState {
-	 private var btnPlay:FlxButton;
+	private var btnPlay:FlxButton;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 

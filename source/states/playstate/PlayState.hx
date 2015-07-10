@@ -12,6 +12,8 @@ import flixel.util.FlxColorUtil;
 import haxe.Timer;
 import states.GameOverState;
 import states.IntrimState;
+import sounds.SoundManager;
+import sounds.speech.Receptionist;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -74,9 +76,12 @@ class PlayState extends FlxState {
 	// Holes to check for drop targets
 	private var holes = new Array<Hole>();
 
+	//SoundManager
+	private var soundManager:SoundManager = new SoundManager();
+
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
-	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 15;
+	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 3;
 
     private static var instance:PlayState;
   
@@ -271,8 +276,7 @@ class PlayState extends FlxState {
 			if (tannoyCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
 				for (hole in holes){
 					if (Type.getClass(hole.interactable) == Tannoy){
-						var tannoy:Tannoy = cast(hole.interactable, Tannoy);
-						tannoy.generateMessage();
+						soundManager.playRandomSoundMap(Receptionist.ANNOUNCEMENTS);					
 					}
 				}
 				tannoyCounter = 0;

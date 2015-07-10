@@ -29,7 +29,10 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+	<assets path="assets"/>
+	    <!--<music path="music_1.ogg" id="music_1" />
+	    <sound path="sounds/speech/receptionist/test.wav" id="test" />
+	</assets>-->
 	
 	<!--------------------------------LIBRARIES------------------------------------->
 

@@ -11,8 +11,4 @@ package states.playstate;
     public function new(X:Float=0, Y:Float=0)  {
         super("Tannoy", X, Y);
     }
-
-    public function generateMessage(){
-    	FlxG.log.add(FlxRandom.getObject(Announcements.generalAnnouncements));
-    }
  }
