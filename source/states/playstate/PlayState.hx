@@ -84,7 +84,6 @@ class PlayState extends FlxState {
 
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
-	private var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 3;
 
     private static var instance:PlayState;
   
@@ -286,7 +285,7 @@ class PlayState extends FlxState {
 
 			//Tannoy code
 			tannoyCounter += FlxG.elapsed;
-			if (tannoyCounter >= SECONDS_BETWEEN_ANNOUNCEMENTS){
+			if (tannoyCounter >= Config.SECONDS_BETWEEN_ANNOUNCEMENTS){
 				for (hole in holes){
 					if (Type.getClass(hole.interactable) == Tannoy){
 						soundManager.playRandomSoundMap(Receptionist.ANNOUNCEMENTS);					

@@ -17,11 +17,16 @@ import states.playstate.PlayState;
 */
 class SoundManager {
 
-	private var SUBTITLE_TIMEOUT:Float = 3;
+	
 
 	public var subtitle:FlxText;
 
-	public function new(){}
+	public var bingBong:FlxSound;
+
+	public function new(){
+		FlxG.sound.playMusic(AssetPaths.ecg__wav, 1, true);
+		bingBong = FlxG.sound.load(AssetPaths.tannoy1__wav);
+	}
 
 	private function playSound(id:String){
 		var sound:FlxSound = FlxG.sound.load(id);
@@ -36,15 +41,17 @@ class SoundManager {
 		subtitle.borderSize = 3;
     	
     	PlayState.getInstance().add(subtitle);
-    	new FlxTimer(SUBTITLE_TIMEOUT, removeSubtitle, 1);
+    	new FlxTimer(Config.SUBTITLE_TIMEOUT, removeSubtitle, 1);
 	}
 
 	private function removeSubtitle(timer:FlxTimer){
 		subtitle = FlxDestroyUtil.destroy(subtitle);
 	}
 
-	public function playRandomSoundMap(soundMap:Map<String, String>){
+	public function playRandomSoundMap(soundMap:Map<String, String>, prefixSound=null){
 		
+		bingBong.play();
+
 		var keys = soundMap.keys();
 		var i:Int;
 		for(i in 0...Math.floor(Math.random()*Lambda.array(soundMap).length)-1){
@@ -53,7 +60,7 @@ class SoundManager {
 		var key:String = keys.next();
 		var value:String = soundMap.get(key);
 
-		playSound(key);
+		playSound(AssetPaths.tannoy1__wav);
 		if (Config.SUBTITLES_ON){
 			createSubtitle(value);
 		}
