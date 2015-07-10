@@ -61,6 +61,7 @@ class SoundManager {
 		var value:String = soundMap.get(key);
 
 		playSound(AssetPaths.tannoy1__wav);
+		playSound(key);
 		if (Config.SUBTITLES_ON){
 			createSubtitle(value);
 		}
