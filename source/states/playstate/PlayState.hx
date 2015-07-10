@@ -141,7 +141,7 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
-        spawnUIHole(new UIHole(true), 1, 1);
+        spawnUIHole(new UIHole(new Radio(), true), 1, 1);
         spawnUIHole(new UIHole(true), 1, 2);
 
  		nextLevel();
@@ -374,7 +374,7 @@ class PlayState extends FlxState {
 
                 for (hole in holes) {
                     // Check each hole
-                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(dragging.x, dragging.y));
+                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
 
                     if (hole.isEmpty() && distance < minDistance) {
                     	minDistance = distance;
