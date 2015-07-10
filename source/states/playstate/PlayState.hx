@@ -39,7 +39,7 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 60;
+	private var LEVEL_TIME:Float = 10;
 
 	//Level and score counter for Game Over screen
 	private var levelCounter:Int = 0;
@@ -61,6 +61,7 @@ class PlayState extends FlxState {
     private var tableSprite:FlxSprite;
 	private var table:Rectangle;
 
+    private var clockActive = false;
 	public var seconds_remaining:Float;
 	private var seconds_since_drip:Float;
 
@@ -173,7 +174,8 @@ class PlayState extends FlxState {
 	 * A clock has gone off.
 	 */
 	public function clockFinished() {
-		removePatient(addNewPatient);
+        clockActive = false;
+        removePatient(addNewPatient);
 	}
 
     public function levelComplete() {
@@ -187,10 +189,15 @@ class PlayState extends FlxState {
 	 * Start the next level
 	 */
 	public function nextLevel() {
-		// Reset the clock
+        // Fade in
         FlxG.camera.fade(FlxColor.BLACK, .33, true);
-		seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+
+        // Reset the clock
+        clockActive = false;
+        seconds_remaining = 0;
+
 		isActive = true;
+        addingPatient = false;
 		levelCounter++;
 		thisLevelScore = new Array<Patient>();
 
@@ -288,10 +295,12 @@ class PlayState extends FlxState {
 			}
 
 			// Timer
-			seconds_remaining -= FlxG.elapsed;
-			if (seconds_remaining <= 0) {
-				clockFinished();
-			}
+            if (clockActive) {
+    			seconds_remaining -= FlxG.elapsed;
+    			if (seconds_remaining <= 0) {
+    				clockFinished();
+    			}
+            }
 
 			// Drips
 			if (dragging != null && Type.getClass(dragging) == Organ) {
@@ -478,6 +487,8 @@ class PlayState extends FlxState {
 
      		// Move on to screen
      		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+            seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+            clockActive = true;
         }
 	}
 }
