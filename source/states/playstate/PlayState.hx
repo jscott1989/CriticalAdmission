@@ -55,6 +55,7 @@ class PlayState extends FlxState {
 
 	// General scene items
 	private var background:FlxSprite;
+    private var tableSprite:FlxSprite;
 	private var table:Rectangle;
 
 	public var seconds_remaining:Float;
@@ -102,7 +103,6 @@ class PlayState extends FlxState {
         for (i in 0...10) {
             // generate 10 patients
             patientSet.push(new PatientInfo());
-
             // Now swap things around to ensure the health of each patient is within the bounds
         }
 
@@ -124,7 +124,10 @@ class PlayState extends FlxState {
 		background.loadGraphic("assets/images/Background.png");
 		add(background);
 
-		table = new Rectangle(1300,112,730,1359);
+		table = new Rectangle(1265,87,730,1359);
+        tableSprite = new FlxSprite(table.x, table.y);
+        tableSprite.loadGraphic("assets/images/Table.png");
+        add(tableSprite);
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
@@ -181,7 +184,7 @@ class PlayState extends FlxState {
 		levelCounter++;
 		thisLevelScore = new Array<Patient>();
 
-		incomingPatients = generatePatientArray(); //This needs to be moved to Interim state when we have the visualiser working
+		// incomingPatients = generatePatientArray(); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
 	}
 
@@ -306,7 +309,16 @@ class PlayState extends FlxState {
 
 			var alpha = flixel.util.FlxRandom.intRanged(2, 5) * 10;
 			var red = flixel.util.FlxRandom.intRanged(13, 23) * 10;
-			background.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
+
+            if (table.containsPoint(new Point(x, y))) {
+                // Draw on table
+                vx -= table.x;
+                vy -= table.y;
+                tableSprite.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
+            } else {
+                // Draw on floor
+                background.drawCircle(vx, vy, Std.random(100) + 1, FlxColorUtil.makeFromARGB(alpha, red, 0, 0));
+            }
 		}
 	}
 
@@ -434,16 +446,6 @@ class PlayState extends FlxState {
 	 		spawnInteractable(new Organ("Knee", true));
 	 		spawnInteractable(new Organ("Lungs"));
  		}
-	}
-
-	public function generatePatientArray(){
-		//For x in patientsThisLevel:
-		//Generate patient
-		//Generate illnesses
-		//Cut open patient
-		//incomingPatients.push(patient);
-
-		return new Array<Patient>();
 	}
 
 	/**
