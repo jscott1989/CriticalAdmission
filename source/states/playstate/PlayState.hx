@@ -7,13 +7,14 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxPoint;
+import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
+import flixel.util.FlxPoint;
 import haxe.Timer;
-import states.GameOverState;
-import states.IntrimState;
 import sounds.SoundManager;
 import sounds.speech.Receptionist;
+import states.GameOverState;
+import states.IntrimState;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -45,7 +46,7 @@ class PlayState extends FlxState {
 	private var score:Int = 0;
 
 	//What patients are incoming this level
-	private var incomingPatients:Array<Patient>;
+	private var incomingPatients:Array<PatientInfo>;
 
 	//Store all the patients "fixed" this level for interim screen
 	private var thisLevelScore:Array<Patient>;
@@ -105,7 +106,7 @@ class PlayState extends FlxState {
         var patientSet = new Array<PatientInfo>();
 
         // First generate a number of health patients with everything covered
-        for (i in 0...10) {
+        for (i in 0...2) {
             // generate 10 patients
             patientSet.push(new PatientInfo());
             // Now swap things around to ensure the health of each patient is within the bounds
@@ -172,24 +173,28 @@ class PlayState extends FlxState {
 	 * A clock has gone off.
 	 */
 	public function clockFinished() {
-		isActive = false;
-		//FlxG.camera.fade(FlxColor.BLACK, .33);
-		removePatient(function() {
-			openSubState(new IntrimState(levelCounter, score, thisLevelScore));
-		});
+		removePatient(addNewPatient);
 	}
+
+    public function levelComplete() {
+        isActive = false;
+        FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+            openSubState(new IntrimState(levelCounter, score, thisLevelScore));
+        });
+    }
 
 	/**
 	 * Start the next level
 	 */
 	public function nextLevel() {
 		// Reset the clock
+        FlxG.camera.fade(FlxColor.BLACK, .33, true);
 		seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
 		isActive = true;
 		levelCounter++;
 		thisLevelScore = new Array<Patient>();
 
-		// incomingPatients = generatePatientArray(); //This needs to be moved to Interim state when we have the visualiser working
+		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
 	}
 
@@ -456,18 +461,23 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		patient = new Patient(new PatientInfo(), 300, FlxG.height);
-		//patient = incomingPatients.pop();
 
-		// Add to renderer
-		add(patient);
+        if (incomingPatients.length == 0) {
+            levelComplete();
+        } else {
+    		patient = new Patient(incomingPatients.pop(), 300, FlxG.height);
+    		//patient = incomingPatients.pop();
 
-		// Add each hole
-		for (hole in patient.holes) {
- 			watchHole(hole);
- 		}
+    		// Add to renderer
+    		add(patient);
 
- 		// Move on to screen
- 		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+    		// Add each hole
+    		for (hole in patient.holes) {
+     			watchHole(hole);
+     		}
+
+     		// Move on to screen
+     		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+        }
 	}
 }
