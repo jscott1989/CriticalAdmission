@@ -11,34 +11,24 @@
 
     public static var HEALTH_VALUES = [
         "Heart" => [
-            "Brain" => 60,
-            "Heart" => 100,
-            "Stomach" => 50
+            "Heart" => 100
         ],
         "Brain" => [
-            "Brain" => 100,
-            "Heart" => 30,
-            "Stomach" => 10
+            "Brain" => 100
         ],
-        "Stomach" => [
-            "Brain" => 60,
-            "Heart" => 20,
-            "Stomach" => 100
+        "Lung" => [
+            "Lung" => 100
         ],
-        "Next" => [
-            "Brain" => 30,
-            "Heart" => 60,
-            "Stomach" => 10
+        "Guts" => [
+            "Guts" => 100
         ],
-        "Tannoy" => [
-            "Brain" => 60,
-            "Heart" => 10,
-            "Stomach" => 10
+        "Elbow" => [
+            "LeftElbow" => 100,
+            "RightElbow" => 100
         ],
-        "Clipboard" => [
-            "Brain" => 10,
-            "Heart" => 10,
-            "Stomach" => 10
+        "Knee" => [
+            "LeftKnee" => 100,
+            "RightKnee" => 100
         ]
     ];
 

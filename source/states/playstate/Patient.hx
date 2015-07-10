@@ -12,82 +12,73 @@ package states.playstate;
     public var holes:Array<Hole>;
     public var body_holes:Array<BodyHole>;
 
-    // TODO: Fill in these lists
-    public static var FIRST_NAMES:Array<String> = ["A", "B"];
-    public static var SURNAMES:Array<String> = ["C", "D"];
+    public var info:PatientInfo;
 
-    private var isMale:Bool;
-    public var name:String;
-
-    public function new(X:Float=0, Y:Float=0)  {
+    public function new(info:PatientInfo, X:Float=0, Y:Float=0)  {
         super(X, Y);
 
-        isMale = Std.random(2) == 0;
-
-        // name = FIRST_NAMES[Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
-        name = "Test";
+        this.info = info;
 
         var bedSprite = new FlxSprite();
         bedSprite.loadGraphic("assets/images/Bed.png");
         add(bedSprite);
 
         var bodySprite = new FlxSprite(-5, -10);
-        if (isMale) {
-            bodySprite.loadGraphic("assets/images/Man" + (Std.random(3) + 1) + ".png");
+        if (info.isMale) {
+            bodySprite.loadGraphic("assets/images/Man" + info.bodySprite + ".png");
         } else {
-            bodySprite.loadGraphic("assets/images/Woman" + (Std.random(3) + 1) + ".png");
+            bodySprite.loadGraphic("assets/images/Woman" + info.bodySprite + ".png");
             bodySprite.x = -70;
             bodySprite.y = -10;
         }
         add(bodySprite);
 
         var hairSprite = new FlxSprite();
-        var hairStyle = Std.random(15)+1;
-        hairSprite.loadGraphic("assets/images/Hair" + hairStyle + "-" + (Std.random(3) + 1) + ".png");
+        hairSprite.loadGraphic("assets/images/Hair" + info.hairStyle + "-" + info.hairColor + ".png");
 
-        if (hairStyle == 1) {
+        if (info.hairStyle == 1) {
             hairSprite.x = 225;
             hairSprite.y = 10;
-        } else if (hairStyle == 2) {
+        } else if (info.hairStyle == 2) {
             hairSprite.x = 205;
             hairSprite.y = 10;
-        } else if (hairStyle == 3) {
+        } else if (info.hairStyle == 3) {
             hairSprite.x = 215;
             hairSprite.y = -10;
-        } else if (hairStyle == 4) {
+        } else if (info.hairStyle == 4) {
             hairSprite.x = 175;
             hairSprite.y = -70;
-        } else if (hairStyle == 5) {
+        } else if (info.hairStyle == 5) {
             hairSprite.x = 110;
             hairSprite.y = 5;
-        } else if (hairStyle == 6) {
+        } else if (info.hairStyle == 6) {
             hairSprite.x = 215;
             hairSprite.y = -5;
-        } else if (hairStyle == 7) {
+        } else if (info.hairStyle == 7) {
             hairSprite.x = 225;
             hairSprite.y = -5;
-        } else if (hairStyle == 8) {
+        } else if (info.hairStyle == 8) {
             hairSprite.x = 310;
             hairSprite.y = -40;
-        } else if (hairStyle == 9) {
+        } else if (info.hairStyle == 9) {
             hairSprite.x = 245;
             hairSprite.y = 10;
-        } else if (hairStyle == 10) {
+        } else if (info.hairStyle == 10) {
             hairSprite.x = 220;
             hairSprite.y = -10;
-        } else if (hairStyle == 11) {
+        } else if (info.hairStyle == 11) {
             hairSprite.x = 270;
             hairSprite.y = -10;
-        } else if (hairStyle == 12) {
+        } else if (info.hairStyle == 12) {
             hairSprite.x = 222;
             hairSprite.y = -40;
-        } else if (hairStyle == 13) {
+        } else if (info.hairStyle == 13) {
             hairSprite.x = 172;
             hairSprite.y = 0;
-        } else if (hairStyle == 14) {
+        } else if (info.hairStyle == 14) {
             hairSprite.x = 200;
             hairSprite.y = -50;
-        } else if (hairStyle == 15) {
+        } else if (info.hairStyle == 15) {
             hairSprite.x = 240;
             hairSprite.y = 0;
         }
@@ -96,18 +87,18 @@ package states.playstate;
         
         holes = new Array<Hole>();
         body_holes = new Array<BodyHole>();
-        body_holes.push(new BodyHole(275, 60, "Brain", new Organ("Brain"), false, true));
-        body_holes.push(new BodyHole(400, 500, "Heart", new Organ("Heart")));
-        body_holes.push(new BodyHole(300, 750, "Guts"));
-        body_holes.push(new BodyHole(20, 370, "LeftElbow"));
-        body_holes.push(new BodyHole(600, 390, "RightElbow", true));
+        body_holes.push(new BodyHole(275, 60, "Brain", createInteractable(info.brain), false, info.brainCovered));
+        body_holes.push(new BodyHole(400, 500, "Heart", createInteractable(info.heart), false, info.heartCovered));
+        body_holes.push(new BodyHole(300, 750, "Guts", createInteractable(info.guts), false, info.gutsCovered));
+        body_holes.push(new BodyHole(20, 370, "LeftElbow", createInteractable(info.leftElbow), false, info.leftElbowCovered));
+        body_holes.push(new BodyHole(600, 390, "RightElbow", createInteractable(info.rightElbow), true, info.rightElbowCovered));
         // body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
         // body_holes.push(new BodyHole(570, 1280, "RightFoot"));
-        body_holes.push(new BodyHole(140, 1050, "LeftKnee"));
-        body_holes.push(new BodyHole(500, 1050, "RightKnee", true));
+        body_holes.push(new BodyHole(140, 1050, "LeftKnee", createInteractable(info.leftKnee), false, info.leftKneeCovered));
+        body_holes.push(new BodyHole(500, 1050, "RightKnee", createInteractable(info.rightKnee), true, info.rightKneeCovered));
         // body_holes.push(new BodyHole(10, 670, "LeftHand"));
         // body_holes.push(new BodyHole(580, 670, "RightHand"));
-        body_holes.push(new BodyHole(230, 600, "Lung"));
+        body_holes.push(new BodyHole(230, 600, "Lung", createInteractable(info.lung), false, info.lungCovered));
         holes.push(new UIHole(100, 1100, new Clipboard(this)));
 
         for (hole in body_holes) {
@@ -118,6 +109,13 @@ package states.playstate;
         for (hole in holes) {
             add(hole);
         }
+    }
+
+    public static inline function createInteractable(organType:String=null) {
+        if (organType == null) {
+            return null;
+        }
+        return new Organ(organType);
     }
 
     /**

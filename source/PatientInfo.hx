@@ -12,35 +12,35 @@ package;
     public static var FIRST_NAMES:Array<String> = ["A", "B"];
     public static var SURNAMES:Array<String> = ["C", "D"];
 
-    private var isMale:Bool;
-    private var name:String;
-    private var bodySprite:Int;
-    private var hairStyle:Int;
-    private var hairColor:Int;
+    public var isMale:Bool;
+    public var name:String;
+    public var bodySprite:Int;
+    public var hairStyle:Int;
+    public var hairColor:Int;
 
-    private var brainCovered:Bool = true;
-    private var heartCovered:Bool = true;
-    private var gutsCovered:Bool = true;
-    private var lungCovered:Bool = true;
-    private var leftElbowCovered:Bool = true;
-    private var rightElbowCovered:Bool = true;
-    private var leftKneeCovered:Bool = true;
-    private var rightKneeCovered:Bool = true;
+    public var brainCovered:Bool = true;
+    public var heartCovered:Bool = true;
+    public var gutsCovered:Bool = true;
+    public var lungCovered:Bool = true;
+    public var leftElbowCovered:Bool = true;
+    public var rightElbowCovered:Bool = true;
+    public var leftKneeCovered:Bool = true;
+    public var rightKneeCovered:Bool = true;
 
-    private var brain:String = "Brain";
-    private var heart:String = "Heart";
-    private var guts:String = "Guts";
-    private var lung:String = "Lung";
-    private var leftElbow:String = "LeftElbow";
-    private var rightElbow:String = "RightElbow";
-    private var leftKnee:String = "LeftKnee";
-    private var rightKnee:String = "RightKnee";
+    public var brain:String = "Brain";
+    public var heart:String = "Heart";
+    public var guts:String = "Guts";
+    public var lung:String = "Lung";
+    public var leftElbow:String = "Elbow";
+    public var rightElbow:String = "Elbow";
+    public var leftKnee:String = "Knee";
+    public var rightKnee:String = "Knee";
 
     public function new()  {
         isMale = Std.random(2) == 0;
         name = FIRST_NAMES[Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
 
-        var bodySprite = Std.random(3) + 1;
+        bodySprite = Std.random(3) + 1;
 
         hairStyle = Std.random(15)+1;
         hairColor = Std.random(3)+1;

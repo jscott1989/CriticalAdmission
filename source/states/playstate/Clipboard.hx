@@ -57,7 +57,7 @@ package states.playstate;
      */
     private function updateText() {
         qol_text.text = Std.string(patient.getQOL()) + "%";
-        name_text.text = patient.name;
+        name_text.text = patient.info.name;
     }
 
     public override function update() {

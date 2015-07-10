@@ -9,7 +9,7 @@ package states.playstate;
  class Tannoy extends UIElement {
 
     public function new(X:Float=0, Y:Float=0)  {
-        super("Tannoy", true, X, Y);
+        super("Tannoy", X, Y);
     }
 
     public function generateMessage(){

@@ -441,10 +441,10 @@ class PlayState extends FlxState {
 		if (levelCounter == 1){
 			spawnInteractable(new Organ("Heart"));
 	 		spawnInteractable(new Organ("Brain"));
-	 		spawnInteractable(new Organ("Elbow", true));
+	 		spawnInteractable(new Organ("Elbow"));
 	 		spawnInteractable(new Organ("Guts"));
-	 		spawnInteractable(new Organ("Knee", true));
-	 		spawnInteractable(new Organ("Lungs"));
+	 		spawnInteractable(new Organ("Knee"));
+	 		spawnInteractable(new Organ("Lung"));
  		}
 	}
 
@@ -452,7 +452,7 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-		patient = new Patient(300, FlxG.height);
+		patient = new Patient(new PatientInfo(), 300, FlxG.height);
 		//patient = incomingPatients.pop();
 
 		// Add to renderer

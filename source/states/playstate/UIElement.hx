@@ -5,8 +5,8 @@ package states.playstate;
  */
  class UIElement extends Interactable {
 
-    public function new(type:String, canBeFlipped:Bool=false, X:Float=0, Y:Float=0)  {
-        super(type, canBeFlipped, X, Y);
+    public function new(type:String, X:Float=0, Y:Float=0)  {
+        super(type, X, Y);
     }
 
     public override function update() {

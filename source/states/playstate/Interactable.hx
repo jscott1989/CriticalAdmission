@@ -7,6 +7,10 @@ package states.playstate;
  */
  class Interactable extends FlxSprite {
 
+    public static var flippableInteractables = [
+        "Knee", "Elbow", "Tannoy"
+    ];
+
     // The hole it's contained in (if any)
     private var hole:Hole;
 
@@ -14,10 +18,10 @@ package states.playstate;
 
     private var canBeFlipped = false;
 
-    public function new(type:String, canBeFlipped:Bool=false, X:Float=0, Y:Float=0)  {
+    public function new(type:String, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.type = type;
-        this.canBeFlipped = canBeFlipped;
+        this.canBeFlipped = flippableInteractables.lastIndexOf(type) != -1;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
     }
