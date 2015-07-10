@@ -7,6 +7,7 @@ import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 
+import Config;
 import states.playstate.PlayState;
 
 
@@ -28,9 +29,12 @@ class SoundManager {
 	}
 
 	private function createSubtitle(text:String){
-		subtitle = new FlxText(50, 50, 0, text, 60);
+		subtitle = new FlxText(0, 0, 0, text, Config.SUBTITLE_SIZE);
 		subtitle.borderStyle = FlxText.BORDER_OUTLINE;
+		subtitle.x = FlxG.width - subtitle.fieldWidth - Config.SUBTITLE_X_PADDING;
+		subtitle.y = FlxG.height- Config.SUBTITLE_SIZE - Config.SUBTITLE_Y_PADDING;
 		subtitle.borderSize = 3;
+    	
     	PlayState.getInstance().add(subtitle);
     	new FlxTimer(SUBTITLE_TIMEOUT, removeSubtitle, 1);
 	}
@@ -49,10 +53,10 @@ class SoundManager {
 		var key:String = keys.next();
 		var value:String = soundMap.get(key);
 
-		FlxG.log.add(key+", "+value);
-
 		playSound(key);
-		createSubtitle(value);
+		if (Config.SUBTITLES_ON){
+			createSubtitle(value);
+		}
 	}
 
 }

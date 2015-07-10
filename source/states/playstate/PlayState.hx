@@ -9,13 +9,13 @@ import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxPoint;
 import flixel.util.FlxColorUtil;
+using flixel.util.FlxSpriteUtil;
 import haxe.Timer;
 import states.GameOverState;
 import states.IntrimState;
 import sounds.SoundManager;
 import sounds.speech.Receptionist;
-
-using flixel.util.FlxSpriteUtil;
+import Config;
 
 /**
  * The main playstate set in the surgery room.
