@@ -47,11 +47,10 @@ class PlayState extends FlxState {
 	private var score:Int = 0;
 
 	//What patients are incoming this level
-	private var incomingPatients:Array<PatientInfo>;
+	public var incomingPatients:Array<PatientInfo>;
 
 	//Store all the patients "fixed" this level for interim screen
 	private var thisLevelScore:Array<Patient>;
-
 
 	private var gameover:Bool = false; //has the player lost yet?
 	private var isActive:Bool = false; // is the scene playing?
@@ -107,8 +106,8 @@ class PlayState extends FlxState {
         var patientSet = new Array<PatientInfo>();
 
         // First generate a number of health patients with everything covered
-        for (i in 0...2) {
-            // generate 10 patients
+        for (i in 0...9) {
+            // generate 9 patients
             patientSet.push(new PatientInfo());
             // Now swap things around to ensure the health of each patient is within the bounds
         }
@@ -139,9 +138,9 @@ class PlayState extends FlxState {
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
         spawnUIHole(new UIHole(new Tannoy()), 0, 1);
-        spawnUIHole(new UIHole(new Clock()), 0, 2);
+        spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
-        spawnUIHole(new UIHole(true), 1, 0);
+        spawnUIHole(new UIHole(new Clock(), true), 1, 0);
         spawnUIHole(new UIHole(true), 1, 1);
         spawnUIHole(new UIHole(true), 1, 2);
 
