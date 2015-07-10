@@ -1,5 +1,6 @@
 package states.playstate;
 
+ import flixel.FlxG;
  import flixel.FlxSprite;
  import flixel.group.FlxSpriteGroup;
  import flixel.tweens.FlxTween;
@@ -95,5 +96,24 @@ package states.playstate;
         add(hiddenSprite);
 
         isHidden = true;
+    }
+
+    /**
+     * Start rendering
+     */
+    public function show() {
+        add(backgroundSprite);
+        backgroundSprite.x = x;
+        backgroundSprite.y = y;
+        remove(hiddenSprite);
+        if (interactable != null) {
+            // center it
+            PlayState.getInstance().watchInteractable(interactable);
+            add(interactable);
+            interactable.x = x + ((backgroundSprite.width - interactable.width)/2);
+            interactable.y = y + ((backgroundSprite.height - interactable.height)/2);
+        }
+
+        isHidden = false;
     }
  }

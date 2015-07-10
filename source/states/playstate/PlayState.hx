@@ -40,7 +40,7 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.2;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 10;
+	private var LEVEL_TIME:Float = 60;
 
 	//Level and score counter for Game Over screen
 	private var levelCounter:Int = 0;
@@ -70,6 +70,10 @@ class PlayState extends FlxState {
 	private var drag_offset_x:Float;
 	private var drag_offset_y:Float;
 	private var drag_started:Float;
+
+    // Where the drag started
+    private var dragLastHole:Hole;
+    private var dragLastPoint:Point;
 
 	// Patient
 	private var addingPatient:Bool;
@@ -142,7 +146,7 @@ class PlayState extends FlxState {
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
         spawnUIHole(new UIHole(new Radio(), true), 1, 1);
-        spawnUIHole(new UIHole(true), 1, 2);
+        spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
 
  		nextLevel();
 
@@ -267,6 +271,8 @@ class PlayState extends FlxState {
 			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
+                Utils.bringToFront(members, dragging);
+
 				if (dragging.getHole() != null) {
 					// If it was in a hole, remove it
 					dragging.getHole().removeInteractable();
@@ -351,11 +357,13 @@ class PlayState extends FlxState {
 		drag_offset_x = dragging.x - FlxG.mouse.x;
 		drag_offset_y = dragging.y - FlxG.mouse.y;
 
+        
+        // Record the position
+        dragLastHole = dragging.getHole();
+        dragLastPoint = new Point(dragging.x, dragging.y);
+
 		// Make it bigger when grabbed
 		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
-
-		// Bring to front
-		Utils.bringToFront(members, sprite);
 	}
 
 	/**
@@ -368,34 +376,18 @@ class PlayState extends FlxState {
                 var interactable:Interactable = cast sprite;
                 interactable.click();
             } else {
-                var placed = false; // Figure out if we're dropping on something
-                var minDistance:Float = 99999;
-                var minHole:Hole = null;
+                // We only deal with drops if the interactable doesn't
+                if (!dragging.dropped()) {
+                    var closestHole = getClosestHole(FlxG.mouse.x, FlxG.mouse.y);
 
-                for (hole in holes) {
-                    // Check each hole
-                    var distance = new FlxPoint(hole.x, hole.y).distanceTo(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
-
-                    if (hole.isEmpty() && distance < minDistance) {
-                    	minDistance = distance;
-                    	minHole = hole;
+                    if (closestHole != null) {
+                        closestHole.addInteractable(dragging);
+                    } else if (!table.containsPoint(new Point(dragging.x, dragging.y))) {
+                        // If it's not on the table and not placed, put it on the table
+                        returnDragged();
                     }
                 }
-
-                if (minDistance < minHole.width) {
-                    // if the distance is small enough
-                    // Add the dragging to the _hole
-                    minHole.addInteractable(dragging);
-                    placed = true;
-                }
-
-                if (!placed && !table.containsPoint(new Point(dragging.x, dragging.y))) {
-                    // If it's not on the table and not placed, put it on the table
-                    FlxTween.tween(dragging, {x: (table.left + 20)}, 0.1);
-                }
-
             }
-
             // Resize to default
             FlxTween.tween(dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
 
@@ -403,6 +395,42 @@ class PlayState extends FlxState {
             dragging = null;
         }
 	}
+
+    /**
+     * Return the dragged object to its last location
+     */
+    public function returnDragged() {
+
+        if (dragLastHole != null) {
+            dragLastHole.addInteractable(dragging);
+        } else {
+            FlxTween.tween(dragging, {x: dragLastPoint.x, y: dragLastPoint.y}, 0.1);
+        }
+    }
+
+    public function getClosestHole(x:Float,y:Float, includeHidden:Bool=false, includeOccupied:Bool=false) {
+        var minDistance:Float = 99999;
+        var minHole:Hole = null;
+
+        for (hole in holes) {
+            // Check each hole
+            var distance = new FlxPoint(hole.x + (hole.width / 2), hole.y + (hole.height / 2)).distanceTo(new FlxPoint(x, y));
+
+            if (distance < minDistance) {
+                if (includeHidden || !hole.isHidden) {
+                    if (includeOccupied || hole.isEmpty()) {
+                        minDistance = distance;
+                        minHole = hole;
+                    }
+                }
+            }
+        }
+
+        if (minHole != null && minDistance < minHole.width) {
+            return minHole;
+        }
+        return null;
+    }
 
 	/**
 	 * Remove the patient from surgery

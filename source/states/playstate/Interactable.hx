@@ -53,4 +53,13 @@ package states.playstate;
     
     public function interaction() {
     }
+
+    /**
+     * The Interactable has been dropped.
+     * Returning True means that we have dealt with it.
+     * false will leave it to the playstate
+     */
+    public function dropped() {
+        return false;
+    }
  }
