@@ -43,19 +43,17 @@ class PlayState extends FlxState {
 	private var LEVEL_TIME:Float = 60;
 
 	//Level and score counter for Game Over screen
-	private var levelCounter:Int = 0;
-	private var score:Int = 0;
+	public var currentLevel:Int = 0;
 
     // Our reputation
     public var reputation:Int = 100;
 
 	//What patients are incoming this level
-	public var incomingPatients:Array<PatientInfo>;
+	public var incomingPatients = new Array<PatientInfo>();
 
 	//Store all the patients "fixed" this level for interim screen
-	private var thisLevelScore:Array<PatientInfo>;
+	public var treatedPatients = new Array<PatientInfo>();
 
-	private var gameover:Bool = false; //has the player lost yet?
 	private var isActive:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
 
@@ -98,6 +96,10 @@ class PlayState extends FlxState {
         } else {
             return instance;
         }
+    }
+
+    public static inline function clearInstance() {
+        instance = null;
     }
 
     /**
@@ -149,9 +151,9 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new PressureGauge(), true), 1, 1);
         spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
 
- 		nextLevel();
-
 		super.create();
+
+        levelComplete();
 	}
 
     /**
@@ -185,7 +187,7 @@ class PlayState extends FlxState {
     public function levelComplete() {
         isActive = false;
         FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-            openSubState(new IntrimState(levelCounter, score, thisLevelScore));
+            openSubState(new IntrimState());
         });
     }
 
@@ -202,8 +204,7 @@ class PlayState extends FlxState {
 
 		isActive = true;
         addingPatient = false;
-		levelCounter++;
-		thisLevelScore = new Array<PatientInfo>();
+		currentLevel++;
 
 		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
@@ -266,9 +267,7 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-		if (gameover){
-			FlxG.switchState(new GameOverState(levelCounter, score));
-		} else if (isActive) {
+		if (isActive) {
 			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
 
@@ -368,9 +367,10 @@ class PlayState extends FlxState {
         // var s2 = new FlxSprite();
         // s2.makeGraphic(Std.int(drawTarget.width), Std.int(drawTarget.height), FlxColor.TRANSPARENT, true);
 
-        // FlxSpriteUtil.alphaMaskFlxSprite(s, drawTarget, drawTarget);
+        // FlxSpriteUtil.alphaMaskFlxSprite(drawTarget, drawTarget, s2);
+        // add(s2);
 
-        // // drawTarget.pixels.draw(s2.pixels);
+        // drawTarget.pixels.draw(s2.pixels);
 	}
 
 	/**
@@ -465,9 +465,7 @@ class PlayState extends FlxState {
 		if (patient != null) {
 			// If we have one, get rid of them first
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
-
-				score++;// Still record them if the clock timed out?
-				thisLevelScore.push(patient.info);
+				treatedPatients.push(patient.info);
 				//Destroy patient here or once the score is displayed?
 				destroyPatient();
 				//If not here, better destroy them all in start_new
@@ -495,6 +493,11 @@ class PlayState extends FlxState {
 	public function destroyPatient() {
         reputation -= 5;
 
+        if (reputation <= 0) { 
+            // Game Over
+            FlxG.switchState(new GameOverState());
+        }
+
 		// Remove their holes
 		for (hole in patient.holes) {
  			removeHole(hole);
@@ -513,7 +516,7 @@ class PlayState extends FlxState {
 	}
 
 	public function generateNewOrgans(){
-		if (levelCounter == 1){
+		if (currentLevel == 1){
 			spawnInteractable(new Organ("Heart"));
 	 		spawnInteractable(new Organ("Brain"));
 	 		spawnInteractable(new Organ("Elbow"));

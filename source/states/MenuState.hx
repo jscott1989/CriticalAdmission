@@ -20,6 +20,7 @@ class MenuState extends FlxState {
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
+		PlayState.clearInstance();
 		btnPlay = Utils.createButton("New Game", clickPlay, 5, 30);
 		btnPlay.screenCenter();
 		//btnPlay.x = (FlxG.width / 2) - btnPlay.width - 10;

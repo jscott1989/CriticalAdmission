@@ -16,45 +16,35 @@ using flixel.util.FlxSpriteUtil;
  * This gives an overview of progress so far, in between levels
  */
 class IntrimState extends FlxSubState {
-    private var dayText:FlxText;
-    private var scoreText:FlxText;
-    private var breakdownText:FlxText;
-    private var btnPlay:FlxButton;
-
-    private var day:Int;
-    private var score:Int;    
-
-    private var levelScore:Array<PatientInfo>;
-
-    public function new(day:Int, score:Int, levelScore:Array<PatientInfo>)  {
-        this.day = day;
-        this.score = score;
-        this.levelScore = levelScore;
-        super();
-    }
+    public static var LEVEL_TEXT = [
+        "Blah blah introduce the game...",
+        "This is level 1 somethign something"
+    ];
 
     /**
      * Function that is called up when to state is created to set it up. 
      */
     override public function create():Void {
+        var state = PlayState.getInstance();
+
         // fill background with black
         var background = new FlxSprite();
         background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         add(background);
 
-        dayText = new FlxText(50, 50, 0, "Day "+ day + ":", 100);
+        var dayText = new FlxText(50, 50, 0, "Day " + (state.currentLevel + 1), 100);
         add(dayText);
 
-        scoreText = new FlxText(50, 200, 0, "Patients treated so far: "+ score, 50);
-        add(scoreText);
+        var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "            Patients treated: " + state.treatedPatients.length, 50);
+        add(infoText);
 
-        breakdownText = new FlxText(50, 250, 0, "Patient Breakdown:", 50);
-        add(breakdownText);
+        var levelText = new FlxText(50, 400, 0, LEVEL_TEXT[state.currentLevel], 50);
+        add(levelText);
 
-        btnPlay = Utils.createButton("Continue", clickPlay, 5, 30);
+        var btnPlay = Utils.createButton("Continue", clickPlay, 5, 30);
         btnPlay.screenCenter();
+        btnPlay.y = FlxG.height - btnPlay.height - 10;
         add(btnPlay);
-
 
         super.create();
 
@@ -65,15 +55,6 @@ class IntrimState extends FlxSubState {
     private function clickPlay():Void {
         close();
         PlayState.getInstance().nextLevel();
-    }
-    
-    /**
-     * Function that is called when this state is destroyed - you might want to 
-     * consider setting all objects this state uses to null to help garbage collection.
-     */
-    override public function destroy():Void {
-        super.destroy();
-        btnPlay = FlxDestroyUtil.destroy(btnPlay);
     }
 
     /**

@@ -1,13 +1,14 @@
 package;
 
-import flixel.FlxG;
+import flash.display.BitmapData;
 import flash.geom.Point;
 import flash.geom.Rectangle;
+import flash.utils.ByteArray;
 import flixel.FlxSprite;
+import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
-import flixel.ui.FlxButton;
-import flixel.text.FlxText;
 
 /**
  * Useful functions that don't fit anywhere else
