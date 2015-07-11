@@ -1,8 +1,5 @@
 package;
 
- import flixel.FlxSprite;
- import flixel.group.FlxSpriteGroup;
-
 /**
  * Contain stats about a patient
  *
@@ -28,7 +25,7 @@ package;
     public var rightKneeCovered:Bool = true;
 
     public var brain:String = "Brain";
-    public var heart:String = "Heart";
+    public var heart:String = "Brain";
     public var guts:String = "Guts";
     public var lung:String = "Lung";
     public var leftElbow:String = "Elbow";
@@ -50,6 +47,57 @@ package;
      * Get the Quality Of Life for this patient.
      */
     public function getQOL() {
+        return (getBrainQOL() + getHeartQOL() + getLungQOL() + getGutsQOL() + getLeftElbowQOL() + getRightElbowQOL() + getLeftKneeQOL() + getRightKneeQOL()) / 8;
+    }
+
+    private function getQOLForHole(objectType:String, holeType:String) {
+        if (objectType == null) {
+            return 0;
+        }
+
+        var h = HealthValues.HEALTH_VALUES.get(objectType);
+
+        if (h == null) {
+            return 0;
+        }
+
+        if (h.get(holeType) != null) {
+            return h.get(holeType);
+        }
+
         return 0;
+    }
+
+
+    public function getBrainQOL() {
+        return getQOLForHole(brain, "Brain");
+    }
+
+    public function getHeartQOL() {
+        return getQOLForHole(heart, "Heart");
+    }
+
+    public function getLungQOL() {
+        return getQOLForHole(lung, "Lung");
+    }
+
+    public function getGutsQOL() {
+        return getQOLForHole(guts, "Guts");
+    }
+
+    public function getLeftElbowQOL() {
+        return getQOLForHole(leftElbow, "LeftElbow");
+    }
+
+    public function getRightElbowQOL() {
+        return getQOLForHole(rightElbow, "RightElbow");
+    }
+
+    public function getLeftKneeQOL() {
+        return getQOLForHole(leftKnee, "LeftKnee");
+    }
+
+    public function getRightKneeQOL() {
+        return getQOLForHole(rightKnee, "RightKnee");
     }
  }

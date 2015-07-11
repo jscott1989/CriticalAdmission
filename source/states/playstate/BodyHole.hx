@@ -9,52 +9,8 @@
  */
  class BodyHole extends Hole {
 
-    public static var HEALTH_VALUES = [
-        "Heart" => [
-            "Heart" => 100
-        ],
-        "Brain" => [
-            "Brain" => 100
-        ],
-        "Lung" => [
-            "Lung" => 100
-        ],
-        "Guts" => [
-            "Guts" => 100
-        ],
-        "Elbow" => [
-            "LeftElbow" => 100,
-            "RightElbow" => 100
-        ],
-        "Knee" => [
-            "LeftKnee" => 100,
-            "RightKnee" => 100
-        ]
-    ];
-
     // The type of hole
     private var type:String;
-
-    /**
-     * Get the QOL of this hole (how appropriate the contents are)
-     */
-    public function getQOL():Int {
-        if (interactable == null) {
-            return 0;
-        }
-
-        var h = HEALTH_VALUES.get(interactable.type);
-
-        if (h == null) {
-            h = new Map<String, Int>();
-        }
-
-        if (h.get(type) != null) {
-            return h.get(type);
-        }
-
-        return 0;
-    }
 
     public function new(X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, requiresFlip:Bool=false, hidden:Bool=false)  {
         this.type = type;

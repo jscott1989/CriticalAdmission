@@ -56,7 +56,7 @@ package states.playstate;
      * Update the text with the QoL etc. from the patient
      */
     private function updateText() {
-        qol_text.text = Std.string(patient.getQOL()) + "%";
+        qol_text.text = Std.string(patient.info.getQOL()) + "%";
         name_text.text = patient.info.name;
     }
 

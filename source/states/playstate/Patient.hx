@@ -120,19 +120,4 @@ package states.playstate;
         }
         return new Organ(organType);
     }
-
-    /**
-     * Get the Quality Of Life for this patient.
-     */
-    public function getQOL() {
-        var qol:Float = 1.0;
-
-        var total = 0;
-
-        for (hole in body_holes) {
-            total += hole.getQOL();
-        }
-
-        return Math.floor(total / body_holes.length);
-    }
  }

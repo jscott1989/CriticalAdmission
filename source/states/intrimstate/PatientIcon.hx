@@ -2,7 +2,10 @@ package states.intrimstate;
 
  import flixel.FlxSprite;
  import flixel.group.FlxSpriteGroup;
- import flixel.util.FlxPoint;
+ import flixel.util.FlxColor;
+ import flixel.util.FlxColorUtil;
+
+ using flixel.util.FlxSpriteUtil;
 
 /**
  * This includes the patient in a smaller form, and has dots indicating
@@ -14,6 +17,16 @@ package states.intrimstate;
     public var bodySprite:FlxSprite;
 
     public static inline var SCALE = 0.3;
+
+    public static function generateHealthDot(health:Int, size:Int, x:Float=0, y:Float=0) {
+        var s = new FlxSprite(x, y);
+        s.makeGraphic(size, size, FlxColor.TRANSPARENT, true);
+
+        s.drawCircle(size/2,size/2,size/2, FlxColor.RED);
+        s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 0, 255, 0));
+
+        return s;
+    }
 
     public function new(info:PatientInfo, X:Float=0, Y:Float=0)  {
         super(X, Y);
@@ -89,5 +102,14 @@ package states.intrimstate;
         hairSprite.x *= SCALE;
         hairSprite.y *= SCALE;
         add(hairSprite);
+
+        add(generateHealthDot(info.getBrainQOL(), 30, 275 * SCALE, 60 * SCALE));
+        add(generateHealthDot(info.getHeartQOL(), 30, 400 * SCALE, 500 * SCALE));
+        add(generateHealthDot(info.getLungQOL(),  30, 230 * SCALE, 600 * SCALE));
+        add(generateHealthDot(info.getGutsQOL(),  30, 300 * SCALE, 750 * SCALE));
+        add(generateHealthDot(info.getLeftElbowQOL(), 30, 20 * SCALE, 370 * SCALE));
+        add(generateHealthDot(info.getRightElbowQOL(), 30, 600 * SCALE, 390 * SCALE));
+        add(generateHealthDot(info.getLeftKneeQOL(), 30, 140 * SCALE, 1050 * SCALE));
+        add(generateHealthDot(info.getRightKneeQOL(), 30, 500 * SCALE, 1050 * SCALE));
     }
  }
