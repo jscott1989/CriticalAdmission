@@ -1,7 +1,6 @@
 package states.playstate;
 
 import flash.geom.Point;
-import flash.geom.Rectangle;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -9,14 +8,21 @@ import flixel.plugin.MouseEventManager;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
-using flixel.util.FlxSpriteUtil;
 import flixel.util.FlxPoint;
 import haxe.Timer;
 import sounds.SoundManager;
 import sounds.speech.Receptionist;
-import Config;
 import states.GameOverState;
-import states.IntrimState;
+import states.intrimstate.IntrimState;
+
+using flixel.util.FlxSpriteUtil;
+
+
+
+
+
+
+
 
 
 /**
@@ -153,7 +159,7 @@ class PlayState extends FlxState {
 
 		super.create();
 
-        levelComplete();
+        levelComplete(false);
 	}
 
     /**
@@ -184,11 +190,15 @@ class PlayState extends FlxState {
         removePatient(addNewPatient);
 	}
 
-    public function levelComplete() {
+    public function levelComplete(fade:Bool = true) {
         isActive = false;
-        FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+        if (fade) {
+            FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                openSubState(new IntrimState());
+            });
+        } else {
             openSubState(new IntrimState());
-        });
+        }
     }
 
 	/**
@@ -534,8 +544,7 @@ class PlayState extends FlxState {
         if (incomingPatients.length == 0) {
             levelComplete();
         } else {
-    		patient = new Patient(incomingPatients.pop(), 300, FlxG.height);
-    		//patient = incomingPatients.pop();
+    		patient = new Patient(incomingPatients.shift(), 300, FlxG.height);
 
     		// Add to renderer
     		add(patient);

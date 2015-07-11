@@ -2,11 +2,10 @@ package states;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import states.playstate.PlayState;
-import flixel.ui.FlxButton;
-
-import Utils;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -23,15 +22,15 @@ class MenuState extends FlxState {
 		PlayState.clearInstance();
 		btnPlay = Utils.createButton("New Game", clickPlay, 5, 30);
 		btnPlay.screenCenter();
-		//btnPlay.x = (FlxG.width / 2) - btnPlay.width - 10;
-		//btnPlay.y = FlxG.height - btnPlay.height - 10;
 		add(btnPlay);
 		super.create();
 		
 	}
 
 	private function clickPlay():Void {
-		FlxG.switchState(PlayState.getInstance());
+		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+			FlxG.switchState(PlayState.getInstance());
+        });
 	}
 	
 	/**
