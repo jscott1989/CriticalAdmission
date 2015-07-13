@@ -1,6 +1,7 @@
 package states.playstate;
 
  import flixel.FlxSprite;
+ import flixel.util.FlxPoint;
 
 /**
  * An organ which can be placed in a hole or left on the table
@@ -17,6 +18,8 @@ package states.playstate;
     public var type:String;
 
     private var canBeFlipped = false;
+
+    public var fixedDragOffset:FlxPoint = null;
 
     public function new(type:String, X:Float=0, Y:Float=0)  {
         super(X, Y);

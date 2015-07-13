@@ -75,11 +75,4 @@ class IntrimState extends FlxSubState {
     private function clickPlay():Void {
         close();
     }
-
-    /**
-     * Function that is called once every frame.
-     */
-    override public function update():Void {
-        super.update();
-    }   
 }

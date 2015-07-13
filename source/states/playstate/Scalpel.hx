@@ -1,7 +1,8 @@
 package states.playstate;
 
  import flixel.FlxG;
- import flixel.util.FlxRandom;
+ import flixel.tweens.FlxTween;
+ import flixel.util.FlxPoint;
 
 /**
  * Scalpel that allows the opening of holes
@@ -10,6 +11,8 @@ package states.playstate;
 
     public function new(X:Float=0, Y:Float=0)  {
         super("Scalpel", X, Y);
+
+        fixedDragOffset = new FlxPoint(10, -255);
     }
 
     public override function dropped() {
@@ -18,12 +21,20 @@ package states.playstate;
 
         if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
 
-            // Open the hole
-            closestHole.show();
+            // First make the scalpel smaller
+            
+            // Resize to default
+            FlxTween.tween(this, {x: closestHole.x, y: (closestHole.y + fixedDragOffset.y) + (closestHole.height / 2)}, 0.1);
+            FlxTween.tween(this.scale, {x: PlayState.DEFAULT_SCALE, y: PlayState.DEFAULT_SCALE}, 0.1, {"complete": function(tween: FlxTween) {
 
-            // Put the scalpel back
-            PlayState.getInstance().returnDragged();
+                FlxTween.tween(this, {x: this.x + closestHole.width}, 0.5, {"complete": function(tween:FlxTween) {
+                    // Open the hole
+                    closestHole.show();
 
+                    // // Put the scalpel back
+                    PlayState.getInstance().returnDragged(this);
+                }});
+            }});
             return true;
         }
         return false;

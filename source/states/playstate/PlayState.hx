@@ -73,8 +73,7 @@ class PlayState extends FlxState {
 
 	// The thing currently being dragged (if any)
 	private var dragging:Interactable;
-	private var drag_offset_x:Float;
-	private var drag_offset_y:Float;
+	private var drag_offset:FlxPoint;
 	private var drag_started:Float;
 
     // Where the drag started
@@ -94,6 +93,8 @@ class PlayState extends FlxState {
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
 
+    private var savedState = new Map<String, {}>();
+
     private static var instance:PlayState;
   
     public static inline function getInstance() {
@@ -106,6 +107,58 @@ class PlayState extends FlxState {
 
     public static inline function clearInstance() {
         instance = null;
+    }
+
+    /**
+     * Save the current state of the game, ready to be reloaded.
+     *
+     * All we need to record is the reputation, level and the interactables which are either
+     * on the table or in a UIElement
+     *
+     * Everything else can be generated.
+     */
+    public function saveState() {
+        // savedState = new Map<String, {}>();
+        // savedState.set("reputation", reputation);
+        // savedState.set("level", level);
+        // var interactables = [];
+        // var uiHoles = [];
+
+        // for (member in members) {
+        //     if (Type.getSuperClass(member) == Interactable) {
+        //         if (member.hole == null) {
+        //             // Record it
+        //             interactables.push(Utils.cloneMap(member.info));
+        //         }
+        //     } else if (Type.getClass(member) == UIHole) {
+        //         if (member.interactable == null) {
+        //             uiHoles.push(null);
+        //         } else {
+        //             uiHoles.push(Utils.cloneMap(member.interactable.info));
+        //         }
+        //     }
+        // }
+
+        // savedState.set("uiHoles", uiHoles);
+        // savedState.set("interactables", interactables);
+    }
+
+    /**
+     * Load the last saved state.
+     *
+     * This assumes an empty (freshly loaded) scene
+     */
+    public function loadState(state:Map<String, {}>) {
+        // reputation = state.get("reputation");
+        // level = state.get("level");
+
+        // for (interactable in stage.get("interactables")) {
+            
+        // }
+
+        // for (uiHole in stage.get("uiHoles")) {
+
+        // }
     }
 
     /**
@@ -218,6 +271,7 @@ class PlayState extends FlxState {
 
 		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
 		generateNewOrgans();
+        saveState();
 	}
 
 	/**
@@ -289,8 +343,8 @@ class PlayState extends FlxState {
 				}
 
 				// maintain offset
-				dragging.x = FlxG.mouse.x + drag_offset_x;
-				dragging.y = FlxG.mouse.y + drag_offset_y;
+				dragging.x = FlxG.mouse.x + drag_offset.x;
+				dragging.y = FlxG.mouse.y + drag_offset.y;
 
 				if (!FlxG.mouse.pressed) {
 					// If we're not pressing any more - stop dragging
@@ -390,8 +444,13 @@ class PlayState extends FlxState {
 		drag_started = Timer.stamp();
 		seconds_since_drip = 0;
 		dragging = cast sprite;
-		drag_offset_x = dragging.x - FlxG.mouse.x;
-		drag_offset_y = dragging.y - FlxG.mouse.y;
+
+        if (dragging.fixedDragOffset != null) {
+            drag_offset = dragging.fixedDragOffset;
+            FlxTween.tween(dragging, {x: FlxG.mouse.x + drag_offset.x, y: FlxG.mouse.y + drag_offset.y}, 0.1);
+        } else {
+            drag_offset = new FlxPoint(dragging.x - FlxG.mouse.x, dragging.y - FlxG.mouse.y);
+        }
 
         
         // Record the position
@@ -420,7 +479,7 @@ class PlayState extends FlxState {
                         closestHole.addInteractable(dragging);
                     } else if (!Utils.getSpriteRectangle(table).containsPoint(new Point(dragging.x, dragging.y))) {
                         // If it's not on the table and not placed, put it on the table
-                        returnDragged();
+                        returnDragged(dragging);
                     }
                 }
             }
@@ -435,8 +494,7 @@ class PlayState extends FlxState {
     /**
      * Return the dragged object to its last location
      */
-    public function returnDragged() {
-
+    public function returnDragged(dragging:Interactable) {
         if (dragLastHole != null) {
             dragLastHole.addInteractable(dragging);
         } else {
@@ -501,11 +559,13 @@ class PlayState extends FlxState {
 	 * Remove the patient from memory
 	 */
 	public function destroyPatient() {
-        reputation -= 5;
+        reputation -= 40;
 
         if (reputation <= 0) { 
             // Game Over
-            FlxG.switchState(new GameOverState());
+            FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                openSubState(new GameOverState());
+            });
         }
 
 		// Remove their holes

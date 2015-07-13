@@ -1,3 +1,4 @@
+
 package;
 
 import flash.display.BitmapData;
@@ -83,5 +84,16 @@ class Utils
 
     public static function getSpriteRectangle(sprite:FlxSprite) {
         return new Rectangle(sprite.x, sprite.y, sprite.width, sprite.height);
+    }
+
+    /**
+     * Make a shallow copy of a map
+     */
+    public static function cloneMap<T>(map: Map<String, T>) {
+        var m = new Map<String, T>();
+        for (key in map.keys()) {
+            m.set(key, map.get(key));
+        }
+        return m;
     }
 }

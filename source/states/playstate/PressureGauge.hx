@@ -15,7 +15,8 @@ package states.playstate;
     }
 
     override function update() {
-        var v = Math.floor((PlayState.getInstance().reputation / 100) * 8);
+        var v = Std.int(Math.max(0, Math.floor((PlayState.getInstance().reputation / 100) * 8)));
+
         if (v != number) {
             number = v;
             loadGraphic("assets/images/PressureGauge" + v + ".png");
