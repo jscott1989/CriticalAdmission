@@ -71,6 +71,8 @@ class PlayState extends FlxState {
 	public var seconds_remaining:Float;
 	private var seconds_since_drip:Float;
 
+    public var hoveringHole:Hole;
+
 	// The thing currently being dragged (if any)
 	private var dragging:Interactable;
 	private var drag_offset:FlxPoint;
@@ -203,7 +205,8 @@ class PlayState extends FlxState {
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
-        spawnUIHole(new UIHole(new Tannoy()), 0, 1);
+        // spawnUIHole(new UIHole(new Tannoy()), 0, 1);
+        spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
         spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
@@ -299,7 +302,7 @@ class PlayState extends FlxState {
 		add(inter);
 
 		// Watch for drag
-		MouseEventManager.add(inter, onMouseDown, onMouseUp); 
+		MouseEventManager.add(inter, onMouseDownInteractable, onMouseUpInteractable); 
 	}
 
 	/**
@@ -311,6 +314,8 @@ class PlayState extends FlxState {
 
 		// Remove from renderer
 		remove(hole, true);
+
+        MouseEventManager.remove(hole);
 
 		if (hole.interactable != null) {
 			// Remove organ if needed
@@ -348,7 +353,7 @@ class PlayState extends FlxState {
 
 				if (!FlxG.mouse.pressed) {
 					// If we're not pressing any more - stop dragging
-					onMouseUp(dragging);
+					onMouseUpInteractable(dragging);
 				}
 			}
 
@@ -440,10 +445,11 @@ class PlayState extends FlxState {
 	/**
 	 * There has been a mouse press on an organ
 	 */
-	function onMouseDown(sprite:FlxSprite) {
+	function onMouseDownInteractable(sprite:FlxSprite) {
 		drag_started = Timer.stamp();
 		seconds_since_drip = 0;
 		dragging = cast sprite;
+        dragging.dragging = true;
 
         if (dragging.fixedDragOffset != null) {
             drag_offset = dragging.fixedDragOffset;
@@ -464,7 +470,7 @@ class PlayState extends FlxState {
 	/**
 	 * Mouse up on an organ
 	 */
-	function onMouseUp(sprite:FlxSprite) {
+	function onMouseUpInteractable(sprite:FlxSprite) {
         if (dragging != null) {
             if (Timer.stamp() - drag_started < CLICK_TIMEOUT) {
                 // We're clicking not dragging
@@ -487,6 +493,7 @@ class PlayState extends FlxState {
             FlxTween.tween(dragging.scale, {x: DEFAULT_SCALE, y: DEFAULT_SCALE}, 0.1);
 
             // No longer dragging
+            dragging.dragging = false;
             dragging = null;
         }
 	}
@@ -508,10 +515,10 @@ class PlayState extends FlxState {
 
         for (hole in holes) {
             // Check each hole
-            var distance = new FlxPoint(hole.x + (hole.width / 2), hole.y + (hole.height / 2)).distanceTo(new FlxPoint(x, y));
+            if (includeHidden || !hole.isHidden) {
+                var distance = new FlxPoint(hole.x + (hole.width / 2), hole.y + (hole.height / 2)).distanceTo(new FlxPoint(x, y));
 
-            if (distance < minDistance) {
-                if (includeHidden || !hole.isHidden) {
+                if (distance < minDistance) {
                     if (includeOccupied || hole.isEmpty()) {
                         minDistance = distance;
                         minHole = hole;

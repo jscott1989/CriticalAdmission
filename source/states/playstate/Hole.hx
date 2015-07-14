@@ -15,10 +15,12 @@ package states.playstate;
     public var interactable:Interactable;
 
     private var backgroundSprite:FlxSprite;
+    private var transparentSprite:FlxSprite;
     private var hiddenSprite:FlxSprite;
 
     public var requiresFlip:Bool = false;
     public var isHidden:Bool = false;
+    public var isTransparent:Bool = false;
 
     public function new(backgroundSprite:FlxSprite, interactable:Interactable, requiresFlip:Bool, X:Float=0, Y:Float=0)  {
         super(X, Y);
@@ -102,6 +104,10 @@ package states.playstate;
      * Start rendering
      */
     public function show() {
+        if (isTransparent) {
+            cancelTransparent();
+        }
+
         add(backgroundSprite);
         backgroundSprite.x = x;
         backgroundSprite.y = y;
@@ -115,5 +121,25 @@ package states.playstate;
         }
 
         isHidden = false;
+    }
+
+    public function goTransparent() {
+        if (transparentSprite == null) {
+            transparentSprite = new FlxSprite(x, y);
+            transparentSprite.loadGraphicFromSprite(backgroundSprite);
+            transparentSprite.alpha = 0.3;
+        }
+        isTransparent = true;
+        add(transparentSprite);
+        transparentSprite.x = x;
+        transparentSprite.y = y;
+        // remove(hiddenSprite);
+    }
+
+    public function cancelTransparent() {
+        isTransparent = false;
+        remove(transparentSprite, true);
+        // remove(backgroundSprite);
+        // add(hiddenSprite);
     }
  }

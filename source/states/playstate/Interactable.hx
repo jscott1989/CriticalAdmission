@@ -15,6 +15,8 @@ package states.playstate;
     // The hole it's contained in (if any)
     private var hole:Hole;
 
+    public var dragging = false;
+
     public var type:String;
 
     private var canBeFlipped = false;

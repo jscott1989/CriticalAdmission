@@ -22,4 +22,8 @@
             hide();
         }
     }
+
+    override function update() {
+
+    }
  }

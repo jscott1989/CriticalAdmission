@@ -20,7 +20,6 @@ package states.playstate;
         var closestHole = PlayState.getInstance().getClosestHole(FlxG.mouse.x, FlxG.mouse.y, true, true);
 
         if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
-
             // First make the scalpel smaller
             
             // Resize to default
@@ -38,5 +37,27 @@ package states.playstate;
             return true;
         }
         return false;
+    }
+
+    var shownHole:Hole = null;
+
+    public override function update() {
+        if (dragging) {
+            var closestHole = PlayState.getInstance().getClosestHole(FlxG.mouse.x, FlxG.mouse.y, true, true);
+
+            if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
+                if (!closestHole.isTransparent) {
+                    if(shownHole != null) {
+                        shownHole.cancelTransparent();
+                    }
+                    shownHole = closestHole;
+                    shownHole.goTransparent();
+                }
+            } else if(shownHole != null) {
+                shownHole.cancelTransparent();
+                shownHole = null;
+            }
+        }
+        super.update();
     }
  }
