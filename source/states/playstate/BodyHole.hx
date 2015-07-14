@@ -18,6 +18,10 @@
         backgroundSprite.loadGraphic("assets/images/" + type +  "Hole.png");
         super(backgroundSprite, interactable, requiresFlip, X, Y);
 
+        highlightSprite = new FlxSprite();
+        highlightSprite.loadGraphic("assets/images/" + type +  "HoleHighlight.png");
+        highlightSprite.alpha = 0.5;
+
         if (hidden) {
             hide();
         }

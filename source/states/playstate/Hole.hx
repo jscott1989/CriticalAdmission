@@ -15,12 +15,14 @@ package states.playstate;
     public var interactable:Interactable;
 
     private var backgroundSprite:FlxSprite;
+    private var highlightSprite:FlxSprite;
     private var transparentSprite:FlxSprite;
     private var hiddenSprite:FlxSprite;
 
     public var requiresFlip:Bool = false;
     public var isHidden:Bool = false;
     public var isTransparent:Bool = false;
+    public var isHighlighted:Bool = false;
 
     public function new(backgroundSprite:FlxSprite, interactable:Interactable, requiresFlip:Bool, X:Float=0, Y:Float=0)  {
         super(X, Y);
@@ -141,5 +143,22 @@ package states.playstate;
         remove(transparentSprite, true);
         // remove(backgroundSprite);
         // add(hiddenSprite);
+    }
+
+    public function startHighlight() {
+        FlxG.log.add("start highlight");
+        if (highlightSprite != null) {
+            add(highlightSprite);
+            highlightSprite.x = x;
+            highlightSprite.y = y;
+        }
+        isHighlighted = true;
+    }
+
+    public function stopHighlight() {
+        if (highlightSprite != null) {
+            remove(highlightSprite, true);
+        }
+        isHighlighted = false;
     }
  }

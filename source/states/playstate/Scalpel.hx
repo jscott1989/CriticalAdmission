@@ -17,7 +17,7 @@ package states.playstate;
 
     public override function dropped() {
 
-        var closestHole = PlayState.getInstance().getClosestHole(FlxG.mouse.x, FlxG.mouse.y, true, true);
+        var closestHole = PlayState.getInstance().getClosestHole(true, true);
 
         if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
             // First make the scalpel smaller
@@ -43,7 +43,7 @@ package states.playstate;
 
     public override function update() {
         if (dragging) {
-            var closestHole = PlayState.getInstance().getClosestHole(FlxG.mouse.x, FlxG.mouse.y, true, true);
+            var closestHole = PlayState.getInstance().getClosestHole(true, true);
 
             if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
                 if (!closestHole.isTransparent) {

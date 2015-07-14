@@ -351,6 +351,22 @@ class PlayState extends FlxState {
 				dragging.x = FlxG.mouse.x + drag_offset.x;
 				dragging.y = FlxG.mouse.y + drag_offset.y;
 
+
+                // Highlight any empty holes that will be placed in
+                if (hoveringHole != null && new FlxPoint(hoveringHole.x + (hoveringHole.width / 2), hoveringHole.y + (hoveringHole.height / 2)).distanceTo(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y)) < hoveringHole.width) {
+                    // Still hovering, do nothing
+                } else {
+                    if (hoveringHole != null) {
+                        hoveringHole.stopHighlight();
+                        hoveringHole = null;
+                    }
+                    var closestHole = getClosestHole();
+                    if (closestHole != null && Type.getClass(closestHole) == BodyHole && !closestHole.isHighlighted) {
+                        hoveringHole = closestHole;
+                        closestHole.startHighlight();
+                    }
+                }
+
 				if (!FlxG.mouse.pressed) {
 					// If we're not pressing any more - stop dragging
 					onMouseUpInteractable(dragging);
@@ -479,7 +495,7 @@ class PlayState extends FlxState {
             } else {
                 // We only deal with drops if the interactable doesn't
                 if (!dragging.dropped()) {
-                    var closestHole = getClosestHole(FlxG.mouse.x, FlxG.mouse.y);
+                    var closestHole = getClosestHole();
 
                     if (closestHole != null) {
                         closestHole.addInteractable(dragging);
@@ -495,6 +511,11 @@ class PlayState extends FlxState {
             // No longer dragging
             dragging.dragging = false;
             dragging = null;
+
+            if (hoveringHole != null) {
+                hoveringHole.stopHighlight();
+                hoveringHole = null;
+            }
         }
 	}
 
@@ -509,7 +530,9 @@ class PlayState extends FlxState {
         }
     }
 
-    public function getClosestHole(x:Float,y:Float, includeHidden:Bool=false, includeOccupied:Bool=false) {
+    public function getClosestHole(includeHidden:Bool=false, includeOccupied:Bool=false) {
+        var x = FlxG.mouse.x;
+        var y = FlxG.mouse.y;
         var minDistance:Float = 99999;
         var minHole:Hole = null;
 
