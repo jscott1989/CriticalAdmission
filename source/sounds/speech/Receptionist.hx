@@ -29,6 +29,21 @@ class Receptionist {
 		AssetPaths.Filler24__mp3 => "Patients are reminded not to leave organs in the corridors",
 		AssetPaths.Filler25__mp3 => "Staff members are reminded that organs are expensive; stationary is not",
 		AssetPaths.Filler26__mp3 => "We are not liable for misplaced bodyparts. Finders keepers",
-		AssetPaths.Filler27__mp3 => "Contrary to rumours, we are not a bionics factory"
+		AssetPaths.Filler27__mp3 => "Contrary to rumours, we are not a bionics factory",
+		AssetPaths.Filler28__mp3 => "No smoking in the hospital, please"
 	];
+
+	public static var INTRODUCTIONS:Map<String, String> = [
+		AssetPaths.Intro1__mp3 => "Doctors are reminded that donated organs are stored on the table to the right of surgery",
+		AssetPaths.Intro2__mp3 => "Doctors should take care when removing organs from patients' bodies",
+		AssetPaths.Intro3__mp3 => "We are happy to announce that we now stock a wide range of prosthetic knees, elbows and stomachs! Ask your doctor for details",
+		AssetPaths.Intro4__mp3 => "Doctors are reminded that, in dire situations, improvisation may be necessary"
+	];
+
+	public static var PERFORMANCE:Map<String, String> = [
+		AssetPaths.Performance_good__mp3 => "Good job doctor! He said he's never felt better!",
+		AssetPaths.Performance_bad__mp3 => "Doctor, you're supposed to be making these people better!"
+	];
+
+
 }
