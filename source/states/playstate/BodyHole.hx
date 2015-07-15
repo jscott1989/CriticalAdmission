@@ -10,7 +10,7 @@
  class BodyHole extends Hole {
 
     // The type of hole
-    private var type:String;
+    public var type:String;
 
     public function new(X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, requiresFlip:Bool=false, hidden:Bool=false)  {
         this.type = type;

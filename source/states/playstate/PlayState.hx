@@ -78,7 +78,7 @@ class PlayState extends FlxState {
     private var tooltipSprite:FlxSprite;
 
 	// The thing currently being dragged (if any)
-	private var dragging:Interactable;
+	public var dragging:Interactable;
 	private var drag_offset:FlxPoint;
 	private var drag_started:Float;
 
@@ -87,8 +87,8 @@ class PlayState extends FlxState {
     private var dragLastPoint:Point;
 
 	// Patient
-	private var addingPatient:Bool;
-	private var patient:Patient;
+	public var addingPatient:Bool;
+	public var patient:Patient;
 
 	// Holes to check for drop targets
 	private var holes = new Array<Hole>();

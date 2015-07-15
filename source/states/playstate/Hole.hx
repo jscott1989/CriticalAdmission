@@ -139,8 +139,10 @@ package states.playstate;
     }
 
     public function cancelTransparent() {
-        isTransparent = false;
-        remove(transparentSprite, true);
+        try {
+            isTransparent = false;
+            remove(transparentSprite, true);
+        } catch( unknown: Dynamic) {}
         // remove(backgroundSprite);
         // add(hiddenSprite);
     }

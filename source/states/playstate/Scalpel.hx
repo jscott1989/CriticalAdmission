@@ -42,7 +42,8 @@ package states.playstate;
     var shownHole:Hole = null;
 
     public override function update() {
-        if (dragging) {
+        var ps = PlayState.getInstance();
+        if (dragging && ps.patient != null && !ps.addingPatient) {
             var closestHole = PlayState.getInstance().getClosestHole(true, true);
 
             if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {

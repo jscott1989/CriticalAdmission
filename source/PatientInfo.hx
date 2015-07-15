@@ -50,7 +50,7 @@ package;
         return (getBrainQOL() + getHeartQOL() + getLungQOL() + getGutsQOL() + getLeftElbowQOL() + getRightElbowQOL() + getLeftKneeQOL() + getRightKneeQOL()) / 8;
     }
 
-    private function getQOLForHole(objectType:String, holeType:String) {
+    public static function getQOLForHole(objectType:String, holeType:String) {
         if (objectType == null) {
             return 0;
         }
