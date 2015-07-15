@@ -26,7 +26,7 @@ package states.playstate;
             FlxTween.tween(this, {x: closestHole.x, y: (closestHole.y + fixedDragOffset.y) + (closestHole.height / 2)}, 0.1);
             FlxTween.tween(this.scale, {x: PlayState.DEFAULT_SCALE, y: PlayState.DEFAULT_SCALE}, 0.1, {"complete": function(tween: FlxTween) {
 
-                FlxTween.tween(this, {x: this.x + closestHole.width}, 0.5, {"complete": function(tween:FlxTween) {
+                FlxTween.tween(this, {x: this.x + closestHole.width}, 0.2, {"complete": function(tween:FlxTween) {
                     // Open the hole
                     closestHole.show();
 

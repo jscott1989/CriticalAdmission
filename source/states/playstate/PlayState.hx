@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.plugin.MouseEventManager;
+import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
@@ -72,6 +73,9 @@ class PlayState extends FlxState {
 	private var seconds_since_drip:Float;
 
     public var hoveringHole:Hole;
+    private var tooltip:Interactable;
+    private var tooltipText:FlxText;
+    private var tooltipSprite:FlxSprite;
 
 	// The thing currently being dragged (if any)
 	private var dragging:Interactable;
@@ -202,6 +206,12 @@ class PlayState extends FlxState {
         table = new FlxSprite(1265, 87);
         table.loadGraphic("assets/images/Table.png");
         add(table);
+
+        tooltipText = new FlxText(0, 0, 0, "Test", 50); 
+        tooltipSprite = new FlxSprite();
+        tooltipSprite.makeGraphic(10, 10, FlxColor.BLACK);
+        add(tooltipText);
+        add(tooltipSprite);
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
@@ -302,7 +312,7 @@ class PlayState extends FlxState {
 		add(inter);
 
 		// Watch for drag
-		MouseEventManager.add(inter, onMouseDownInteractable, onMouseUpInteractable); 
+		MouseEventManager.add(inter, onMouseDownInteractable, onMouseUpInteractable, onMouseEnterInteractable, onMouseExitInteractable); 
 	}
 
 	/**
@@ -336,6 +346,26 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
+
+        if (tooltip != null && dragging == null) {
+            tooltipText.text = tooltip.type;
+
+            if (tooltipText.width != (tooltipSprite.width + 50)) {
+                tooltipSprite.makeGraphic(Std.int(tooltipText.width) + 50, Std.int(tooltipText.height), FlxColor.BLACK);
+            }
+
+            tooltipText.x = FlxG.mouse.x - (tooltipText.width / 2);
+            tooltipText.y = FlxG.mouse.y + tooltipText.height + 20;
+
+            Utils.bringToFront(members, tooltipSprite);
+            Utils.bringToFront(members, tooltipText, tooltipSprite);
+        } else {
+            tooltipText.x = -1000;
+            tooltipText.y = -1000;
+        }
+        tooltipSprite.x = tooltipText.x - 25;
+        tooltipSprite.y = tooltipText.y;
+
 		if (isActive) {
 			if (dragging != null && (Timer.stamp() - drag_started > CLICK_TIMEOUT)) {
 				// Deal with dragging
@@ -518,6 +548,14 @@ class PlayState extends FlxState {
             }
         }
 	}
+
+    function onMouseEnterInteractable(sprite:FlxSprite) {
+        tooltip = cast sprite;
+    }
+
+    function onMouseExitInteractable(sprite:FlxSprite) {
+        tooltip = null;
+    }
 
     /**
      * Return the dragged object to its last location
