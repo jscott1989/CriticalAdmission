@@ -30,8 +30,8 @@ class SoundManager {
 	}
 
 	private function playSound(id:String){
-		// var sound:FlxSound = FlxG.sound.load(id);
-		// sound.play();
+		var sound:FlxSound = FlxG.sound.load(id);
+		sound.play();
 	}
 
 	private function createSubtitle(text:String){

@@ -215,8 +215,8 @@ class PlayState extends FlxState {
  		
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
-        // spawnUIHole(new UIHole(new Tannoy()), 0, 1);
-        spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
+        spawnUIHole(new UIHole(new Tannoy()), 0, 1);
+        // spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
         spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
