@@ -25,6 +25,7 @@ class SoundManager {
 
 	public function new(){
 		FlxG.sound.playMusic(AssetPaths.ecg__wav, 1, true);
+		FlxG.sound.playMusic(AssetPaths.ambient__wav, 1, true);
 		bingBong = FlxG.sound.load(AssetPaths.tannoy1__wav);
 	}
 
