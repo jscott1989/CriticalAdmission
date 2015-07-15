@@ -654,7 +654,7 @@ class PlayState extends FlxState {
 	}
 
 	public function generateNewOrgans(){
-		if (currentLevel == 1){
+		if (currentLevel == 1 && Config.DIFFICULTY == Config.Difficulty.Easy){
 			spawnInteractable(new Organ("Heart"));
 	 		spawnInteractable(new Organ("Brain"));
 	 		spawnInteractable(new Organ("Elbow"));

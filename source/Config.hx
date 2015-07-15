@@ -1,4 +1,12 @@
-class Config{
+enum Difficulty{
+	Easy;
+	Medium;
+	Hard;
+}
+
+	class Config{
+
+	public static var DIFFICULTY = Difficulty.Easy;
 
 	public static var SECONDS_BETWEEN_ANNOUNCEMENTS:Float = 10;
 	public static var SUBTITLE_TIMEOUT:Float = 5;
