@@ -17,24 +17,18 @@ import states.playstate.PlayState;
 */
 class SoundManager {
 
-	
-
 	public var subtitle:FlxText;
 
 	public function new(){
 		FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
+	}
 
-		var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav);
-		//ecg.volume = 0.5;
-		
-		ecg.onComplete = function(){
-			ecg.play();
-			FlxG.log.add("Bar!");
-			//ecg.onComplete = null;
-		};
-		FlxG.log.add("Foo!1");
+	public function init(){
+		var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, true);
 		ecg.play();
-		FlxG.log.add("Foo!2");
+
+		var heart:FlxSound = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
+		heart.play();
 	}
 
 	private function createSubtitle(text:String){
