@@ -78,7 +78,7 @@ class Utils
         
         button.label = new FlxText(0, 0, button.width, text);
         button.label.setFormat(null, labelSize, 0x333333, "center");
-        button.label.y = 2000;
+        button.label.offset.y -= 20;
 
         button.onUp.sound = FlxG.sound.load(AssetPaths.button__wav);
 
