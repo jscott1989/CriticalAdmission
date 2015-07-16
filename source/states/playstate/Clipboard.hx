@@ -70,8 +70,11 @@ package states.playstate;
             improvement_text.text = Std.string(improvement) + "%";
 
             if (improvement > 0) {
-                improvement_text.color = FlxColor.GREEN;
                 improvement_text.text = "+" + improvement_text.text;
+            }
+
+            if (improvement >= PlayState.getInstance().minimumImprovement) {
+                improvement_text.color = FlxColor.GREEN;
             } else {
                 improvement_text.color = FlxColor.RED;
             }

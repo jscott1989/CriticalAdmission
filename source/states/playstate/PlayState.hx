@@ -47,10 +47,11 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.1;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 60;
+	private var LEVEL_TIME:Float = 10;
 
 	//Level and score counter for Game Over screen
 	public var currentLevel:Int = 0;
+    public var minimumImprovement:Int = 5;
 
     // Our reputation
     public var reputation:Int = 100;
@@ -634,7 +635,18 @@ class PlayState extends FlxState {
 	 * Remove the patient from memory
 	 */
 	public function destroyPatient() {
-        reputation -= 40;
+        // Now we adjust reputation accordingly. There should be
+        // A very big drop for making someone worse, but a very minor
+        // improvement for making someone better
+
+        var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
+
+        if (improvement >= 0) {
+            reputation += Std.int(improvement);
+        } else {
+            reputation += Std.int(improvement * 2);
+        }
+
 
         if (reputation <= 0) { 
             // Game Over
