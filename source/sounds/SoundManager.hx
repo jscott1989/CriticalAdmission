@@ -21,24 +21,18 @@ class SoundManager {
 
 	public var subtitle:FlxText;
 
-	public var bingBong:FlxSound;
-
 	public function new(){
-		FlxG.sound.playMusic(AssetPaths.ecg__wav, 1, true);
-		FlxG.sound.playMusic(AssetPaths.ambient__wav, 1, true);
-		bingBong = FlxG.sound.load(AssetPaths.tannoy1__wav);
-	}
-
-	private function playSound(id:String){
-		var sound:FlxSound = FlxG.sound.load(id);
-		sound.play();
+		FlxG.sound.playMusic(AssetPaths.ecg__wav, 0.5, true);
+		FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
 	}
 
 	private function createSubtitle(text:String){
 		subtitle = new FlxText(0, 0, 0, text, Config.SUBTITLE_SIZE);
+		subtitle.wordWrap = true;
 		subtitle.borderStyle = FlxText.BORDER_OUTLINE;
+		subtitle.fieldWidth = FlxG.width - Config.SUBTITLE_X_PADDING - Config.SUBTITLE_X_PADDING;
 		subtitle.x = FlxG.width - subtitle.fieldWidth - Config.SUBTITLE_X_PADDING;
-		subtitle.y = FlxG.height- Config.SUBTITLE_SIZE - Config.SUBTITLE_Y_PADDING;
+		subtitle.y = FlxG.height- subtitle.height - Config.SUBTITLE_Y_PADDING;
 		subtitle.borderSize = 3;
     	
     	PlayState.getInstance().add(subtitle);
@@ -50,9 +44,6 @@ class SoundManager {
 	}
 
 	public function playRandomSoundMap(soundMap:Map<String, String>, prefixSound=null){
-		
-		bingBong.play();
-
 		var keys = soundMap.keys();
 		var i:Int;
 		for(i in 0...Math.floor(Math.random()*Lambda.array(soundMap).length)-1){
@@ -61,8 +52,17 @@ class SoundManager {
 		var key:String = keys.next();
 		var value:String = soundMap.get(key);
 
-		playSound(AssetPaths.tannoy1__wav);
-		playSound(key);
+
+		var tannoy:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
+		tannoy.volume = 0.2;
+		tannoy.onComplete = function(){
+			var speech:FlxSound = FlxG.sound.load(key);
+			speech.volume = 70;
+			speech.play();
+			tannoy.onComplete = null;
+		};
+		tannoy.play();
+
 		if (Config.SUBTITLES_ON){
 			createSubtitle(value);
 		}
