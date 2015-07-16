@@ -6,8 +6,11 @@ package;
  * Put it here so the actual Patient can be destroyed.
  */
  class PatientInfo {
-    public static var FIRST_NAMES:Array<String> = ["A", "B"];
-    public static var SURNAMES:Array<String> = ["C", "D"];
+    public static var FIRST_NAMES:Array<Array<String>> = [
+        ["F1", "F2"], // female
+        ["M1", "M2"] // male
+    ];
+    public static var SURNAMES:Array<String> = ["S1", "S2"];
 
     public var isMale:Bool;
     public var name:String;
@@ -25,7 +28,7 @@ package;
     public var rightKneeCovered:Bool = false;
 
     public var brain:String = "Brain";
-    public var heart:String = "Brain";
+    public var heart:String = "Heart";
     public var guts:String = "Guts";
     public var lung:String = "Lung";
     public var leftElbow:String = "Elbow";
@@ -35,14 +38,66 @@ package;
 
     public var initialQOL:Float = 100;
 
-    public function new()  {
-        isMale = Std.random(2) == 0;
-        name = FIRST_NAMES[Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
+    public function new(isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
+        if (isMale == null) {
+            this.isMale = Std.random(2) == 0;
+        } else {
+            this.isMale = isMale;
+        }
+        if (name == null) {
+            var genderID = 0;
+            if (this.isMale) {
+                genderID = 1;
+            }
+            this.name = FIRST_NAMES[genderID][Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
+        } else {
+            this.name = name;
+        }
 
-        bodySprite = Std.random(3) + 1;
+        if (bodySprite == null) {
+            this.bodySprite = Std.random(3) + 1;
+        } else {
+            this.bodySprite = bodySprite;
+        }
 
-        hairStyle = Std.random(15)+1;
-        hairColor = Std.random(3)+1;
+        if (hairStyle == null) {
+            this.hairStyle = Std.random(15)+1;
+        } else {
+            this.hairStyle = hairStyle;
+        }
+
+        if (hairColor == null) {
+            this.hairColor = Std.random(3)+1;
+        } else {
+            this.hairColor = hairColor;
+        }
+
+        // This is ugly, but we can't pass null because of hte optional arguments...
+        if (brain == "") brain = null;
+        if (heart == "") heart = null;
+        if (lung == "") lung = null;
+        if (guts == "") guts = null;
+        if (leftElbow == "") leftElbow = null;
+        if (rightElbow == "") rightElbow = null;
+        if (leftKnee == "") leftKnee = null;
+        if (rightKnee == "") rightKnee = null;
+
+        this.brain = brain;
+        this.brainCovered = brainCovered;
+        this.heart = heart;
+        this.heartCovered = heartCovered;
+        this.lung = lung;
+        this.lungCovered = lungCovered;
+        this.guts = guts;
+        this.gutsCovered =  gutsCovered;
+        this.leftElbow = leftElbow;
+        this.leftElbowCovered = leftElbowCovered;
+        this.rightElbow = rightElbow;
+        this.rightElbowCovered = rightElbowCovered;
+        this.leftKnee = leftKnee;
+        this.leftKneeCovered = leftKneeCovered;
+        this.rightKnee = rightKnee;
+        this.rightKneeCovered = rightKneeCovered;
     }
 
     /**

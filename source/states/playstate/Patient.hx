@@ -20,7 +20,9 @@ package states.playstate;
     public function new(info:PatientInfo, X:Float=0, Y:Float=0)  {
         super(X, Y);
 
+        // TODO: Clone it so it doesn't damage the original
         this.info = info;
+        this.info.initialQOL = this.info.getQOL();
 
         bedSprite = new FlxSprite();
         bedSprite.loadGraphic("assets/images/Bed.png");

@@ -15,6 +15,7 @@ import sounds.SoundManager;
 import sounds.speech.Receptionist;
 import states.GameOverState;
 import states.intrimstate.IntrimState;
+import Levels.Level;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -47,14 +48,15 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.1;
 
 	//Default level time; tweak for testing
-	private var LEVEL_TIME:Float = 10;
+	private var levelTime:Float = 10;
 
 	//Level and score counter for Game Over screen
 	public var currentLevel:Int = 0;
     public var minimumImprovement:Int = 5;
+    public var levelText:String = "";
 
     // Our reputation
-    public var reputation:Int = 100;
+    public var reputation:Int = 80;
 
 	//What patients are incoming this level
 	public var incomingPatients = new Array<PatientInfo>();
@@ -173,30 +175,31 @@ class PlayState extends FlxState {
      *
      * Ensure the game is winnable given the level and the objects in the scene
      */
-    public static function generateLevel(level:Int, existingObjects:Array<String>) {
-        // Target 40-60% health - TODO: Depend on level
-        var targetHealth = 0.5;
+    public static function generateLevel(level:Int, existingObjects:Array<String>):Level {
+        // // Target 40-60% health - TODO: Depend on level
+        // var targetHealth = 0.5;
 
-        var patientSet = new Array<PatientInfo>();
+        // var patientSet = new Array<PatientInfo>();
 
-        // First generate a number of health patients with everything covered
-        for (i in 0...9) {
-            // generate 9 patients
-            var p = new PatientInfo();
-            // Now swap things around to ensure the health of each patient is within the bounds
+        // // First generate a number of health patients with everything covered
+        // for (i in 0...9) {
+        //     // generate 9 patients
+        //     var p = new PatientInfo();
+        //     // Now swap things around to ensure the health of each patient is within the bounds
 
-            //
-            p.initialQOL = p.getQOL();
+        //     //
+        //     p.initialQOL = p.getQOL();
 
-            patientSet.push(p);
-        }
+        //     patientSet.push(p);
+        // }
 
-        // Now open the holes required
+        // // Now open the holes required
 
 
-        // Now generate the additional organs required that can't be gained from the bodies
+        // // Now generate the additional organs required that can't be gained from the bodies
 
-        return patientSet;
+        // return patientSet;
+        return null;
     }
 
 	override public function create():Void
@@ -289,9 +292,20 @@ class PlayState extends FlxState {
 		isActive = true;
         addingPatient = false;
 		currentLevel++;
+        var level:Level;
+        // First we check if there is a level already available
+        if (Levels.LEVELS.length >= currentLevel) {
+            level = Levels.LEVELS[currentLevel - 1];
+        } else {
+    		level = generateLevel(currentLevel, null);
+        }
 
-		incomingPatients = generateLevel(1, null); //This needs to be moved to Interim state when we have the visualiser working
-		generateNewOrgans();
+        incomingPatients = level.patients;
+        minimumImprovement = level.minimumImprovement;
+        levelTime = level.levelTime;
+        levelText = level.text;
+
+		generateNewInteractables(level.interactables);
         saveState();
 	}
 
@@ -672,15 +686,12 @@ class PlayState extends FlxState {
 		addingPatient = false;
 	}
 
-	public function generateNewOrgans(){
-		if (currentLevel == 1 && Config.DIFFICULTY == Config.Difficulty.Easy){
-			spawnInteractable(new Organ("Heart"));
-	 		spawnInteractable(new Organ("Brain"));
-	 		spawnInteractable(new Organ("Elbow"));
-	 		spawnInteractable(new Organ("Guts"));
-	 		spawnInteractable(new Organ("Knee"));
-	 		spawnInteractable(new Organ("Lung"));
- 		}
+	public function generateNewInteractables(interactables: Array<Array<Dynamic>>){
+        for (i in interactables) {
+            var t:Interactable = Type.createInstance(Type.resolveClass("states.playstate." + i[0]), i[1]);
+            spawnInteractable(t);
+        }
+ 		
 	}
 
 	/**
@@ -703,7 +714,7 @@ class PlayState extends FlxState {
 
      		// Move on to screen
      		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
-            seconds_remaining = LEVEL_TIME;//* LEVEL_MODIFIER //scales time based on level
+            seconds_remaining = levelTime;
             clockActive = true;
         }
 	}

@@ -16,14 +16,6 @@ using flixel.util.FlxSpriteUtil;
  * This gives an overview of progress so far, in between levels
  */
 class IntrimState extends FlxSubState {
-    public static var LEVEL_TEXT = [
-        "", // Empty first one as we start at level 1
-        "Blah blah introduce the game...",
-        "This is level 1 somethign something",
-        "AAA",
-        "BBB",
-        "CCC",
-    ];
 
     /**
      * Function that is called up when to state is created to set it up. 
@@ -43,7 +35,7 @@ class IntrimState extends FlxSubState {
         var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "            Patients treated: " + state.treatedPatients.length, 50);
         add(infoText);
 
-        var levelText = new FlxText(50, 400, 0, LEVEL_TEXT[state.currentLevel], 50);
+        var levelText = new FlxText(50, 400, 0, PlayState.getInstance().levelText, 50);
         add(levelText);
 
         var upcomingPatientsText = new FlxText(50, 850, 0, "Upcoming Patients:", 50);

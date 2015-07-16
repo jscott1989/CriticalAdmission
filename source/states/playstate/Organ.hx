@@ -5,8 +5,8 @@ package states.playstate;
  */
  class Organ extends Interactable {
 
-    public function new(type:String, X:Float=0, Y:Float=0)  {
-        super(type, X, Y);
+    public function new(type:String)  {
+        super(type, 0, 0);
     }
 
     public override function update() {
