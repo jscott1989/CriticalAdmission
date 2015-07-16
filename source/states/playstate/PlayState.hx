@@ -97,7 +97,7 @@ class PlayState extends FlxState {
 	private var holes = new Array<Hole>();
 
 	//SoundManager
-	private var soundManager:SoundManager = new SoundManager();
+	private var soundManager:SoundManager;
 
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
@@ -206,6 +206,10 @@ class PlayState extends FlxState {
 	{
 		// Enable debugger if in debug mode
 		FlxG.debugger.visible = true;
+
+        //SoundManager
+        soundManager = new SoundManager();
+        soundManager.init();
 
 		// Scene
 		background = new FlxSprite(0,0);

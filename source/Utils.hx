@@ -6,6 +6,7 @@ import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 import flixel.FlxSprite;
+import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -78,6 +79,8 @@ class Utils
         button.label = new FlxText(0, 0, button.width, text);
         button.label.setFormat(null, labelSize, 0x333333, "center");
         button.label.y = 2000;
+
+        button.onUp.sound = FlxG.sound.load(AssetPaths.button__wav);
 
         return button;
     }

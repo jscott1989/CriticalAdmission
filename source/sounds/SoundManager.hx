@@ -17,13 +17,18 @@ import states.playstate.PlayState;
 */
 class SoundManager {
 
-	
-
 	public var subtitle:FlxText;
 
 	public function new(){
-		FlxG.sound.playMusic(AssetPaths.ecg__wav, 0.5, true);
 		FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
+	}
+
+	public function init(){
+		var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, true);
+		ecg.play();
+
+		var heart:FlxSound = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
+		heart.play();
 	}
 
 	private function createSubtitle(text:String){
