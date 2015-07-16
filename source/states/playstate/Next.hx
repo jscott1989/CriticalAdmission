@@ -1,5 +1,6 @@
 package states.playstate;
 
+import flixel.FlxG;
 /**
  * The next button will allow to call for the next patient.
  */
@@ -10,6 +11,7 @@ package states.playstate;
     }
 
     public override function interaction() {
+    	FlxG.sound.play(AssetPaths.button__wav);
 		PlayState.getInstance().nextPatient();
     }
  }
