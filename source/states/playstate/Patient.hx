@@ -90,19 +90,14 @@ package states.playstate;
         
         holes = new Array<Hole>();
         body_holes = new Array<BodyHole>();
-        body_holes.push(new BodyHole(275, 60, "Brain", createInteractable(info.brain), false, info.brainCovered));
-        body_holes.push(new BodyHole(400, 500, "Heart", createInteractable(info.heart), false, info.heartCovered));
-        body_holes.push(new BodyHole(230, 600, "Lung", createInteractable(info.lung), false, info.lungCovered));
-        body_holes.push(new BodyHole(300, 750, "Guts", createInteractable(info.guts), false, info.gutsCovered));
-        body_holes.push(new BodyHole(20, 370, "LeftElbow", createInteractable(info.leftElbow), false, info.leftElbowCovered));
-        body_holes.push(new BodyHole(600, 390, "RightElbow", createInteractable(info.rightElbow), true, info.rightElbowCovered));
-        // body_holes.push(new BodyHole(40, 1300, "LeftFoot"));
-        // body_holes.push(new BodyHole(570, 1280, "RightFoot"));
-        body_holes.push(new BodyHole(140, 1050, "LeftKnee", createInteractable(info.leftKnee), false, info.leftKneeCovered));
-        body_holes.push(new BodyHole(500, 1050, "RightKnee", createInteractable(info.rightKnee), true, info.rightKneeCovered));
-        // body_holes.push(new BodyHole(10, 670, "LeftHand"));
-        // body_holes.push(new BodyHole(580, 670, "RightHand"));
-        // holes.push(new UIHole(100, 1100, new Clipboard(this)));
+        body_holes.push(new BodyHole(this, 275, 60, "Brain", createInteractable(info.brain), false, info.brainCovered));
+        body_holes.push(new BodyHole(this, 400, 500, "Heart", createInteractable(info.heart), false, info.heartCovered));
+        body_holes.push(new BodyHole(this, 230, 600, "Lung", createInteractable(info.lung), false, info.lungCovered));
+        body_holes.push(new BodyHole(this, 300, 750, "Guts", createInteractable(info.guts), false, info.gutsCovered));
+        body_holes.push(new BodyHole(this, 20, 370, "LeftElbow", createInteractable(info.leftElbow), false, info.leftElbowCovered));
+        body_holes.push(new BodyHole(this, 600, 390, "RightElbow", createInteractable(info.rightElbow), true, info.rightElbowCovered));
+        body_holes.push(new BodyHole(this, 140, 1050, "LeftKnee", createInteractable(info.leftKnee), false, info.leftKneeCovered));
+        body_holes.push(new BodyHole(this, 500, 1050, "RightKnee", createInteractable(info.rightKnee), true, info.rightKneeCovered));
 
         for (hole in body_holes) {
             holes.push(hole);

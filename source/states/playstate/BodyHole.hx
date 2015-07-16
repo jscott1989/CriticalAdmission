@@ -1,5 +1,6 @@
  package states.playstate;
 
+ import flixel.FlxG;
  import flixel.FlxSprite;
 
 /**
@@ -11,12 +12,16 @@
 
     // The type of hole
     public var type:String;
+    private var patient:Patient;
+    private var variableName:String;
 
-    public function new(X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, requiresFlip:Bool=false, hidden:Bool=false)  {
+    public function new(patient:Patient=null, X:Float=0, Y:Float=0, type:String="", interactable:Interactable=null, requiresFlip:Bool=false, hidden:Bool=false)  {
         this.type = type;
+        variableName = type.substr(0,1).toLowerCase() + type.substr(1);
+        this.patient = patient;
         var backgroundSprite = new FlxSprite();
         backgroundSprite.loadGraphic("assets/images/" + type +  "Hole.png");
-        super(backgroundSprite, interactable, requiresFlip, X, Y);
+        super(backgroundSprite, interactable, requiresFlip, false, X, Y);
 
         highlightSprite = new FlxSprite();
         highlightSprite.loadGraphic("assets/images/" + type +  "HoleHighlight.png");
@@ -27,7 +32,16 @@
         }
     }
 
-    override function update() {
+    override public function addInteractable(interactable:Interactable, position:Bool = true) {
+        FlxG.log.add(patient.info);
+        FlxG.log.add(variableName);
+        FlxG.log.add(interactable.type);
+        Reflect.setField(patient.info, variableName, interactable.type);
+        super.addInteractable(interactable, position);
+    }
 
+    override public function removeInteractable() {
+        Reflect.setField(patient.info, variableName, null);
+        super.removeInteractable();
     }
  }

@@ -15,14 +15,14 @@ package;
     public var hairStyle:Int;
     public var hairColor:Int;
 
-    public var brainCovered:Bool = true;
-    public var heartCovered:Bool = true;
-    public var gutsCovered:Bool = true;
-    public var lungCovered:Bool = true;
-    public var leftElbowCovered:Bool = true;
-    public var rightElbowCovered:Bool = true;
-    public var leftKneeCovered:Bool = true;
-    public var rightKneeCovered:Bool = true;
+    public var brainCovered:Bool = false;
+    public var heartCovered:Bool = false;
+    public var gutsCovered:Bool = false;
+    public var lungCovered:Bool = false;
+    public var leftElbowCovered:Bool = false;
+    public var rightElbowCovered:Bool = false;
+    public var leftKneeCovered:Bool = false;
+    public var rightKneeCovered:Bool = false;
 
     public var brain:String = "Brain";
     public var heart:String = "Brain";
@@ -32,6 +32,8 @@ package;
     public var rightElbow:String = "Elbow";
     public var leftKnee:String = "Knee";
     public var rightKnee:String = "Knee";
+
+    public var initialQOL:Float = 100;
 
     public function new()  {
         isMale = Std.random(2) == 0;

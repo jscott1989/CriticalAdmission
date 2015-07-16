@@ -181,8 +181,13 @@ class PlayState extends FlxState {
         // First generate a number of health patients with everything covered
         for (i in 0...9) {
             // generate 9 patients
-            patientSet.push(new PatientInfo());
+            var p = new PatientInfo();
             // Now swap things around to ensure the health of each patient is within the bounds
+
+            //
+            p.initialQOL = p.getQOL();
+
+            patientSet.push(p);
         }
 
         // Now open the holes required
@@ -222,6 +227,8 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
         spawnUIHole(new UIHole(new PressureGauge(), true), 1, 1);
         spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
+
+        spawnInteractable(new Clipboard());
 
 		super.create();
 

@@ -20,14 +20,16 @@ package states.playstate;
     private var hiddenSprite:FlxSprite;
 
     public var requiresFlip:Bool = false;
+    public var locked:Bool = false;
     public var isHidden:Bool = false;
     public var isTransparent:Bool = false;
     public var isHighlighted:Bool = false;
 
-    public function new(backgroundSprite:FlxSprite, interactable:Interactable, requiresFlip:Bool, X:Float=0, Y:Float=0)  {
+    public function new(backgroundSprite:FlxSprite, interactable:Interactable, requiresFlip:Bool, locked:Bool, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.backgroundSprite = backgroundSprite;
         this.requiresFlip = requiresFlip;
+        this.locked = locked;
         add(backgroundSprite);
         if (interactable != null) {
             initInteractable(interactable);
