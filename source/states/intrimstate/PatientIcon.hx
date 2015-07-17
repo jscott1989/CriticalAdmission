@@ -19,12 +19,16 @@ package states.intrimstate;
     public static inline var SCALE = 0.3;
 
     public static function generateHealthDot(health:Int, size:Int, x:Float=0, y:Float=0) {
+
         var s = new FlxSprite(x, y);
         s.makeGraphic(size, size, FlxColor.TRANSPARENT, true);
 
-        s.drawCircle(size/2,size/2,size/2, FlxColor.RED);
-        s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 0, 255, 0));
-
+        if (health < 100){
+         
+            s.drawCircle(size/2,size/2,size/2, FlxColor.RED);
+            
+            s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 0, 255, 0));
+        }
         return s;
     }
 
