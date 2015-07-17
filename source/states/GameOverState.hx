@@ -39,6 +39,9 @@ class GameOverState extends FlxSubState {
 
 		// Cancel the fade
         FlxG.camera.stopFX();
+
+        //Reset level information
+        LEVELS.populateLevels();
 	}
 
 	private function clickMenu():Void {

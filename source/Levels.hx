@@ -21,36 +21,40 @@ class Level {
 }
 
 class Levels {
-    public static var LEVELS:Array<Level> = [
-        new Level(
-            "Level 1 yo...",
-            
-            [
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
-            ],
+    public static var LEVELS:Array<Level>;
 
-            [
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]],
-                ["Organ", ["Heart"]]
-            ],
+    public static function populateLevels(){
+        LEVELS = [
+            new Level(
+                "Level 1 yo...",
+                
+                [
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                ],
 
-            0,
-            60
-        )
-    ];
+                [
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]]
+                ],
+
+                0,
+                60
+            )
+        ];
+    }
 }

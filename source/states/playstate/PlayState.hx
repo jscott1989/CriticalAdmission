@@ -174,33 +174,50 @@ class PlayState extends FlxState {
      * Generate a collection of patients
      *
      * Ensure the game is winnable given the level and the objects in the scene
+     * Pffffft. "Ensure its winnable". Where's the fun in that?
      */
-    public static function generateLevel(level:Int, existingObjects:Array<String>):Level {
-        // // Target 40-60% health - TODO: Depend on level
-        // var targetHealth = 0.5;
+    public function generateLevel(level:Int, existingObjects:Array<String>):Level {
+    //     // Target 40-60% health - TODO: Depend on level
+    //     var targetHealth = 0.5;
 
-        // var patientSet = new Array<PatientInfo>();
+    //     var patientSet = new Array<PatientInfo>();
 
-        // // First generate a number of health patients with everything covered
-        // for (i in 0...9) {
-        //     // generate 9 patients
-        //     var p = new PatientInfo();
-        //     // Now swap things around to ensure the health of each patient is within the bounds
+    //     // First generate a number of healthy patients with everything covered
+    //     // TODO: Generate number based on level
+    //     for (i in 0...9) {
+    //         patientSet.push(generatePatientInfo());
+    //     }
 
-        //     //
-        //     p.initialQOL = p.getQOL();
-
-        //     patientSet.push(p);
-        // }
-
-        // // Now open the holes required
+    //     // Now open the holes required
 
 
-        // // Now generate the additional organs required that can't be gained from the bodies
+    //     // Now generate some additional organs
+    //     //TODO: balance/tie to difficulty
 
-        // return patientSet;
+    //     return new Level()
+
+    //     public function new(
+    //     text:String,
+    //     patients:Array<PatientInfo>,
+    //     interactables:Array<Array<Dynamic>>,
+    //     minimumImprovement:Int,
+    //     levelTime:Int
+    // )
         return null;
-    }
+     }
+
+    // public function generatePatientInfo(level:Int):PatientInfo{
+    //     // Target 40-60% health - TODO: Depend on level
+    //     var targetHealth = 0.5;
+
+    //     var p = new PatientInfo();
+    //     // Now swap things around to ensure the health of each patient is within the bounds
+
+    //     //
+    //     p.initialQOL = p.getQOL();
+
+    //     patientSet.push(p);
+    // }
 
 	override public function create():Void
 	{
@@ -237,6 +254,9 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
 
         spawnInteractable(new Clipboard());
+
+        //Set up level information
+        LEVELS.populateLevels();
 
 		super.create();
 
