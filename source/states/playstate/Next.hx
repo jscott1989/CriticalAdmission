@@ -11,7 +11,9 @@ import flixel.FlxG;
     }
 
     public override function interaction() {
-    	FlxG.sound.play(AssetPaths.button__wav);
-		PlayState.getInstance().nextPatient();
+    	if (Config.SUBTITLES_ON){
+	    	FlxG.sound.play(AssetPaths.button__wav);
+			PlayState.getInstance().nextPatient();
+		}
     }
  }

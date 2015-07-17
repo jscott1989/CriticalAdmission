@@ -462,7 +462,7 @@ class PlayState extends FlxState {
 			tannoyCounter += FlxG.elapsed;
 			if (tannoyCounter >= Config.SECONDS_BETWEEN_ANNOUNCEMENTS){
 				for (hole in holes){
-					if (Type.getClass(hole.interactable) == Tannoy){
+					if (Type.getClass(hole.interactable) == Tannoy && Config.SOUND_ON){
 						soundManager.playRandomSoundMap(Receptionist.ANNOUNCEMENTS);					
 					}
 				}

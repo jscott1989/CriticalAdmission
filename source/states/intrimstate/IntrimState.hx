@@ -65,6 +65,9 @@ class IntrimState extends FlxSubState {
     }
 
     private function clickPlay():Void {
-        close();
+        FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+            close();
+            FlxG.camera.stopFX();
+        });
     }
 }

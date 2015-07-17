@@ -16,6 +16,9 @@ class Config{
 
 	//USER SELECTED OPTIONS
 	public static var DIFFICULTY = Difficulty.Easy;
+	
+	public static var MUSIC_ON:Bool = true;
+	public static var SOUND_ON:Bool = true;
 	public static var SUBTITLES_ON:Bool = true;
 	
 }

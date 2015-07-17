@@ -38,10 +38,6 @@ class MenuState extends FlxState {
 		btnOptions.y = (FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2) + Config.BUTTON_Y_PADDING + BUTTON_HEIGHT;
 		add(btnOptions);
 
-		// btnQuit = Utils.createButton("Quit", clickQuit, 5, 30);
-		// btnQuit.screenCenter();
-		// add(btnQuit);
-
 		super.create();
 		
 	}
@@ -54,15 +50,9 @@ class MenuState extends FlxState {
 
 	private function clickOptions():Void {
 		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-			FlxG.switchState(PlayState.getInstance());
+			openSubState(new OptionState());
         });
 	}
-
-	// private function clickQuit():Void {
-	// 	FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-	// 		System.exit(0);
- //        });
-	// }
 	
 	/**
 	 * Function that is called when this state is destroyed - you might want to 
@@ -71,6 +61,7 @@ class MenuState extends FlxState {
 	override public function destroy():Void {
 		super.destroy();
 		btnPlay = FlxDestroyUtil.destroy(btnPlay);
+		btnOptions = FlxDestroyUtil.destroy(btnOptions);
 	}
 
 	/**
