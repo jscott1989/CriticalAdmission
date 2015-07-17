@@ -59,6 +59,17 @@ class HealthValues {
             "RightElbow" => 80,
             "LeftKnee" => 100,
             "RightKnee" => 100
+        ],
+
+        "" => [
+            "Heart" => 0,
+            "Brain" => 0,
+            "Lung" => 0,
+            "Guts" => 0,
+            "LeftElbow" => 0,
+            "RightElbow" => 0,
+            "LeftKnee" => 0,
+            "RightKnee" => 0
         ]
     ];
 }

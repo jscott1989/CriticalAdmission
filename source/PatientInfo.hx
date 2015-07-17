@@ -1,5 +1,8 @@
 package;
 
+import flixel.util.FlxRandom;
+import flixel.FlxG;
+
 /**
  * Contain stats about a patient
  *
@@ -72,7 +75,7 @@ package;
             this.hairColor = hairColor;
         }
 
-        // This is ugly, but we can't pass null because of hte optional arguments...
+        // This is ugly, but we can't pass null because of the optional arguments...
         if (brain == "") brain = null;
         if (heart == "") heart = null;
         if (lung == "") lung = null;
@@ -156,5 +159,60 @@ package;
 
     public function getRightKneeQOL() {
         return getQOLForHole(rightKnee, "RightKnee");
+    }
+
+    public function damageOrgans(target:Int){
+        var organs:Array<String> = [
+            "brain",
+            "heart",
+            "lung",
+            "guts",
+            "leftElbow",
+            "rightElbow",
+            "leftKnee",
+            "rightKnee",
+        ];
+
+        var damaged:Array<String> = [];
+
+        while(getQOL() > target+10){
+            FlxG.log.add(getQOL() +" > " + target+10);
+            var organ = FlxRandom.getObject(organs);
+            switch organ {
+                case "brain" : brain = newOrgan(); organs.remove("brain"); damaged.push("brain");
+                case "heart" : heart = newOrgan(); organs.remove("heart"); damaged.push("heart");
+                case "lung" : lung = newOrgan(); organs.remove("lung"); damaged.push("lung");
+                case "guts" : guts = newOrgan(); organs.remove("guts"); damaged.push("guts");
+                case "leftElbow" : leftElbow = newOrgan(); organs.remove("leftElbow"); damaged.push("leftElbow");
+                case "rightElbow" : rightElbow = newOrgan(); organs.remove("rightElbow"); damaged.push("rightElbow");
+                case "leftKnee" : leftKnee = newOrgan(); organs.remove("leftKnee"); damaged.push("leftKnee");
+                case "rightKnee" : rightKnee = newOrgan(); organs.remove("rightKnee"); damaged.push("rightKnee");
+            }
+        }
+
+        //Open up half of the damaged organs
+        var numberDamaged:Int = damaged.length;
+        while(damaged.length > numberDamaged/2){
+            var organ = FlxRandom.getObject(damaged);
+            switch organ {
+                case "brain" : brainCovered = false; damaged.remove("brain");
+                case "heart" : heartCovered = false; damaged.remove("heart");
+                case "lung" : lungCovered = false; damaged.remove("lung");
+                case "guts" : gutsCovered = false; damaged.remove("guts");
+                case "leftElbow" : leftElbowCovered = false; damaged.remove("leftElbow");
+                case "rightElbow" : rightElbowCovered = false; damaged.remove("rightElbow");
+                case "leftKnee" : leftKneeCovered = false; damaged.remove("leftKnee");
+                case "rightKnee" : rightKneeCovered = false; damaged.remove("rightKnee");
+            }
+        }
+    }
+
+    private function newOrgan(){
+        var organs = HealthValues.HEALTH_VALUES.keys();
+        var i:Int;
+        for(i in 0...Math.floor(Math.random()*Lambda.array(HealthValues.HEALTH_VALUES).length)-1){
+            organs.next();
+        }
+        return organs.next();
     }
  }

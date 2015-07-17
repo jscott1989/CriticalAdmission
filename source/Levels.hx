@@ -24,7 +24,7 @@ class Levels {
     public static var LEVELS:Array<Level>;
 
     public static function populateLevels(){
-        LEVELS = [
+        LEVELS = [];/*
             new Level(
                 "Level 1 yo...",
                 
@@ -56,5 +56,6 @@ class Levels {
                 60
             )
         ];
+        */
     }
 }

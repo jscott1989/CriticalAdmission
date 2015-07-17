@@ -177,47 +177,56 @@ class PlayState extends FlxState {
      * Pffffft. "Ensure its winnable". Where's the fun in that?
      */
     public function generateLevel(level:Int, existingObjects:Array<String>):Level {
+        //Level text
+        //TODO: randomise some quotes
+        var text:String = "Some generic level text";
+
         // Target 40-60% health - TODO: Depend on level
-        var targetHealth = 0.5;
+        var targetHealth:Float = 0.5;
 
-        var patientSet = new Array<PatientInfo>();
+        var patients:Array<PatientInfo> = new Array<PatientInfo>();
 
-        // First generate a number of healthy patients with everything covered
+        // Generate the first X patients to be seen that level
         // TODO: Generate number based on level
         for (i in 0...9) {
-            //patientSet.push(generatePatientInfo());
+            patients.push(generatePatientInfo(level));
         }
-
-        // Now open the holes required
-
 
         // Now generate some additional organs
         //TODO: balance/tie to difficulty
+        var interactables:Array<Array<Dynamic>> = [
+            ["Organ", ["Heart"]],
+            ["Organ", ["Heart"]],
+        ];
+        
+        // Calculate improvment required
+        //TODO: balance/tie to difficulty
+        var minimumImprovement:Int = 10;
 
-        // return new Level()
+        // Calculate time per patient
+        //TODO: balance/tie to difficulty
+        var levelTime:Int = 15;
 
-        // public function new(
-        // text:String,
-        // patients:Array<PatientInfo>,
-        // interactables:Array<Array<Dynamic>>,
-        // minimumImprovement:Int,
-        // levelTime:Int
-    // )
-        return null;
+        return new Level(text, patients, interactables, minimumImprovement, levelTime);
      }
 
-    // public function generatePatientInfo(level:Int):PatientInfo{
-    //     // Target 40-60% health - TODO: Depend on level
-    //     var targetHealth = 0.5;
+    private function generatePatientInfo(level:Int):PatientInfo{
+        // Target 40-60% health - TODO: Depend on level
+        var targetHealth:Int = 50;
 
-    //     var p = new PatientInfo();
-    //     // Now swap things around to ensure the health of each patient is within the bounds
+        var patient = new PatientInfo();
+        
+        //var damaged
+        // Now swap things around to ensure the health of each patient is within the bounds
+        patient.damageOrgans(targetHealth);
+        //
+        patient.initialQOL = patient.getQOL();
 
-    //     //
-    //     p.initialQOL = p.getQOL();
 
-    //     patientSet.push(p);
-    // }
+        // Now open the holes required
+
+        return patient;
+    }
 
 	override public function create():Void
 	{
