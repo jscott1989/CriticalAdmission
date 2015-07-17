@@ -179,14 +179,14 @@ import flixel.FlxG;
             FlxG.log.add(getQOL() +" > " + target+10);
             var organ = FlxRandom.getObject(organs);
             switch organ {
-                case "brain" : brain = newOrgan(); organs.remove("brain"); damaged.push("brain");
-                case "heart" : heart = newOrgan(); organs.remove("heart"); damaged.push("heart");
-                case "lung" : lung = newOrgan(); organs.remove("lung"); damaged.push("lung");
-                case "guts" : guts = newOrgan(); organs.remove("guts"); damaged.push("guts");
-                case "leftElbow" : leftElbow = newOrgan(); organs.remove("leftElbow"); damaged.push("leftElbow");
-                case "rightElbow" : rightElbow = newOrgan(); organs.remove("rightElbow"); damaged.push("rightElbow");
-                case "leftKnee" : leftKnee = newOrgan(); organs.remove("leftKnee"); damaged.push("leftKnee");
-                case "rightKnee" : rightKnee = newOrgan(); organs.remove("rightKnee"); damaged.push("rightKnee");
+                case "brain" : brain = newOrgan(); organs.remove("brain"); if(damaged.indexOf("brain") == -1){damaged.push("brain");}
+                case "heart" : heart = newOrgan(); organs.remove("heart"); if(damaged.indexOf("heart") == -1){damaged.push("heart");}
+                case "lung" : lung = newOrgan(); organs.remove("lung"); if(damaged.indexOf("lung") == -1){damaged.push("lung");}
+                case "guts" : guts = newOrgan(); organs.remove("guts"); if(damaged.indexOf("guts") == -1){damaged.push("guts");}
+                case "leftElbow" : leftElbow = newOrgan(); organs.remove("leftElbow"); if(damaged.indexOf("leftElbow") == -1){damaged.push("leftElbow");}
+                case "rightElbow" : rightElbow = newOrgan(); organs.remove("rightElbow"); if(damaged.indexOf("rightElbow") == -1){damaged.push("rightElbow");}
+                case "leftKnee" : leftKnee = newOrgan(); organs.remove("leftKnee"); if(damaged.indexOf("leftKnee") == -1){damaged.push("leftKnee");}
+                case "rightKnee" : rightKnee = newOrgan(); organs.remove("rightKnee"); if(damaged.indexOf("rightKnee") == -1){damaged.push("rightKnee");}
             }
         }
 
