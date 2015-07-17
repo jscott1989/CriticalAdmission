@@ -15,7 +15,7 @@ import sounds.SoundManager;
 import sounds.speech.Receptionist;
 import states.GameOverState;
 import states.intrimstate.IntrimState;
-import Levels.Level;
+import Levels;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -177,31 +177,31 @@ class PlayState extends FlxState {
      * Pffffft. "Ensure its winnable". Where's the fun in that?
      */
     public function generateLevel(level:Int, existingObjects:Array<String>):Level {
-    //     // Target 40-60% health - TODO: Depend on level
-    //     var targetHealth = 0.5;
+        // Target 40-60% health - TODO: Depend on level
+        var targetHealth = 0.5;
 
-    //     var patientSet = new Array<PatientInfo>();
+        var patientSet = new Array<PatientInfo>();
 
-    //     // First generate a number of healthy patients with everything covered
-    //     // TODO: Generate number based on level
-    //     for (i in 0...9) {
-    //         patientSet.push(generatePatientInfo());
-    //     }
+        // First generate a number of healthy patients with everything covered
+        // TODO: Generate number based on level
+        for (i in 0...9) {
+            //patientSet.push(generatePatientInfo());
+        }
 
-    //     // Now open the holes required
+        // Now open the holes required
 
 
-    //     // Now generate some additional organs
-    //     //TODO: balance/tie to difficulty
+        // Now generate some additional organs
+        //TODO: balance/tie to difficulty
 
-    //     return new Level()
+        // return new Level()
 
-    //     public function new(
-    //     text:String,
-    //     patients:Array<PatientInfo>,
-    //     interactables:Array<Array<Dynamic>>,
-    //     minimumImprovement:Int,
-    //     levelTime:Int
+        // public function new(
+        // text:String,
+        // patients:Array<PatientInfo>,
+        // interactables:Array<Array<Dynamic>>,
+        // minimumImprovement:Int,
+        // levelTime:Int
     // )
         return null;
      }
@@ -256,7 +256,7 @@ class PlayState extends FlxState {
         spawnInteractable(new Clipboard());
 
         //Set up level information
-        LEVELS.populateLevels();
+        Levels.populateLevels();
 
 		super.create();
 

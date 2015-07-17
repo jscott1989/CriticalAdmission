@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
 import states.playstate.PlayState;
-
+import Levels;
 using flixel.util.FlxSpriteUtil;
 
 /**
@@ -41,7 +41,7 @@ class GameOverState extends FlxSubState {
         FlxG.camera.stopFX();
 
         //Reset level information
-        LEVELS.populateLevels();
+        Levels.populateLevels();
 	}
 
 	private function clickMenu():Void {
