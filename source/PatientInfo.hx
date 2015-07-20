@@ -204,6 +204,23 @@ import flixel.FlxG;
                 case "rightKnee" : rightKneeCovered = false; damaged.remove("rightKnee");
             }
         }
+
+        //Open up between zero and half of the "good" organs
+        var toOpen = FlxRandom.intRanged(0, Std.int((8-numberDamaged)/2));
+        var goodOrgans = organs.filter(function(o){return damaged.indexOf(o) == -1;});
+        for (i in 0...toOpen) {
+            var organ = FlxRandom.getObject(goodOrgans);
+            switch organ {
+                case "brain" : brainCovered = false; goodOrgans.remove("brain");
+                case "heart" : heartCovered = false; goodOrgans.remove("heart");
+                case "lung" : lungCovered = false; goodOrgans.remove("lung");
+                case "guts" : gutsCovered = false; goodOrgans.remove("guts");
+                case "leftElbow" : leftElbowCovered = false; goodOrgans.remove("leftElbow");
+                case "rightElbow" : rightElbowCovered = false; goodOrgans.remove("rightElbow");
+                case "leftKnee" : leftKneeCovered = false; goodOrgans.remove("leftKnee");
+                case "rightKnee" : rightKneeCovered = false; goodOrgans.remove("rightKnee");
+            }
+        }
     }
 
     private function newOrgan(){
