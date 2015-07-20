@@ -175,24 +175,23 @@ import flixel.FlxG;
 
         var damaged:Array<String> = [];
 
-        while(getQOL() > target+10){
-            FlxG.log.add(getQOL() +" > " + target+10);
+        while(getQOL() > (target+10)){
             var organ = FlxRandom.getObject(organs);
             switch organ {
-                case "brain" : brain = newOrgan(); organs.remove("brain"); if(damaged.indexOf("brain") == -1){damaged.push("brain");}
-                case "heart" : heart = newOrgan(); organs.remove("heart"); if(damaged.indexOf("heart") == -1){damaged.push("heart");}
-                case "lung" : lung = newOrgan(); organs.remove("lung"); if(damaged.indexOf("lung") == -1){damaged.push("lung");}
-                case "guts" : guts = newOrgan(); organs.remove("guts"); if(damaged.indexOf("guts") == -1){damaged.push("guts");}
-                case "leftElbow" : leftElbow = newOrgan(); organs.remove("leftElbow"); if(damaged.indexOf("leftElbow") == -1){damaged.push("leftElbow");}
-                case "rightElbow" : rightElbow = newOrgan(); organs.remove("rightElbow"); if(damaged.indexOf("rightElbow") == -1){damaged.push("rightElbow");}
-                case "leftKnee" : leftKnee = newOrgan(); organs.remove("leftKnee"); if(damaged.indexOf("leftKnee") == -1){damaged.push("leftKnee");}
-                case "rightKnee" : rightKnee = newOrgan(); organs.remove("rightKnee"); if(damaged.indexOf("rightKnee") == -1){damaged.push("rightKnee");}
+                case "brain" : brain = newOrgan(); if(damaged.indexOf("brain") == -1){damaged.push("brain");}
+                case "heart" : heart = newOrgan(); if(damaged.indexOf("heart") == -1){damaged.push("heart");}
+                case "lung" : lung = newOrgan(); if(damaged.indexOf("lung") == -1){damaged.push("lung");}
+                case "guts" : guts = newOrgan(); if(damaged.indexOf("guts") == -1){damaged.push("guts");}
+                case "leftElbow" : leftElbow = newOrgan(); if(damaged.indexOf("leftElbow") == -1){damaged.push("leftElbow");}
+                case "rightElbow" : rightElbow = newOrgan(); if(damaged.indexOf("rightElbow") == -1){damaged.push("rightElbow");}
+                case "leftKnee" : leftKnee = newOrgan(); if(damaged.indexOf("leftKnee") == -1){damaged.push("leftKnee");}
+                case "rightKnee" : rightKnee = newOrgan(); if(damaged.indexOf("rightKnee") == -1){damaged.push("rightKnee");}
             }
         }
 
         //Open up half of the damaged organs
         var numberDamaged:Int = damaged.length;
-        while(damaged.length > numberDamaged/2){
+        while(damaged.length > numberDamaged/2 && damaged.length > 0){
             var organ = FlxRandom.getObject(damaged);
             switch organ {
                 case "brain" : brainCovered = false; damaged.remove("brain");
