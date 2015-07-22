@@ -150,7 +150,6 @@ package states.playstate;
     }
 
     public function startHighlight() {
-        FlxG.log.add("start highlight");
         if (highlightSprite != null) {
             add(highlightSprite);
             highlightSprite.x = x;

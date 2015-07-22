@@ -15,8 +15,9 @@ package states.playstate;
     }
 
     override function update() {
-        if (PlayState.getInstance().incomingPatients.length != number) {
-            number = PlayState.getInstance().incomingPatients.length;
+        var x = (PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length);
+        if (x != number) {
+            number = x;
             loadGraphic("assets/images/PatientCounter" + number + ".png");
         }
     }

@@ -60,6 +60,7 @@ class PlayState extends FlxState {
 
 	//What patients are incoming this level
 	public var incomingPatients = new Array<PatientInfo>();
+    public var patientsToTreat = 9;
 
 	//Store all the patients "fixed" this level for interim screen
 	public var treatedPatients = new Array<PatientInfo>();
@@ -116,6 +117,31 @@ class PlayState extends FlxState {
 
     public static inline function clearInstance() {
         instance = null;
+    }
+
+    public function findInteractables(type:String) {
+        var interactables = new Array<Interactable>();
+        for (member in members) {
+            if (Type.getClass(member) == Organ) {
+                var o:Organ = cast member;
+                if (o.type == type) {
+                    interactables.push(o);
+                }
+            } else if (Type.getSuperClass(Type.getClass(member)) == UIElement) {
+                if (Type.getClassName(Type.getClass(member)) == type) {
+                    var i:Interactable = cast member;
+                    interactables.push(i);
+                }
+            }
+        }
+        return interactables;
+    }
+
+    public function findInteractable(type:String) {
+        var interactables = findInteractables(type);
+        if (interactables.length > 0)
+            return interactables[0];
+        return null;
     }
 
     /**
@@ -297,7 +323,7 @@ class PlayState extends FlxState {
 	 */
 	public function clockFinished() {
         clockActive = false;
-        removePatient(addNewPatient);
+        killPatient();
 	}
 
     public function levelComplete(fade:Bool = true) {
@@ -657,7 +683,18 @@ class PlayState extends FlxState {
 			// If we have one, get rid of them first
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
 				treatedPatients.push(patient.info);
-				//Destroy patient here or once the score is displayed?
+
+                // Now we adjust reputation accordingly. There should be
+                // A very big drop for making someone worse, but a very minor
+                // improvement for making someone better
+                var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
+
+                if (improvement >= 0) {
+                    changeReputation(Std.int(improvement));
+                } else {
+                    changeReputation(Std.int(improvement * 2));
+                }
+
 				destroyPatient();
 				//If not here, better destroy them all in start_new
 				callback();
@@ -667,6 +704,60 @@ class PlayState extends FlxState {
 			callback();
 		}
 	}
+
+    function changeReputation(change: Int) {
+        reputation += change;
+
+        // TODO: Play a sound appropriate to the reputation change
+
+        // Show the level of reputation change
+        var changeText:String = Std.string(change);
+        if (change >= 0) {
+            changeText = "+" + changeText;
+        }
+
+        // We're going to put the text near the reputation level
+        var p = findInteractable("states.playstate.PressureGauge");
+
+        if (p != null) {
+            var x = p.x + p.width / 2;
+            var y = p.y + p.height / 2;
+
+            x += Std.random(300) - 150;
+            y += Std.random(300) - 150;
+
+            var text = new FlxText(x, y, null, changeText, 100);
+            text.color = FlxColor.RED;
+            if (change >= 0) {
+                text.color = FlxColor.GREEN;
+            }
+            add(text);
+
+            var self = this;
+
+            Timer.delay(function f() {
+                self.remove(text, true);
+            }, 500);
+        }
+    }
+
+    /**
+     * The patient has died
+     */
+    public function killPatient() {
+        // TODO: Make them look dead
+        FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
+            var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
+
+            if (improvement < 0) {
+                changeReputation(Std.int(improvement * 2));
+            }
+
+            changeReputation(0 - Std.int(reputation / 2));
+
+            destroyPatient();
+        }});
+    }
 
 	/**
 	 * Call for the next patient
@@ -682,19 +773,6 @@ class PlayState extends FlxState {
 	 * Remove the patient from memory
 	 */
 	public function destroyPatient() {
-        // Now we adjust reputation accordingly. There should be
-        // A very big drop for making someone worse, but a very minor
-        // improvement for making someone better
-
-        var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
-
-        if (improvement >= 0) {
-            reputation += Std.int(improvement);
-        } else {
-            reputation += Std.int(improvement * 2);
-        }
-
-
         if (reputation <= 0) { 
             // Game Over
             FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {

@@ -33,9 +33,6 @@
     }
 
     override public function addInteractable(interactable:Interactable, position:Bool = true) {
-        FlxG.log.add(patient.info);
-        FlxG.log.add(variableName);
-        FlxG.log.add(interactable.type);
         Reflect.setField(patient.info, variableName, interactable.type);
         super.addInteractable(interactable, position);
     }
