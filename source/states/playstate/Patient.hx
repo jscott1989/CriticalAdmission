@@ -111,6 +111,14 @@ package states.playstate;
         }
     }
 
+    public function die() {
+        if (info.isMale) {
+            bodySprite.loadGraphic("assets/images/Man" + info.bodySprite + "-dead.png");
+        } else {
+            bodySprite.loadGraphic("assets/images/Woman" + info.bodySprite + "-dead.png");
+        }
+    }
+
     public static inline function createInteractable(organType:String=null) {
         if (organType == null) {
             return null;

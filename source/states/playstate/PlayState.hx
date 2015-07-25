@@ -766,7 +766,7 @@ class PlayState extends FlxState {
      * The patient has died
      */
     public function killPatient() {
-        // TODO: Make them look dead
+        patient.die();
         addingPatient = true;
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
