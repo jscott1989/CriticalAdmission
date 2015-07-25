@@ -767,7 +767,9 @@ class PlayState extends FlxState {
      */
     public function killPatient() {
         // TODO: Make them look dead
+        addingPatient = true;
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
+            addingPatient = false;
             var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
 
             if (improvement < 0) {
@@ -785,6 +787,7 @@ class PlayState extends FlxState {
 	 */
 	public function nextPatient() {
 		if (!addingPatient && isActive) { // Avoid spamming patients
+            clockActive = false;
 			addingPatient = true;
 			removePatient(addNewPatient);
 		}
