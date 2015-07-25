@@ -2,15 +2,11 @@ package sounds;
 
 import flixel.FlxG;
 import flixel.system.FlxSound;
-import flixel.util.FlxRandom;
+import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxTimer;
-import flixel.text.FlxText;
-
-import Config;
 import states.playstate.PlayState;
-
-
+import states.playstate.Tannoy;
 
 /**
 * SoundManager for generating sounds and subtitles
@@ -52,7 +48,7 @@ class SoundManager {
 		subtitle = FlxDestroyUtil.destroy(subtitle);
 	}
 
-	public function playRandomSoundMap(soundMap:Map<String, String>, prefixSound=null){
+	public function playRandomSoundMap(soundMap:Map<String, String>, tannoy:Tannoy=null){
 		var keys = soundMap.keys();
 		var i:Int;
 		for(i in 0...Math.floor(Math.random()*Lambda.array(soundMap).length)-1){
@@ -62,15 +58,19 @@ class SoundManager {
 		var value:String = soundMap.get(key);
 
 
-		var tannoy:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
-		tannoy.volume = 0.2;
-		tannoy.onComplete = function(){
+		var tannoySound:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
+		tannoySound.volume = 0.2;
+		tannoy.startPlaying();
+		tannoySound.onComplete = function(){
 			var speech:FlxSound = FlxG.sound.load(key);
 			speech.volume = 70;
+			speech.onComplete = function() {
+				tannoy.stopPlaying();
+			};
 			speech.play();
-			tannoy.onComplete = null;
+			tannoySound.onComplete = null;
 		};
-		tannoy.play();
+		tannoySound.play();
 
 		if (Config.SUBTITLES_ON){
 			createSubtitle(value);
