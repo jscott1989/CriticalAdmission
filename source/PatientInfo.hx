@@ -223,8 +223,12 @@ import states.playstate.Interactable;
         }
     }
 
+    private var possibleInteractables = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
+
     private function newInteractable(){
-        var possible = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
-        return possible.pop();
+        if (possibleInteractables.length == 0) {
+            possibleInteractables = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
+        }
+        return possibleInteractables.pop();
     }
  }

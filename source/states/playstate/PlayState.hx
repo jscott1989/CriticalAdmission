@@ -275,7 +275,7 @@ class PlayState extends FlxState {
         table.loadGraphic("assets/images/Table.png");
         add(table);
 
-        cat = new Cat(100, 100);
+        cat = new Cat(Std.random(FlxG.width), FlxG.height);
         watchInteractable(cat);
 
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
