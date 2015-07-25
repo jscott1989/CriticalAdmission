@@ -61,7 +61,7 @@ class PlayState extends FlxState {
 
 	//What patients are incoming this level
 	public var incomingPatients = new Array<PatientInfo>();
-    public var patientsToTreat = 9;
+    public var patientsToTreat = 0;
 
 	//Store all the patients "fixed" this level for interim screen
 	public var treatedPatients = new Array<PatientInfo>();
@@ -287,7 +287,7 @@ class PlayState extends FlxState {
  		// Set up UI holes
         spawnUIHole(new UIHole(new Next()), 0, 0);
         spawnUIHole(new UIHole(new Tannoy()), 0, 1);
-        // spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
+        spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
         spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
@@ -365,6 +365,11 @@ class PlayState extends FlxState {
         // Reset the clock
         clockActive = false;
         seconds_remaining = 0;
+        patientsToTreat += 9;
+
+        if (patient != null) {
+            destroyPatient();
+        }
         
         addingPatient = false;
 		currentLevel++;
@@ -716,6 +721,10 @@ class PlayState extends FlxState {
                     changeReputation(Std.int(improvement * 2));
                 }
 
+                if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
+                    levelComplete();
+                }
+
 				destroyPatient();
 				//If not here, better destroy them all in start_new
 				callback();
@@ -833,24 +842,28 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
+        if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
+            // We don't add one if the level is complete
+            return;
+        }
 
         if (incomingPatients.length == 0) {
-            levelComplete();
+            patient = new Patient(generatePatientInfo(currentLevel), 300, FlxG.height);
         } else {
     		patient = new Patient(incomingPatients.shift(), 300, FlxG.height);
-
-    		// Add to renderer
-    		add(patient);
-
-    		// Add each hole
-    		for (hole in patient.holes) {
-     			watchHole(hole);
-     		}
-
-     		// Move on to screen
-     		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
-            seconds_remaining = levelTime;
-            clockActive = true;
         }
+
+		// Add to renderer
+		add(patient);
+
+		// Add each hole
+		for (hole in patient.holes) {
+ 			watchHole(hole);
+ 		}
+
+ 		// Move on to screen
+ 		FlxTween.tween(patient, {y: 20}, 1, {"complete": patientAdded});
+        seconds_remaining = levelTime;
+        clockActive = true;
 	}
 }
