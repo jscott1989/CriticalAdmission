@@ -32,7 +32,7 @@ class IntrimState extends FlxSubState {
         var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 100);
         add(dayText);
 
-        var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "            Patients treated: " + state.treatedPatients.length, 50);
+        var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 50);
         add(infoText);
 
         var levelText = new FlxText(50, 400, 0, PlayState.getInstance().levelText, 50);
@@ -66,6 +66,7 @@ class IntrimState extends FlxSubState {
 
     private function clickPlay():Void {
         FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+            PlayState.getInstance().isActive = true;
             close();
             FlxG.camera.stopFX();
         });

@@ -15,6 +15,7 @@ import sounds.SoundManager;
 import sounds.speech.Receptionist;
 import states.GameOverState;
 import states.intrimstate.IntrimState;
+import states.PauseState;
 import Levels;
 
 using flixel.util.FlxSpriteUtil;
@@ -65,7 +66,7 @@ class PlayState extends FlxState {
 	//Store all the patients "fixed" this level for interim screen
 	public var treatedPatients = new Array<PatientInfo>();
 
-	private var isActive:Bool = false; // is the scene playing?
+	public var isActive:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
 
 	// General scene items
@@ -286,7 +287,8 @@ class PlayState extends FlxState {
 
         spawnUIHole(new UIHole(new Clock(), true), 1, 0);
         spawnUIHole(new UIHole(new PressureGauge(), true), 1, 1);
-        spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
+        // spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
+        spawnUIHole(new UIHole(new Pause(), true), 1, 2);
 
         spawnInteractable(new Clipboard());
 
@@ -337,6 +339,17 @@ class PlayState extends FlxState {
         }
     }
 
+    public function pause(fade:Bool = true) {
+        isActive = false;
+        if (fade) {
+            FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                openSubState(new PauseState());
+            });
+        } else {
+            openSubState(new PauseState());
+        }
+    }
+
 	/**
 	 * Start the next level
 	 */
@@ -347,8 +360,7 @@ class PlayState extends FlxState {
         // Reset the clock
         clockActive = false;
         seconds_remaining = 0;
-
-		isActive = true;
+        
         addingPatient = false;
 		currentLevel++;
         var level:Level;
@@ -573,25 +585,27 @@ class PlayState extends FlxState {
 	 * There has been a mouse press on an organ
 	 */
 	function onMouseDownInteractable(sprite:FlxSprite) {
-		drag_started = Timer.stamp();
-		seconds_since_drip = 0;
-		dragging = cast sprite;
-        dragging.dragging = true;
+        if (isActive) {
+    		drag_started = Timer.stamp();
+    		seconds_since_drip = 0;
+    		dragging = cast sprite;
+            dragging.dragging = true;
 
-        if (dragging.fixedDragOffset != null) {
-            drag_offset = dragging.fixedDragOffset;
-            FlxTween.tween(dragging, {x: FlxG.mouse.x + drag_offset.x, y: FlxG.mouse.y + drag_offset.y}, 0.1);
-        } else {
-            drag_offset = new FlxPoint(dragging.x - FlxG.mouse.x, dragging.y - FlxG.mouse.y);
+            if (dragging.fixedDragOffset != null) {
+                drag_offset = dragging.fixedDragOffset;
+                FlxTween.tween(dragging, {x: FlxG.mouse.x + drag_offset.x, y: FlxG.mouse.y + drag_offset.y}, 0.1);
+            } else {
+                drag_offset = new FlxPoint(dragging.x - FlxG.mouse.x, dragging.y - FlxG.mouse.y);
+            }
+
+            
+            // Record the position
+            dragLastHole = dragging.getHole();
+            dragLastPoint = new Point(dragging.x, dragging.y);
+
+    		// Make it bigger when grabbed
+    		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
         }
-
-        
-        // Record the position
-        dragLastHole = dragging.getHole();
-        dragLastPoint = new Point(dragging.x, dragging.y);
-
-		// Make it bigger when grabbed
-		FlxTween.tween(dragging.scale, {x: GRABBED_SCALE, y: GRABBED_SCALE}, 0.1);
 	}
 
 	/**
