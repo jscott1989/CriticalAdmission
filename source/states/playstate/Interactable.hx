@@ -12,6 +12,58 @@ package states.playstate;
         "Knee", "Elbow", "Tannoy"
     ];
 
+    public static var ORGANS = [
+        "Brain",
+        "Elbow",
+        "Guts",
+        "Heart",
+        "Knee",
+        "Lung"
+    ];
+
+    public static var PROSTHETICS = [
+        "ArtificialJoint",
+        "MetalGuts",
+        "MetalLungs"
+        "Pacemaker",
+        "PositronicBrain"
+    ];
+
+    public static var UIELEMENTS = [
+        "Clipboard",
+        "Clock",
+        "MedicalBook",
+        "Next",
+        "PressureGauge",
+        "Scalpel"
+    ];
+
+    public static var JUNK = [
+        "AlarmClock",
+        "AmericanFootball",
+        "Balloon",
+        "Basketball",
+        "Drugs",
+        "Football",
+        "GlassShard",
+        "Granade",
+        "HosePipe",
+        "Knife",
+        "MobilePhone",
+        "Radio",
+        "RubberBands",
+        "RubberDuck",
+        "Spring",
+        "Stethoscope",
+        "TennisBall",
+        "TinCan",
+        "WindshieldWiper"
+    ];
+
+    public static var SPECIAL = [
+        "Cat"
+    ];
+
     // The hole it's contained in (if any)
     private var hole:Hole;
 
