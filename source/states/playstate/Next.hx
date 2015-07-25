@@ -6,8 +6,8 @@ import flixel.FlxG;
  */
  class Next extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Next", X, Y);
+    public function new()  {
+        super("Next");
     }
 
     public override function interaction() {

@@ -8,7 +8,7 @@ package states.playstate;
  */
  class Radio extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Radio", X, Y);
+    public function new()  {
+        super("Radio");
     }
  }

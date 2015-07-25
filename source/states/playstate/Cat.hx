@@ -13,8 +13,8 @@ package states.playstate;
     private var isMoving:Bool = false;
     private var movingTween:FlxTween;
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Cat", X, Y);
+    public function new()  {
+        super("Cat");
     }
 
     public override function update() {

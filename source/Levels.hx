@@ -2,6 +2,7 @@ class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
     public var interactables:Array<Array<Dynamic>>;
+    public var uiElements:Array<String>;
     public var minimumImprovement:Int;
     public var levelTime:Int;
 
@@ -9,12 +10,14 @@ class Level {
         text:String,
         patients:Array<PatientInfo>,
         interactables:Array<Array<Dynamic>>,
+        uiElements:Array<String>,
         minimumImprovement:Int,
         levelTime:Int
     )  {
         this.text = text;
         this.patients = patients;
         this.interactables = interactables;
+        this.uiElements = uiElements;
         this.minimumImprovement = minimumImprovement;
         this.levelTime = levelTime;
     }
@@ -52,8 +55,30 @@ class Levels {
                     ["Organ", ["Heart"]]
                 ],
 
+                [
+                    "Next"
+                ],
+
                 0,
                 6000
+            ),
+            new Level(
+                    "Level 2...",
+                    
+                    [
+                    ],
+
+                    [
+                        ["Interactable", ["Balloon"]],
+                    ],
+
+                    [
+                        "PatientCounter",
+                        "MedicalBook"
+                    ],
+
+                    0,
+                    6000
             )
         ];
     }

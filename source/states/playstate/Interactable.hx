@@ -82,7 +82,6 @@ package states.playstate;
     public function new(type:String, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.type = type;
-        FlxG.log.add("A");
         this.label = Utils.splitCamelCase(type);
         this.canBeFlipped = flippableInteractables.lastIndexOf(type) != -1;
         // Load the correct type onto this sprite

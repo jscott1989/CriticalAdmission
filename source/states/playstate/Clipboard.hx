@@ -12,8 +12,8 @@ package states.playstate;
     private var qol_text:FlxText;
     private var improvement_text:FlxText;
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Clipboard", X, Y);
+    public function new()  {
+        super("Clipboard");
 
         name_text = new FlxText(0, 0, width); // x, y, width
         name_text.alignment = "center";

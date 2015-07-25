@@ -10,8 +10,8 @@ package states.playstate;
 
     private var number = 8;
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("PressureGauge", X, Y);
+    public function new()  {
+        super("PressureGauge");
     }
 
     override function update() {

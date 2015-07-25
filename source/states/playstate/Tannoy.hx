@@ -8,8 +8,8 @@ package states.playstate;
  */
  class Tannoy extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Tannoy", X, Y);
+    public function new()  {
+        super("Tannoy");
     }
 
     public function startPlaying() {

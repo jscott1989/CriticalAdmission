@@ -236,7 +236,7 @@ class PlayState extends FlxState {
         //TODO: balance/tie to difficulty
         var levelTime:Int = 15;
 
-        return new Level(text, patients, interactables, minimumImprovement, levelTime);
+        return new Level(text, patients, interactables, [], minimumImprovement, levelTime);
      }
 
     private function generatePatientInfo(level:Int):PatientInfo{
@@ -275,7 +275,9 @@ class PlayState extends FlxState {
         table.loadGraphic("assets/images/Table.png");
         add(table);
 
-        cat = new Cat(Std.random(FlxG.width), FlxG.height);
+        cat = new Cat();
+        cat.x = Std.random(FlxG.width);
+        cat.y = FlxG.height;
         watchInteractable(cat);
 
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
@@ -285,17 +287,13 @@ class PlayState extends FlxState {
         add(tooltipSprite);
  		
  		// Set up UI holes
-        spawnUIHole(new UIHole(new Next()), 0, 0);
-        spawnUIHole(new UIHole(new Tannoy()), 0, 1);
-        spawnUIHole(new UIHole(new MedicalBook()), 0, 1);
-        spawnUIHole(new UIHole(new PatientCounter()), 0, 2);
+        spawnUIHole(new UIHole(), 0, 0);
+        spawnUIHole(new UIHole(), 0, 1);
+        spawnUIHole(new UIHole(), 0, 2);
 
-        spawnUIHole(new UIHole(new Clock(), true), 1, 0);
-        spawnUIHole(new UIHole(new PressureGauge(), true), 1, 1);
-        // spawnUIHole(new UIHole(new Scalpel(), true), 1, 2);
-        spawnUIHole(new UIHole(new Pause(), true), 1, 2);
-
-        spawnInteractable(new Clipboard());
+        spawnUIHole(new UIHole(true), 1, 0);
+        spawnUIHole(new UIHole(true), 1, 1);
+        spawnUIHole(new UIHole(true), 1, 2);
 
         //Set up level information
         Levels.populateLevels();
@@ -323,6 +321,17 @@ class PlayState extends FlxState {
         interactable.x = table.x + Std.random(Std.int(table.width - interactable.width));
         interactable.y = table.y + Std.random(Std.int(table.height - interactable.height));
         watchInteractable(interactable);
+    }
+
+
+    private function spawnUIElement(interactable:Interactable) { 
+        spawnInteractable(interactable);
+        for (hole in holes) {
+            if (hole.interactable == null) {
+                hole.addInteractable(interactable);
+                return;
+            }
+        }
     }
 
 	/**
@@ -382,11 +391,18 @@ class PlayState extends FlxState {
         }
 
         incomingPatients = level.patients;
+
+        while (incomingPatients.length < 9) {
+            incomingPatients.push(generatePatientInfo(currentLevel));
+        }
+
         minimumImprovement = level.minimumImprovement;
         levelTime = level.levelTime;
         levelText = level.text;
 
 		generateNewInteractables(level.interactables);
+        generateNewUIElements(level.uiElements);
+
         saveState();
 	}
 
@@ -835,8 +851,25 @@ class PlayState extends FlxState {
             var t:Interactable = Type.createInstance(Type.resolveClass("states.playstate." + i[0]), i[1]);
             spawnInteractable(t);
         }
- 		
 	}
+
+    public function generateNewUIElements(interactables: Array<String>){
+        // We have to reference all of the UIElement classes so that they're compiled
+        Clipboard;
+        Clock;
+        MedicalBook;
+        Next;
+        PatientCounter;
+        Pause;
+        PressureGauge;
+        Radio;
+        Tannoy;
+
+        for (i in interactables) {
+            var t:Interactable = Type.createInstance(Type.resolveClass("states.playstate." + i), []);
+            spawnUIElement(t);
+        }
+    }
 
 	/**
 	 * Generate a new patient and tween them on to the screen. */

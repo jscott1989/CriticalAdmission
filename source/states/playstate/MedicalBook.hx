@@ -10,8 +10,8 @@ import flixel.util.FlxColor;
 
     private var text:FlxText;
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("MedicalBook", X, Y);
+    public function new()  {
+        super("MedicalBook");
 
         text = new FlxText(x, y, width);
         text.alignment = "center";

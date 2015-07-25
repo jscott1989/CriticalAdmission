@@ -10,8 +10,8 @@ package states.playstate;
 
     private var number = 9;
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("PatientCounter", X, Y);
+    public function new()  {
+        super("PatientCounter");
     }
 
     override function update() {

@@ -6,8 +6,8 @@ import flixel.FlxG;
  */
  class Pause extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Pause", X, Y);
+    public function new()  {
+        super("Pause");
     }
 
     public override function interaction() {
