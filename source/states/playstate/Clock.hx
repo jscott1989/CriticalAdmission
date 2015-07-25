@@ -18,7 +18,7 @@ package states.playstate;
 
         // Add some text to the state, and then we can make the text
         // follow the clock sprite
-        text = new FlxText(0, 0, width); // x, y, width
+        text = new FlxText(0, 0, width);
         text.alignment = "center";
         text.color = FlxColor.BLACK;
         text.size = 40;
