@@ -65,6 +65,8 @@ package states.playstate;
         "Cat"
     ];
 
+    public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
+
     // The hole it's contained in (if any)
     private var hole:Hole;
 

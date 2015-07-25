@@ -1,7 +1,7 @@
 package;
 
 import flixel.util.FlxRandom;
-import flixel.FlxG;
+import states.playstate.Interactable;
 
 /**
  * Contain stats about a patient
@@ -178,14 +178,14 @@ import flixel.FlxG;
         while(getQOL() > (target+10)){
             var organ = FlxRandom.getObject(organs);
             switch organ {
-                case "brain" : brain = newOrgan(); if(damaged.indexOf("brain") == -1){damaged.push("brain");}
-                case "heart" : heart = newOrgan(); if(damaged.indexOf("heart") == -1){damaged.push("heart");}
-                case "lung" : lung = newOrgan(); if(damaged.indexOf("lung") == -1){damaged.push("lung");}
-                case "guts" : guts = newOrgan(); if(damaged.indexOf("guts") == -1){damaged.push("guts");}
-                case "leftElbow" : leftElbow = newOrgan(); if(damaged.indexOf("leftElbow") == -1){damaged.push("leftElbow");}
-                case "rightElbow" : rightElbow = newOrgan(); if(damaged.indexOf("rightElbow") == -1){damaged.push("rightElbow");}
-                case "leftKnee" : leftKnee = newOrgan(); if(damaged.indexOf("leftKnee") == -1){damaged.push("leftKnee");}
-                case "rightKnee" : rightKnee = newOrgan(); if(damaged.indexOf("rightKnee") == -1){damaged.push("rightKnee");}
+                case "brain" : brain = newInteractable(); if(damaged.indexOf("brain") == -1){damaged.push("brain");}
+                case "heart" : heart = newInteractable(); if(damaged.indexOf("heart") == -1){damaged.push("heart");}
+                case "lung" : lung = newInteractable(); if(damaged.indexOf("lung") == -1){damaged.push("lung");}
+                case "guts" : guts = newInteractable(); if(damaged.indexOf("guts") == -1){damaged.push("guts");}
+                case "leftElbow" : leftElbow = newInteractable(); if(damaged.indexOf("leftElbow") == -1){damaged.push("leftElbow");}
+                case "rightElbow" : rightElbow = newInteractable(); if(damaged.indexOf("rightElbow") == -1){damaged.push("rightElbow");}
+                case "leftKnee" : leftKnee = newInteractable(); if(damaged.indexOf("leftKnee") == -1){damaged.push("leftKnee");}
+                case "rightKnee" : rightKnee = newInteractable(); if(damaged.indexOf("rightKnee") == -1){damaged.push("rightKnee");}
             }
         }
 
@@ -223,12 +223,8 @@ import flixel.FlxG;
         }
     }
 
-    private function newOrgan(){
-        var organs = HealthValues.HEALTH_VALUES.keys();
-        var i:Int;
-        for(i in 0...Math.floor(Math.random()*Lambda.array(HealthValues.HEALTH_VALUES).length)-1){
-            organs.next();
-        }
-        return organs.next();
+    private function newInteractable(){
+        var possible = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
+        return possible.pop();
     }
  }

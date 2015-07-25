@@ -112,4 +112,21 @@ class Utils
         
         return str;
     }
+    
+    public static function randomArray<T>(_array:Array<T>)
+    {
+        var _length:Int= _array.length;
+        var mixed:Array<T>= _array.slice(0,_length);
+        var rn:Int;
+        var it:Int;
+        var el:T;
+        for (i in 0..._array.length)
+        {
+            el = mixed[i];
+            rn = Math.floor(Math.random() * _length);
+            mixed[i] = mixed[rn];
+            mixed[rn] = el;
+        }
+        return mixed;
+    }
 }

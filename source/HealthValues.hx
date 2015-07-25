@@ -60,16 +60,25 @@ class HealthValues {
             "LeftKnee" => 100,
             "RightKnee" => 100
         ],
-
-        "" => [
-            "Heart" => 0,
-            "Brain" => 0,
-            "Lung" => 0,
-            "Guts" => 0,
-            "LeftElbow" => 0,
-            "RightElbow" => 0,
-            "LeftKnee" => 0,
-            "RightKnee" => 0
+        "Cat" => [
+            "Heart" => 60,
+            "Brain" => 60,
+            "Lung" => 60,
+            "Guts" => 60,
+            "LeftElbow" => 60,
+            "RightElbow" => 60,
+            "LeftKnee" => 60,
+            "RightKnee" => 60
+        ],
+        "GlassShard" => [
+            "Heart" => -80,
+            "Brain" => -60,
+            "Lung" => -60,
+            "Guts" => -40,
+            "LeftElbow" => -30,
+            "RightElbow" => -30,
+            "LeftKnee" => -30,
+            "RightKnee" => -30
         ]
     ];
 }
