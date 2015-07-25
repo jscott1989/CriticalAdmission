@@ -73,6 +73,8 @@ class PlayState extends FlxState {
 	private var background:FlxSprite;
 	private var table:FlxSprite;
 
+    private var cat:Cat;
+
     private var clockActive = false;
 	public var seconds_remaining:Float;
 	private var seconds_since_drip:Float;
@@ -273,6 +275,9 @@ class PlayState extends FlxState {
         table.loadGraphic("assets/images/Table.png");
         add(table);
 
+        cat = new Cat(100, 100);
+        watchInteractable(cat);
+
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
         tooltipSprite = new FlxSprite();
         tooltipSprite.makeGraphic(10, 10, FlxColor.BLACK);
@@ -441,7 +446,7 @@ class PlayState extends FlxState {
 	{
 
         if (tooltip != null && dragging == null) {
-            tooltipText.text = tooltip.type;
+            tooltipText.text = tooltip.label;
 
             if (tooltipText.width != (tooltipSprite.width + 50)) {
                 tooltipSprite.makeGraphic(Std.int(tooltipText.width) + 50, Std.int(tooltipText.height), FlxColor.BLACK);
@@ -591,6 +596,7 @@ class PlayState extends FlxState {
     		seconds_since_drip = 0;
     		dragging = cast sprite;
             dragging.dragging = true;
+            dragging.pickedUp();
 
             if (dragging.fixedDragOffset != null) {
                 drag_offset = dragging.fixedDragOffset;

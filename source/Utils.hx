@@ -99,4 +99,17 @@ class Utils
         }
         return m;
     }
+
+    public static function splitCamelCase(str:String):String {
+        var r = ~/[A-Z][a-z0-9]*/g;
+        var result = r.split(str);
+        // TODO
+        // FlxG.log.add(str);
+        // FlxG.log.add(result);
+        // if (result.length > 0) {
+        //     return result.join(" ");
+        // }
+        
+        return str;
+    }
 }

@@ -1,5 +1,6 @@
 package states.playstate;
 
+ import flixel.FlxG;
  import flixel.FlxSprite;
  import flixel.util.FlxPoint;
 
@@ -70,6 +71,7 @@ package states.playstate;
     public var dragging = false;
 
     public var type:String;
+    public var label:String;
 
     private var canBeFlipped = false;
 
@@ -78,6 +80,8 @@ package states.playstate;
     public function new(type:String, X:Float=0, Y:Float=0)  {
         super(X, Y);
         this.type = type;
+        FlxG.log.add("A");
+        this.label = Utils.splitCamelCase(type);
         this.canBeFlipped = flippableInteractables.lastIndexOf(type) != -1;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
@@ -109,6 +113,10 @@ package states.playstate;
     }
     
     public function interaction() {
+    }
+
+    public function pickedUp() {
+        
     }
 
     /**
