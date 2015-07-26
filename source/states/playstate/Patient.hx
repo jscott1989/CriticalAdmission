@@ -119,10 +119,15 @@ package states.playstate;
         }
     }
 
-    public static inline function createInteractable(organType:String=null) {
+    public static inline function createInteractable(organType:String=null):Interactable {
         if (organType == null) {
             return null;
         }
-        return new Organ(organType);
+
+        if (Interactable.ORGANS.indexOf(organType) != -1) {
+            return new Organ(organType);
+        } else {
+            return new Interactable(organType);
+        }
     }
  }
