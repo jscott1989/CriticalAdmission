@@ -60,7 +60,7 @@ class Levels {
                 ],
 
                 0,
-                6000
+                5
             ),
             new Level(
                     "Level 2...",
@@ -77,8 +77,8 @@ class Levels {
                         "MedicalBook"
                     ],
 
-                    0,
-                    6000
+                    100,
+                    5
             )
         ];
     }

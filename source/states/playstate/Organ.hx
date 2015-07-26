@@ -16,4 +16,8 @@ package states.playstate;
     public override function click() {
     	this.interaction();
     }
+
+    // public override function asArray():Array<{}> {
+    //     return ["Organ", [type]];
+    // }
  }

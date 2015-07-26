@@ -68,7 +68,7 @@ package states.playstate;
     public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
 
     // The hole it's contained in (if any)
-    private var hole:Hole;
+    public var hole:Hole;
 
     public var dragging = false;
 
@@ -128,4 +128,23 @@ package states.playstate;
     public function dropped() {
         return false;
     }
+
+    public static inline function createInteractable(organType:String=null):Interactable {
+        if (organType == null) {
+            return null;
+        }
+
+        if (ORGANS.indexOf(organType) != -1) {
+            return new Organ(organType);
+        } else if (UIELEMENTS.indexOf(organType) != -1){
+            return Type.createInstance(Type.resolveClass("states.playstate." + organType), []);
+        } else {
+            return new Interactable(organType);
+        }
+    }
+
+    // public function asArray():Array<{}> {
+    //     var arguments:Array<{}> = [type, Std.string(x), Std.string(y)];
+    //     return ["Interactable", arguments];
+    // }
  }

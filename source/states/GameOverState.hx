@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
 import states.playstate.PlayState;
-import Levels;
+
 using flixel.util.FlxSpriteUtil;
 
 /**
@@ -49,7 +49,6 @@ class GameOverState extends FlxSubState {
 	}	
 
 	private function clickRetry():Void {
-		// PlayState.getInstance().loadState();
-		close();
+		FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
 	}	
 }

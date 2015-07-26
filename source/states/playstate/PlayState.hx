@@ -20,13 +20,43 @@ import Levels;
 
 using flixel.util.FlxSpriteUtil;
 
+class State {
+    public var reputation:Int;
+    public var currentLevel:Int;
+    public var patientsToTreat:Int;
+    public var uiElements:Array<Constructable>;
+    public var interactables:Array<Constructable>;
+    public var treatedPatients:Array<PatientInfo>;
 
+    public function new(reputation:Int, currentLevel:Int, patientsToTreat:Int, uiElements:Array<Constructable>, interactables:Array<Constructable>, treatedPatients:Array<PatientInfo>) {
+        this.reputation = reputation;
+        this.currentLevel = currentLevel;
+        this.patientsToTreat = patientsToTreat;
+        this.uiElements = uiElements;
+        this.interactables = interactables;
+        this.treatedPatients = treatedPatients;
+    }
+}
 
+class Constructable {
+    
+    private var type:String;
+    private var x:Float;
+    private var y:Float;
 
+    public function new(type:String, x:Float = 0, y:Float = 0) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+    }
 
-
-
-
+    public function construct():Interactable {
+        var i = Interactable.createInteractable(type);
+        i.x = x;
+        i.y = y;
+        return i;
+    }
+}
 
 /**
  * The main playstate set in the surgery room.
@@ -106,16 +136,16 @@ class PlayState extends FlxState {
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
 
-    private var savedState = new Map<String, {}>();
+    public var stateToLoad:State;
+    public var lastSaveState:State;
 
     private static var instance:PlayState;
   
-    public static inline function getInstance() {
+    public static inline function getInstance(state:State = null) {
         if (instance == null) {
-            return instance = new PlayState();
-        } else {
-            return instance;
+            instance = new PlayState(state);
         }
+        return instance;
     }
 
     public static inline function clearInstance() {
@@ -156,29 +186,29 @@ class PlayState extends FlxState {
      * Everything else can be generated.
      */
     public function saveState() {
-        // savedState = new Map<String, {}>();
-        // savedState.set("reputation", reputation);
-        // savedState.set("level", level);
-        // var interactables = [];
-        // var uiHoles = [];
+        var interactables = new Array<Constructable>();
+        var uiElements = new Array<Constructable>();
 
-        // for (member in members) {
-        //     if (Type.getSuperClass(member) == Interactable) {
-        //         if (member.hole == null) {
-        //             // Record it
-        //             interactables.push(Utils.cloneMap(member.info));
-        //         }
-        //     } else if (Type.getClass(member) == UIHole) {
-        //         if (member.interactable == null) {
-        //             uiHoles.push(null);
-        //         } else {
-        //             uiHoles.push(Utils.cloneMap(member.interactable.info));
-        //         }
-        //     }
-        // }
+        for (member in members) {
+            if (Type.getSuperClass(Type.getClass(member)) == Interactable || Type.getClass(member) == Interactable) {
+                var interactable:Interactable = cast member;
+                if (interactable.hole == null) {
+                    interactables.push(new Constructable(interactable.type, interactable.x, interactable.y));
+                }
+            }
+        }
 
-        // savedState.set("uiHoles", uiHoles);
-        // savedState.set("interactables", interactables);
+        for (hole in holes) {
+             if (Type.getClass(hole) == UIHole) {
+                if (hole.interactable == null) {
+                    uiElements.push(null);
+                } else {
+                    uiElements.push(new Constructable(hole.interactable.type));
+                }
+            }
+        }
+
+        return new State(reputation, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients);
     }
 
     /**
@@ -186,17 +216,23 @@ class PlayState extends FlxState {
      *
      * This assumes an empty (freshly loaded) scene
      */
-    public function loadState(state:Map<String, {}>) {
-        // reputation = state.get("reputation");
-        // level = state.get("level");
+    public function loadState(state:State) {
+        reputation = state.reputation;
+        currentLevel = state.currentLevel;
+        treatedPatients = state.treatedPatients;
+        patientsToTreat = state.patientsToTreat;
 
-        // for (interactable in stage.get("interactables")) {
-            
-        // }
+        for (interactable in state.interactables) {
+            if (interactable != null) {
+                watchInteractable(interactable.construct());
+            }
+        }
 
-        // for (uiHole in stage.get("uiHoles")) {
-
-        // }
+        for (interactable in state.uiElements) {
+            if (interactable != null) {
+                spawnUIElement(interactable.construct());
+            }
+        }
     }
 
     /**
@@ -257,6 +293,11 @@ class PlayState extends FlxState {
         return patient;
     }
 
+    override public function new(state:State=null) {
+        super();
+        this.stateToLoad = state;
+    }
+
 	override public function create():Void
 	{
 		// Enable debugger if in debug mode
@@ -274,11 +315,6 @@ class PlayState extends FlxState {
         table = new FlxSprite(1265, 87);
         table.loadGraphic("assets/images/Table.png");
         add(table);
-
-        cat = new Cat();
-        cat.x = Std.random(FlxG.width);
-        cat.y = FlxG.height;
-        watchInteractable(cat);
 
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
         tooltipSprite = new FlxSprite();
@@ -300,6 +336,14 @@ class PlayState extends FlxState {
 
 		super.create();
 
+        if (stateToLoad != null) {
+            loadState(stateToLoad);
+        } else {
+            cat = new Cat();
+            cat.x = Std.random(FlxG.width);
+            cat.y = FlxG.height;
+            watchInteractable(cat);
+        }
         levelComplete(false);
 	}
 
@@ -344,6 +388,7 @@ class PlayState extends FlxState {
 
     public function levelComplete(fade:Bool = true) {
         isActive = false;
+        lastSaveState = saveState();
         if (fade) {
             FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
                 openSubState(new IntrimState());
@@ -368,8 +413,6 @@ class PlayState extends FlxState {
 	 * Start the next level
 	 */
 	public function nextLevel() {
-        // Fade in
-        FlxG.camera.fade(FlxColor.BLACK, .33, true);
 
         // Reset the clock
         clockActive = false;
@@ -402,8 +445,6 @@ class PlayState extends FlxState {
 
 		generateNewInteractables(level.interactables);
         generateNewUIElements(level.uiElements);
-
-        saveState();
 	}
 
 	/**
@@ -737,13 +778,13 @@ class PlayState extends FlxState {
                     changeReputation(Std.int(improvement * 2));
                 }
 
+				destroyPatient();
+                
                 if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
                     levelComplete();
+                } else {
+    				callback();
                 }
-
-				destroyPatient();
-				//If not here, better destroy them all in start_new
-				callback();
 			}});
 		} else {
 			// Otherwise just move on

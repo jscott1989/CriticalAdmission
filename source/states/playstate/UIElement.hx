@@ -22,4 +22,8 @@ package states.playstate;
     public override function interaction() {
         
     }
+
+    // public override function asArray() {
+    //     return [Type.getClassName(Type.getClass(this)), []];
+    // }
  }

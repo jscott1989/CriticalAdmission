@@ -21,8 +21,9 @@ class IntrimState extends FlxSubState {
      * Function that is called up when to state is created to set it up. 
      */
     override public function create():Void {
-        PlayState.getInstance().nextLevel();
         var state = PlayState.getInstance();
+
+        state.nextLevel();
 
         // fill background with black
         var background = new FlxSprite();
