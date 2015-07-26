@@ -57,7 +57,7 @@ class PauseState extends FlxSubState {
     }
 
     private function clickRetry():Void {
-        FlxG.switchState(new MenuState());
+        FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
     }
 
     private function clickMenu():Void {
