@@ -30,7 +30,8 @@ class Receptionist {
 		AssetPaths.Filler25__wav => "Staff members are reminded that organs are expensive; stationary is not",
 		AssetPaths.Filler26__wav => "We are not liable for misplaced bodyparts. Finders keepers",
 		AssetPaths.Filler27__wav => "Contrary to rumours, we are not a bionics factory",
-		AssetPaths.Filler28__wav => "No smoking in the hospital, please"
+		AssetPaths.Filler28__wav => "No smoking in the hospital, please",
+		AssetPaths.Filler28__wav => "Deliver of basketballs has been signed for"
 	];
 
 	public static var INTRODUCTIONS:Map<String, String> = [

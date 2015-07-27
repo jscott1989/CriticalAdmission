@@ -69,7 +69,7 @@ class Levels {
                     ],
 
                     [
-                        ["Interactable", ["Balloon"]],
+                        
                     ],
 
                     [
