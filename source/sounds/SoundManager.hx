@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
-import flixel.util.FlxTimer;
+import sounds.speech.Receptionist;
 import states.playstate.PlayState;
 import states.playstate.Tannoy;
 
@@ -47,17 +47,16 @@ class SoundManager {
 		subtitle = FlxDestroyUtil.destroy(subtitle);
 	}
 
-	public function playRandomSoundMap(soundMap:Map<String, String>, tannoy:Tannoy=null){
-		var keys = soundMap.keys();
-		var i:Int;
-		for(i in 0...Math.floor(Math.random()*Lambda.array(soundMap).length)-1){
-			keys.next();
-		}
-		var key:String = keys.next();
-		var value:String = soundMap.get(key);
+	private var possibleFiller = Utils.randomArray(Receptionist.FILLER_KEYS);
 
+	public function playFiller(tannoy:Tannoy) {
+		if (possibleFiller.length == 0) {
+            possibleFiller = Utils.randomArray(Receptionist.FILLER_KEYS);
+        }
+        var key = possibleFiller.pop();
+        var value:String = Receptionist.FILLER.get(key);
 
-		var tannoySound:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
+        var tannoySound:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
 		tannoySound.volume = 0.2;
 		tannoy.startPlaying();
 		tannoySound.onComplete = function(){
@@ -75,5 +74,4 @@ class SoundManager {
 		};
 		tannoySound.play();
 	}
-
 }

@@ -2,7 +2,7 @@ package sounds.speech;
 
 class Receptionist {
 
-	public static var ANNOUNCEMENTS:Map<String, String> = [
+	public static var FILLER:Map<String, String> = [
 		AssetPaths.Filler1__wav => "Doctors are reminded that...uhm...maybe connect this bit to that bit?",
 		AssetPaths.Filler2__wav => "Doctors are reminded to keep calm and carry on",
 		AssetPaths.Filler3__wav => "All staff are reminded to wash their hands regularly",
@@ -31,8 +31,10 @@ class Receptionist {
 		AssetPaths.Filler26__wav => "We are not liable for misplaced bodyparts. Finders keepers",
 		AssetPaths.Filler27__wav => "Contrary to rumours, we are not a bionics factory",
 		AssetPaths.Filler28__wav => "No smoking in the hospital, please",
-		AssetPaths.Filler29__wav => "Deliver of basketballs has been signed for"
+		AssetPaths.Filler29__wav => "A delivery of basketballs has been signed for"
 	];
+
+	public static var FILLER_KEYS = Utils.mapKeys(FILLER);
 
 	public static var INTRODUCTIONS:Map<String, String> = [
 		AssetPaths.Intro1__wav => "Doctors are reminded that donated organs are stored on the table to the right of surgery",

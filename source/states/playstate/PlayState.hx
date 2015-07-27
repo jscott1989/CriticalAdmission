@@ -569,7 +569,7 @@ class PlayState extends FlxState {
 				for (hole in holes){
 					if (Type.getClass(hole.interactable) == Tannoy && Config.SOUND_ON){
                         var c:Tannoy = cast hole.interactable;
-						soundManager.playRandomSoundMap(Receptionist.ANNOUNCEMENTS, c);
+                        soundManager.playFiller(c);
 					}
 				}
 				tannoyCounter = 0;

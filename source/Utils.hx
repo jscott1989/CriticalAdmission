@@ -129,4 +129,13 @@ class Utils
         }
         return mixed;
     }
+
+    public static function mapKeys<K, T>(_map:Map<K,T>):Array<K> {
+        var n = new Array<K>();
+        var i = _map.keys();
+        while (i.hasNext()) {
+            n.push(i.next());
+        };
+        return n;
+    }
 }
