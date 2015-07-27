@@ -36,6 +36,14 @@ class Receptionist {
 
 	public static var FILLER_KEYS = Utils.mapKeys(FILLER);
 
+	public static var VIP_INCOMING:Map<String, String> = [
+		AssetPaths.VIP1__wav => "Staff announcement: A VIP has entered the hospital",
+		AssetPaths.VIP2__wav => "VIP incoming",
+		AssetPaths.VIP3__wav => "VIP incoming",
+	];
+
+	public static var VIP_INCOMING_KEYS = Utils.mapKeys(VIP_INCOMING);
+
 	public static var INTRODUCTIONS:Map<String, String> = [
 		AssetPaths.Intro1__wav => "Doctors are reminded that donated organs are stored on the table to the right of surgery",
 		AssetPaths.Intro2__wav => "Doctors should take care when removing organs from patients' bodies",

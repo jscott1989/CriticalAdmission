@@ -15,6 +15,7 @@ import states.playstate.Interactable;
     ];
     public static var SURNAMES:Array<String> = ["S1", "S2"];
 
+    public var isVIP:Bool;
     public var isMale:Bool;
     public var name:String;
     public var bodySprite:Int;
@@ -41,7 +42,13 @@ import states.playstate.Interactable;
 
     public var initialQOL:Float = 100;
 
-    public function new(isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
+    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
+        if (isVIP == null) {
+            this.isVIP = Std.random(9) == 0;
+        } else {
+            this.isVIP = isVIP;
+        }
+
         if (isMale == null) {
             this.isMale = Std.random(2) == 0;
         } else {

@@ -1,6 +1,7 @@
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
+    public var VIP:PatientInfo;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
     public var minimumHealth:Int;
@@ -32,15 +33,9 @@ class Levels {
                 "Level 1 yo...",
                 
                 [
-                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    // new PatientInfo(null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
                 [
@@ -58,11 +53,12 @@ class Levels {
                 [
                     "Next",
                     "Tannoy",
-                    "Clipboard"
+                    "Clipboard",
+                    "PressureGauge"
                 ],
 
-                0,
-                5
+                70,
+                20
             ),
             new Level(
                     "Level 2...",

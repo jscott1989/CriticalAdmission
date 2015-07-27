@@ -208,7 +208,7 @@ class PlayState extends FlxState {
             }
         }
 
-        return new State(reputation, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients);
+        return new State(reputation, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients.copy());
     }
 
     /**
@@ -566,16 +566,9 @@ class PlayState extends FlxState {
 			//Tannoy code
 			tannoyCounter += FlxG.elapsed;
 			if (tannoyCounter >= Config.SECONDS_BETWEEN_ANNOUNCEMENTS){
-				for (hole in holes){
-					if (Type.getClass(hole.interactable) == Tannoy && Config.SOUND_ON){
-                        var c:Tannoy = cast hole.interactable;
-                        soundManager.playFiller(c);
-					}
-				}
+				soundManager.playFiller(cast findInteractable("states.playstate.Tannoy"));
 				tannoyCounter = 0;
 			}
-
-			Utils.bringToFront(members, soundManager.subtitle);
 
 			// Timer
             if (clockActive) {
@@ -771,8 +764,15 @@ class PlayState extends FlxState {
 
                 if (improvement >= 0) {
                     changeReputation(Std.int(improvement));
+                    if (patient.info.isVIP) {
+                        changeReputation(Std.int(improvement));
+                    }
+
                 } else {
                     changeReputation(Std.int(improvement * 2));
+                    if (patient.info.isVIP) {
+                        changeReputation(Std.int(improvement * 2));
+                    }
                 }
 
 				destroyPatient();
@@ -834,6 +834,10 @@ class PlayState extends FlxState {
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
             var improvement = patient.info.getQOL() - minimumHealth;
+
+            if (patient.info.isVIP) {
+                changeReputation(-100);
+            }
 
             if (improvement < 0) {
                 changeReputation(Std.int(improvement * 2));
@@ -917,11 +921,17 @@ class PlayState extends FlxState {
             // We don't add one if the level is complete
             return;
         }
-
+        
         if (incomingPatients.length == 0) {
+            // Generate a patient
             patient = new Patient(generatePatientInfo(currentLevel), 300, FlxG.height);
         } else {
+            // Load the next normal patient
     		patient = new Patient(incomingPatients.shift(), 300, FlxG.height);
+        }
+
+        if (patient.info.isVIP) {
+            soundManager.playVIPIncoming(cast findInteractable("states.playstate.Tannoy"));
         }
 
 		// Add to renderer
