@@ -317,6 +317,7 @@ class PlayState extends FlxState {
         add(table);
 
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
+        tooltipText.font = "assets/fonts/Cabin-Regular.ttf";
         tooltipSprite = new FlxSprite();
         tooltipSprite.makeGraphic(10, 10, FlxColor.BLACK);
         add(tooltipText);
@@ -810,7 +811,8 @@ class PlayState extends FlxState {
             x += Std.random(300) - 150;
             y += Std.random(300) - 150;
 
-            var text = new FlxText(x, y, null, changeText, 100);
+            var text = new FlxText(x, y, p.width, changeText, 100);
+            text.font = "assets/fonts/Cabin-Regular.ttf";
             text.color = FlxColor.RED;
             if (change >= 0) {
                 text.color = FlxColor.GREEN;

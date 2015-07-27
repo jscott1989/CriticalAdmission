@@ -14,6 +14,7 @@ import flixel.util.FlxColor;
         super("MedicalBook");
 
         text = new FlxText(x, y, width);
+        text.font = "assets/fonts/Cabin-Regular.ttf";
         text.alignment = "center";
         text.color = FlxColor.BLACK;
         text.size = 80;

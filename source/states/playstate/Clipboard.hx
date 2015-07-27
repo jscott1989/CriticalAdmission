@@ -15,11 +15,13 @@ package states.playstate;
         super("Clipboard");
 
         name_text = new FlxText(0, 0, width); // x, y, width
+        name_text.font = "assets/fonts/Cabin-Regular.ttf";
         name_text.alignment = "center";
         name_text.size = 40;
         name_text.color = FlxColor.BLACK;
 
         qol_text = new FlxText(0, 0, width); // x, y, width
+        qol_text.font = "assets/fonts/Cabin-Regular.ttf";
         qol_text.alignment = "center";
         qol_text.size = 40;
         qol_text.color = FlxColor.BLACK;

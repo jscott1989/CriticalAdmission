@@ -36,6 +36,7 @@ class SoundManager {
 
 	private function createSubtitle(text:String){
 		subtitle = new FlxText(0, 0, 0, text, Config.SUBTITLE_SIZE);
+		subtitle.font = "assets/fonts/Cabin-Regular.ttf";
 		subtitle.wordWrap = true;
 		subtitle.borderStyle = FlxText.BORDER_OUTLINE;
 		subtitle.fieldWidth = FlxG.width - Config.SUBTITLE_X_PADDING - Config.SUBTITLE_X_PADDING;

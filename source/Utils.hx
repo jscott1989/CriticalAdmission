@@ -77,6 +77,7 @@ class Utils
         button.centerOffsets(true);
         
         button.label = new FlxText(0, 0, button.width, text);
+        button.label.font = "assets/fonts/Cabin-Regular.ttf";
         button.label.setFormat(null, labelSize, 0x333333, "center");
         button.label.offset.y -= 20;
 

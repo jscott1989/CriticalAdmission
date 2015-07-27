@@ -10,9 +10,9 @@ package states.playstate;
  */
  class UIHole extends Hole {
 
-    public function new(X:Float=0, Y:Float=0, ui:Interactable=null, requiresFlip:Bool=false, locked:Bool=false)  {
+    public function new(ui:Interactable=null, requiresFlip:Bool=false, locked:Bool=false)  {
         var backgroundSprite = new FlxSprite();
         backgroundSprite.makeGraphic(200, 190, FlxColor.TRANSPARENT);
-        super(backgroundSprite, ui, requiresFlip, locked, X, Y);
+        super(backgroundSprite, ui, requiresFlip, locked, 0, 0);
     }
  }

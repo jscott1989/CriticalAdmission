@@ -10,10 +10,12 @@ import states.playstate.Interactable;
  */
  class PatientInfo {
     public static var FIRST_NAMES:Array<Array<String>> = [
-        ["F1", "F2"], // female
-        ["M1", "M2"] // male
+        ["Mrs", "Miss", "Ms"], // female
+        ["Mr"], // male
+        ["Dame", "Lady", "Baroness", "Countess", "Viscountess", "Duchess", "Princess", "Queen"], // female VIP
+        ["Sir", "Lord", "Baron", "Earl", "Viscount", "Duke", "Prince", "King"] // male VIP
     ];
-    public static var SURNAMES:Array<String> = ["S1", "S2"];
+    public static var SURNAMES:Array<String> = ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies", "Robinson", "Wright", "Thompson", "Evans", "Walker", "White", "Roberts", "Green", "Hall", "Wood", "Jackson", "Clarke", "Patel", "Thomas", "Khan", "Lewis", "James", "Phillips", "Ali", "Mason", "Mitchell", "Rose", "Davis", "Rodriguez", "Cox", "Alexander"];
 
     public var isVIP:Bool;
     public var isMale:Bool;
@@ -43,11 +45,7 @@ import states.playstate.Interactable;
     public var initialQOL:Float = 100;
 
     public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
-        if (isVIP == null) {
-            this.isVIP = Std.random(9) == 0;
-        } else {
-            this.isVIP = isVIP;
-        }
+        this.isVIP = isVIP;
 
         if (isMale == null) {
             this.isMale = Std.random(2) == 0;
@@ -59,7 +57,12 @@ import states.playstate.Interactable;
             if (this.isMale) {
                 genderID = 1;
             }
-            this.name = FIRST_NAMES[genderID][Std.random(FIRST_NAMES.length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
+
+            if (isVIP) {
+                this.name = FIRST_NAMES[genderID+2][Std.random(FIRST_NAMES[genderID+2].length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
+            } else {
+                this.name = FIRST_NAMES[genderID][Std.random(FIRST_NAMES[genderID].length)] + " " + SURNAMES[Std.random(SURNAMES.length)];
+            }
         } else {
             this.name = name;
         }
