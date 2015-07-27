@@ -41,10 +41,9 @@ class SoundManager {
 		subtitle.borderSize = 3;
     	
     	PlayState.getInstance().add(subtitle);
-    	new FlxTimer(Config.SUBTITLE_TIMEOUT, removeSubtitle, 1);
 	}
 
-	private function removeSubtitle(timer:FlxTimer){
+	private function removeSubtitle(){
 		subtitle = FlxDestroyUtil.destroy(subtitle);
 	}
 
@@ -66,15 +65,15 @@ class SoundManager {
 			speech.volume = 70;
 			speech.onComplete = function() {
 				tannoy.stopPlaying();
+				removeSubtitle();
 			};
+			if (Config.SUBTITLES_ON){
+				createSubtitle(value);
+			}
 			speech.play();
 			tannoySound.onComplete = null;
 		};
 		tannoySound.play();
-
-		if (Config.SUBTITLES_ON){
-			createSubtitle(value);
-		}
 	}
 
 }
