@@ -49,14 +49,8 @@ class SoundManager {
 
 	private var possibleFiller = Utils.randomArray(Receptionist.FILLER_KEYS);
 
-	public function playFiller(tannoy:Tannoy) {
-		if (possibleFiller.length == 0) {
-            possibleFiller = Utils.randomArray(Receptionist.FILLER_KEYS);
-        }
-        var key = possibleFiller.pop();
-        var value:String = Receptionist.FILLER.get(key);
-
-        var tannoySound:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
+	private function play(tannoy:Tannoy, key:String, value:String) {
+		var tannoySound:FlxSound = FlxG.sound.load(AssetPaths.tannoy1__wav);
 		tannoySound.volume = 0.2;
 		tannoy.startPlaying();
 		tannoySound.onComplete = function(){
@@ -73,5 +67,14 @@ class SoundManager {
 			tannoySound.onComplete = null;
 		};
 		tannoySound.play();
+	}
+
+	public function playFiller(tannoy:Tannoy) {
+		if (possibleFiller.length == 0) {
+            possibleFiller = Utils.randomArray(Receptionist.FILLER_KEYS);
+        }
+        var key = possibleFiller.pop();
+        var value:String = Receptionist.FILLER.get(key);
+        play(tannoy, key, value);
 	}
 }
