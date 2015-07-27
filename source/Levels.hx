@@ -3,7 +3,7 @@ class Level {
     public var patients:Array<PatientInfo>;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
-    public var minimumImprovement:Int;
+    public var minimumHealth:Int;
     public var levelTime:Int;
 
     public function new(
@@ -11,14 +11,14 @@ class Level {
         patients:Array<PatientInfo>,
         interactables:Array<Array<Dynamic>>,
         uiElements:Array<String>,
-        minimumImprovement:Int,
+        minimumHealth:Int,
         levelTime:Int
     )  {
         this.text = text;
         this.patients = patients;
         this.interactables = interactables;
         this.uiElements = uiElements;
-        this.minimumImprovement = minimumImprovement;
+        this.minimumHealth = minimumHealth;
         this.levelTime = levelTime;
     }
 }
@@ -57,7 +57,8 @@ class Levels {
 
                 [
                     "Next",
-                    "Tannoy"
+                    "Tannoy",
+                    "Clipboard"
                 ],
 
                 0,

@@ -36,7 +36,10 @@ class IntrimState extends FlxSubState {
         var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 50);
         add(infoText);
 
-        var levelText = new FlxText(50, 400, 0, PlayState.getInstance().levelText, 50);
+        var infoText = new FlxText(50, 350, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime, 50);
+        add(infoText);
+
+        var levelText = new FlxText(50, 600, 0, PlayState.getInstance().levelText, 50);
         add(levelText);
 
         var upcomingPatientsText = new FlxText(50, 850, 0, "Upcoming Patients:", 50);

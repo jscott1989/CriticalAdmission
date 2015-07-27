@@ -79,11 +79,11 @@ class PlayState extends FlxState {
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.1;
 
 	//Default level time; tweak for testing
-	private var levelTime:Float = 10;
+	public var levelTime:Float = 10;
 
 	//Level and score counter for Game Over screen
 	public var currentLevel:Int = 0;
-    public var minimumImprovement:Int = 5;
+    public var minimumHealth:Int = 5;
     public var levelText:String = "";
 
     // Our reputation
@@ -266,13 +266,13 @@ class PlayState extends FlxState {
         
         // Calculate improvment required
         //TODO: balance/tie to difficulty
-        var minimumImprovement:Int = 10;
+        var minimumHealth:Int = 10;
 
         // Calculate time per patient
         //TODO: balance/tie to difficulty
         var levelTime:Int = 15;
 
-        return new Level(text, patients, interactables, [], minimumImprovement, levelTime);
+        return new Level(text, patients, interactables, [], minimumHealth, levelTime);
      }
 
     private function generatePatientInfo(level:Int):PatientInfo{
@@ -439,7 +439,7 @@ class PlayState extends FlxState {
             incomingPatients.push(generatePatientInfo(currentLevel));
         }
 
-        minimumImprovement = level.minimumImprovement;
+        minimumHealth = level.minimumHealth;
         levelTime = level.levelTime;
         levelText = level.text;
 
@@ -767,10 +767,7 @@ class PlayState extends FlxState {
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
 				treatedPatients.push(patient.info);
 
-                // Now we adjust reputation accordingly. There should be
-                // A very big drop for making someone worse, but a very minor
-                // improvement for making someone better
-                var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
+                var improvement = patient.info.getQOL() - minimumHealth;
 
                 if (improvement >= 0) {
                     changeReputation(Std.int(improvement));
@@ -836,7 +833,7 @@ class PlayState extends FlxState {
         addingPatient = true;
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
-            var improvement = patient.info.getQOL() - (patient.info.initialQOL + minimumImprovement);
+            var improvement = patient.info.getQOL() - minimumHealth;
 
             if (improvement < 0) {
                 changeReputation(Std.int(improvement * 2));
