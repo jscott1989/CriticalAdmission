@@ -56,7 +56,8 @@ class Levels {
                 ],
 
                 [
-                    "Next"
+                    "Next",
+                    "Tannoy"
                 ],
 
                 0,
