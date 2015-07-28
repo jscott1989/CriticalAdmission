@@ -9,8 +9,8 @@ package states.playstate;
  */
  class Scalpel extends UIElement {
 
-    public function new(X:Float=0, Y:Float=0)  {
-        super("Scalpel", X, Y);
+    public function new()  {
+        super("Scalpel");
 
         fixedDragOffset = new FlxPoint(10, -255);
     }
@@ -25,12 +25,12 @@ package states.playstate;
             // Resize to default
             FlxTween.tween(this, {x: closestHole.x, y: (closestHole.y + fixedDragOffset.y) + (closestHole.height / 2)}, 0.1);
             FlxTween.tween(this.scale, {x: PlayState.DEFAULT_SCALE, y: PlayState.DEFAULT_SCALE}, 0.1, {"complete": function(tween: FlxTween) {
-
+                PlayState.getInstance().soundManager.playCutSkin();
                 FlxTween.tween(this, {x: this.x + closestHole.width}, 0.2, {"complete": function(tween:FlxTween) {
                     // Open the hole
                     closestHole.show();
 
-                    // // Put the scalpel back
+                    // Put the scalpel back
                     PlayState.getInstance().returnDragged(this);
                 }});
             }});

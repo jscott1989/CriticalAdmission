@@ -151,6 +151,12 @@ package states.playstate;
         if (ORGANS.indexOf(organType) != -1) {
             return new Organ(organType);
         } else if (UIELEMENTS.indexOf(organType) != -1){
+            Clipboard;
+            Clock;
+            MedicalBook;
+            Next;
+            PressureGauge;
+            Scalpel;
             return Type.createInstance(Type.resolveClass("states.playstate." + organType), []);
         } else {
             return new Interactable(organType);

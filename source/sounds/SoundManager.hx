@@ -133,6 +133,24 @@ class SoundManager {
         play(tannoy, key, value);
 	}
 
+
+	private var CUT_SKIN:Array<String> = [
+		AssetPaths.CutSkin_1__wav,
+		AssetPaths.CutSkin_2__wav,
+		AssetPaths.CutSkin_3__wav,
+		AssetPaths.CutSkin_4__wav,
+	];
+
+	private var possibleCutSkin:Array<String> = [];
+
+	public function playCutSkin() {
+		if (possibleCutSkin.length == 0) {
+            possibleCutSkin = Utils.randomArray(CUT_SKIN);
+        }
+        var key = possibleCutSkin.pop();
+        playSound(key);
+	}
+
 	public function playSound(sound:String) {
 		var s = FlxG.sound.load(sound);
 		s.play();
