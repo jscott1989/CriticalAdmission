@@ -88,7 +88,7 @@ class SoundManager {
 
 			if (subtitle != null) {
 				// Destroy it
-				removeSubtitle;
+				removeSubtitle();
 			}
 
 			tannoySound = FlxG.sound.load(AssetPaths.tannoy1__wav);
