@@ -18,6 +18,8 @@ class SoundManager {
 	var tannoySound:FlxSound;
 	var speech:FlxSound;
 
+	var success:FlxSound = FlxG.sound.load(AssetPaths.success__wav, 1, false);
+	var failure:FlxSound = FlxG.sound.load(AssetPaths.failure__wav, 1, false);
 	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
 	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
 
@@ -29,6 +31,14 @@ class SoundManager {
 
 	public function playECG() {
 		ecg.play();
+	}
+
+	public function playSuccess() {
+		success.play();
+	}
+
+	public function playFailure() {
+		failure.play();
 	}
 
 	public function playFlatline() {

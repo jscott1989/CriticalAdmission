@@ -815,7 +815,10 @@ class PlayState extends FlxState {
         // Show the level of reputation change
         var changeText:String = Std.string(change);
         if (change >= 0) {
+            soundManager.playSuccess();
             changeText = "+" + changeText;
+        } else {
+            soundManager.playFailure();
         }
 
         // We're going to put the text near the reputation level
