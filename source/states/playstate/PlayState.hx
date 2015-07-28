@@ -65,7 +65,7 @@ class PlayState extends FlxState {
 
 	// UI Grid
     public static inline var UI_GRID_PADDING = 100;
-    public static inline var UI_GRID_WIDTH = 900;
+    public static inline var UI_GRID_WIDTH = 1030;
     public static inline var UI_GRID_HEIGHT = 600;
 
 	// Consants
@@ -313,8 +313,11 @@ class PlayState extends FlxState {
 		background.loadGraphic("assets/images/Background.png");
 		add(background);
 
-        table = new FlxSprite(1265, 87);
+        table = new FlxSprite(0, 0);
         table.loadGraphic("assets/images/Table.png");
+
+        table.x = FlxG.width - (table.width + 24);
+        table.y = 67;
         add(table);
 
         tooltipText = new FlxText(0, 0, 0, "Test", 50); 
@@ -942,10 +945,10 @@ class PlayState extends FlxState {
         
         if (incomingPatients.length == 0) {
             // Generate a patient
-            patient = new Patient(generatePatientInfo(currentLevel), 300, FlxG.height);
+            patient = new Patient(generatePatientInfo(currentLevel), 332, FlxG.height);
         } else {
             // Load the next normal patient
-    		patient = new Patient(incomingPatients.shift(), 300, FlxG.height);
+    		patient = new Patient(incomingPatients.shift(), 332, FlxG.height);
         }
 
         if (patient.info.isVIP) {
