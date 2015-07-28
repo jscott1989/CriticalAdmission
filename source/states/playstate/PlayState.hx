@@ -135,6 +135,7 @@ class PlayState extends FlxState {
 
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
+    private var ECGCounter:Float = 0;
 
     public var stateToLoad:State;
     public var lastSaveState:State;
@@ -571,6 +572,14 @@ class PlayState extends FlxState {
 				tannoyCounter = 0;
 			}
 
+            if (patient != null) {
+                ECGCounter += FlxG.elapsed;
+                if (ECGCounter >= seconds_remaining/10) {
+                    soundManager.playECG();
+                    ECGCounter = 0;
+                }
+            }
+
 			// Timer
             if (clockActive) {
     			seconds_remaining -= FlxG.elapsed;
@@ -591,6 +600,11 @@ class PlayState extends FlxState {
 
 		super.update();
 	}
+
+    function startECG() {
+        ECGCounter = 0;
+        soundManager.playECG();
+    }
 
 	/**
 	 * Place some blood on the floor.
@@ -832,9 +846,11 @@ class PlayState extends FlxState {
      */
     public function killPatient() {
         patient.die();
+        soundManager.playFlatline();
         addingPatient = true;
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
+            soundManager.stopFlatline();
             var improvement = patient.info.getQOL() - minimumHealth;
 
             if (patient.info.isVIP) {
@@ -935,6 +951,8 @@ class PlayState extends FlxState {
         if (patient.info.isVIP) {
             soundManager.playVIPIncoming(cast findInteractable("states.playstate.Tannoy"));
         }
+
+        startECG();
 
 		// Add to renderer
 		add(patient);

@@ -18,17 +18,29 @@ class SoundManager {
 	var tannoySound:FlxSound;
 	var speech:FlxSound;
 
+	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
+	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
+
 	public function new(){
 		if (Config.MUSIC_ON){
 			FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
 		}
 	}
 
+	public function playECG() {
+		ecg.play();
+	}
+
+	public function playFlatline() {
+		flatline.play();
+	}
+
+	public function stopFlatline() {
+		flatline.stop();
+	}
+
 	public function init(){
 		if (Config.MUSIC_ON){
-			var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, true);
-			ecg.play();
-
 			var heart:FlxSound = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
 			heart.play();
 		}
