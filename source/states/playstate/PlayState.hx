@@ -131,7 +131,7 @@ class PlayState extends FlxState {
 	private var holes = new Array<Hole>();
 
 	//SoundManager
-	private var soundManager:SoundManager;
+	public var soundManager:SoundManager;
 
 	//Checking for Tannoy messages
 	private var tannoyCounter:Float = 0;
@@ -670,6 +670,7 @@ class PlayState extends FlxState {
     		dragging = cast sprite;
             dragging.dragging = true;
             dragging.pickedUp();
+            dragging.playSound();
 
             if (dragging.fixedDragOffset != null) {
                 drag_offset = dragging.fixedDragOffset;

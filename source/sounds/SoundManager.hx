@@ -132,4 +132,9 @@ class SoundManager {
         var value:String = Receptionist.VIP_INCOMING.get(key);
         play(tannoy, key, value);
 	}
+
+	public function playSound(sound:String) {
+		var s = FlxG.sound.load(sound);
+		s.play();
+	}
 }

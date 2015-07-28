@@ -67,6 +67,9 @@ package states.playstate;
 
     public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
 
+    private var sounds:Array<String> = [];
+    private var eligibleSounds:Array<String> = [];
+
     // The hole it's contained in (if any)
     public var hole:Hole;
 
@@ -86,6 +89,17 @@ package states.playstate;
         this.canBeFlipped = flippableInteractables.lastIndexOf(type) != -1;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
+
+        var i = 0;
+        while (true) {
+            i++;
+            var f = Reflect.field(AssetPaths, type + "_" + Std.string(i) + "__wav");
+            if (f == null) {
+                break;
+            } else {
+                sounds.push(f);
+            }
+        }
     }
 
     public function setHole(hole:Hole) {
@@ -141,6 +155,19 @@ package states.playstate;
         } else {
             return new Interactable(organType);
         }
+    }
+
+    public function playSound() {
+        if (sounds.length == 0) {
+            return;
+        }
+
+        if (eligibleSounds.length == 0) {
+            eligibleSounds = Utils.randomArray(sounds);
+        }
+
+        var sound = eligibleSounds.pop();
+        PlayState.getInstance().soundManager.playSound(sound);
     }
 
     // public function asArray():Array<{}> {
