@@ -34,8 +34,8 @@ class Levels {
                 
                 [
                     new PatientInfo(false, null, null, null, null, null, "Brain", true, "Scalpel",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, null, null, null, null, null, "Brain", true, "RubberDuck",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "Scalpel",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, null, null, null, null, null, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "TinCan",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
                 [
@@ -54,7 +54,9 @@ class Levels {
                     "Next",
                     "Tannoy",
                     "Clipboard",
-                    "PressureGauge"
+                    "PressureGauge",
+                    "PatientCounter",
+                    "MedicalBook"
                 ],
 
                 70,
@@ -71,8 +73,6 @@ class Levels {
                     ],
 
                     [
-                        "PatientCounter",
-                        "MedicalBook"
                     ],
 
                     100,

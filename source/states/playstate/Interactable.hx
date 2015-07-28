@@ -65,6 +65,40 @@ package states.playstate;
         "Cat"
     ];
 
+    public static var SOUNDS:Map<String,Array<String>> = [
+        "Cat" => [AssetPaths.Cat_1__wav, AssetPaths.Cat_2__wav, AssetPaths.Cat_3__wav, AssetPaths.Cat_4__wav, AssetPaths.Cat_5__wav],
+        "AlarmClock" => [AssetPaths.AlarmClock_1__wav],
+        "AmericanFootball" => [AssetPaths.Ball_1__wav, AssetPaths.Ball_2__wav, AssetPaths.Ball_3__wav, AssetPaths.Ball_4__wav],
+        "Balloon" => [AssetPaths.Balloon_1__wav, AssetPaths.Balloon_2__wav, AssetPaths.Balloon_3__wav, AssetPaths.Balloon_4__wav],
+        "Basketball" => [AssetPaths.Ball_1__wav, AssetPaths.Ball_2__wav, AssetPaths.Ball_3__wav, AssetPaths.Ball_4__wav],
+        "Drugs" => [AssetPaths.Drugs_1__wav, AssetPaths.Drugs_2__wav, AssetPaths.Drugs_3__wav, AssetPaths.Drugs_4__wav],
+        "Football" => [AssetPaths.Ball_1__wav, AssetPaths.Ball_2__wav, AssetPaths.Ball_3__wav, AssetPaths.Ball_4__wav],
+        "GlassShard" => [AssetPaths.GlassShard_1__wav, AssetPaths.GlassShard_2__wav, AssetPaths.GlassShard_3__wav],
+        "Grenade" => [AssetPaths.Grenade_1__wav, AssetPaths.Grenade_2__wav, AssetPaths.Grenade_3__wav],
+        "Hosepipe" => [AssetPaths.Hosepipe_1__wav, AssetPaths.Hosepipe_2__wav],
+        "Knife" => [AssetPaths.Knife_1__wav, AssetPaths.Knife_2__wav],
+        "MobilePhone" => [AssetPaths.MobilePhone_1__wav, AssetPaths.MobilePhone_2__wav, AssetPaths.MobilePhone_3__wav, AssetPaths.MobilePhone_4__wav],
+        "Radio" => [AssetPaths.Radio_1__wav, AssetPaths.Radio_2__wav, AssetPaths.Radio_3__wav, AssetPaths.Radio_4__wav],
+        "RubberBands" => [AssetPaths.RubberBands_1__wav, AssetPaths.RubberBands_2__wav, AssetPaths.RubberBands_3__wav, AssetPaths.RubberBands_4__wav],
+        "RubberDuck" => [AssetPaths.RubberDuck_1__wav, AssetPaths.RubberDuck_2__wav, AssetPaths.RubberDuck_3__wav, AssetPaths.RubberDuck_4__wav],
+        "Spring" => [AssetPaths.Spring_1__wav, AssetPaths.Spring_2__wav, AssetPaths.Spring_3__wav, AssetPaths.Spring_4__wav, AssetPaths.Spring_5__wav, AssetPaths.Spring_6__wav],
+        "Brain" => [AssetPaths.Brain_1__wav],
+        "Elbow" => [AssetPaths.Elbow_1__wav, AssetPaths.Elbow_2__wav, AssetPaths.Elbow_3__wav, AssetPaths.Elbow_4__wav],
+        "Guts" => [AssetPaths.Guts_1__wav],
+        "Heart" => [AssetPaths.Heart_1__wav],
+        "Knee" => [AssetPaths.Knee_1__wav, AssetPaths.Knee_2__wav, AssetPaths.Knee_3__wav, AssetPaths.Knee_4__wav],
+        "Lung" => [AssetPaths.Lung_1__wav],
+        "ArtificialJoint" => [AssetPaths.ArtificialJoint_1__wav],
+        "MetalGuts" => [AssetPaths.MetalGuts_1__wav],
+        "MetalLungs" => [AssetPaths.MetalLungs_1__wav, AssetPaths.MetalLungs_2__wav, AssetPaths.MetalLungs_3__wav, AssetPaths.MetalLungs_4__wav],
+        "Pacemaker" => [AssetPaths.Pacemaker_1__wav],
+        "PositronicBrain" => [AssetPaths.PositronicBrain_1__wav, AssetPaths.PositronicBrain_2__wav, AssetPaths.PositronicBrain_3__wav, AssetPaths.PositronicBrain_4__wav, AssetPaths.PositronicBrain_5__wav],
+        "Clipboard" => [AssetPaths.Clipboard_1__wav, AssetPaths.Clipboard_2__wav, AssetPaths.Clipboard_3__wav],
+        "Clock" => [AssetPaths.Clock_1__wav],
+        "MedicalBook" => [AssetPaths.MedicalBook_1__wav, AssetPaths.MedicalBook_2__wav, AssetPaths.MedicalBook_3__wav, AssetPaths.MedicalBook_4__wav],
+        "Scalpel" => [AssetPaths.Knife_1__wav, AssetPaths.Knife_2__wav]
+    ];
+
     public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
 
     private var sounds:Array<String> = [];
@@ -90,15 +124,8 @@ package states.playstate;
         // Load the correct type onto this sprite
         loadGraphic("assets/images/" + type + ".png");
 
-        var i = 0;
-        while (true) {
-            i++;
-            var f = Reflect.field(AssetPaths, type + "_" + Std.string(i) + "__wav");
-            if (f == null) {
-                break;
-            } else {
-                sounds.push(f);
-            }
+        if (SOUNDS.exists(type)) {
+            sounds = SOUNDS.get(type);
         }
     }
 
