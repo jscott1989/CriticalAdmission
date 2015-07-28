@@ -794,6 +794,12 @@ class PlayState extends FlxState {
                     }
                 }
 
+                if (patient.info.contains("Grenade")) {
+                    Timer.delay(function() {
+                        soundManager.playSound(AssetPaths.Explosion__wav);
+                    }, 2000);
+                }
+
 				destroyPatient();
                 
                 if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {

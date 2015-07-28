@@ -241,4 +241,8 @@ import states.playstate.Interactable;
         }
         return possibleInteractables.pop();
     }
+
+    public function contains(obj:String):Bool {
+        return (brain == obj || heart == obj || lung == obj || guts == obj || leftElbow == obj || rightElbow == obj || leftKnee == obj || rightKnee == obj);
+    }
  }
