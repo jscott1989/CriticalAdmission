@@ -786,6 +786,9 @@ class PlayState extends FlxState {
 		if (patient != null) {
 			// If we have one, get rid of them first
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
+                if (patient.info.onExitCallback != null) {
+                    patient.info.onExitCallback();
+                }
 				treatedPatients.push(patient.info);
 
                 var improvement = patient.info.getQOL() - minimumHealth;
@@ -984,6 +987,10 @@ class PlayState extends FlxState {
 
 		// Add to renderer
 		add(patient);
+
+        if (patient.info.onEnterCallback != null) {
+            patient.info.onEnterCallback();
+        }
 
 		// Add each hole
 		for (hole in patient.holes) {
