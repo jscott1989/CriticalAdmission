@@ -88,7 +88,6 @@ class PlayState extends FlxState {
 	//Level and score counter for Game Over screen
     public var level:Level;
 	public var currentLevel:Int = 0;
-    public var minimumHealth:Int = 5;
     public var levelText:String = "";
 
     // Our reputation
@@ -248,13 +247,12 @@ class PlayState extends FlxState {
      * Ensure the game is winnable given the level and the objects in the scene
      * Pffffft. "Ensure its winnable". Where's the fun in that?
      */
-    public function generateLevel(level:Int, existingObjects:Array<String>):Level {
+    public function generateLevel(level:Int):Level {
         //Level text
         //TODO: randomise some quotes
         var text:String = "Some generic level text";
 
         // Target 40-60% health - TODO: Depend on level
-        var targetHealth:Float = 0.5;
 
         var patients:Array<PatientInfo> = new Array<PatientInfo>();
 
@@ -271,27 +269,22 @@ class PlayState extends FlxState {
             ["Organ", ["Heart"]],
             ["Organ", ["Heart"]],
         ];
-        
-        // Calculate improvment required
-        //TODO: balance/tie to difficulty
-        var minimumHealth:Int = 10;
 
         // Calculate time per patient
         //TODO: balance/tie to difficulty
         var levelTime:Int = 15;
 
-        return new Level(text, patients, numberOfPatients, interactables, [], minimumHealth, levelTime);
+        return new Level(text, patients, numberOfPatients, interactables, [], levelTime);
      }
 
     private function generatePatientInfo(level:Int):PatientInfo{
-        // Target 40-60% health - TODO: Depend on level
-        var targetHealth:Int = 50;
-
         var patient = new PatientInfo();
+
+        var incomingHealth:Float = Math.max(30, 100 - (level * 5));
         
         //var damaged
         // Now swap things around to ensure the health of each patient is within the bounds
-        patient.damageOrgans(targetHealth);
+        patient.damageOrgans(incomingHealth);
         //
         patient.initialQOL = patient.getQOL();
 
@@ -449,7 +442,7 @@ class PlayState extends FlxState {
         if (Levels.LEVELS.length >= currentLevel) {
             level = Levels.LEVELS[currentLevel - 1];
         } else {
-    		level = generateLevel(currentLevel, null);
+    		level = generateLevel(currentLevel);
         }
 
         patientsToTreat += level.patientsToTreat;
@@ -460,7 +453,6 @@ class PlayState extends FlxState {
             incomingPatients.push(generatePatientInfo(currentLevel));
         }
 
-        minimumHealth = level.minimumHealth;
         levelTime = level.levelTime;
         levelText = level.text;
 
@@ -798,7 +790,7 @@ class PlayState extends FlxState {
                 }
 				treatedPatients.push(patient.info);
 
-                var improvement = patient.info.getQOL() - minimumHealth;
+                var improvement = patient.info.getQOL() - 80;
 
                 if (improvement >= 0) {
                     changeReputation(Std.int(improvement));
@@ -888,7 +880,7 @@ class PlayState extends FlxState {
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
             soundManager.stopFlatline();
-            var improvement = patient.info.getQOL() - minimumHealth;
+            var improvement = patient.info.getQOL() - 80;
 
             if (patient.info.isVIP) {
                 changeReputation(-100);

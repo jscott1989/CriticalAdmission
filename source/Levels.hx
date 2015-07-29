@@ -10,7 +10,6 @@ class Level {
     public var VIP:PatientInfo;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
-    public var minimumHealth:Int;
     public var levelTime:Int;
 
     public function new(
@@ -19,7 +18,6 @@ class Level {
         patientsToTreat:Int,
         interactables:Array<Array<Dynamic>>,
         uiElements:Array<String>,
-        minimumHealth:Int,
         levelTime:Int
     )  {
         this.text = text;
@@ -27,7 +25,6 @@ class Level {
         this.patientsToTreat = patientsToTreat;
         this.interactables = interactables;
         this.uiElements = uiElements;
-        this.minimumHealth = minimumHealth;
         this.levelTime = levelTime;
     }
 }
@@ -72,7 +69,6 @@ class Levels {
                     "Next"
                 ],
 
-                95,
                 999
             ),
             new Level(
@@ -93,7 +89,6 @@ class Levels {
                     "PressureGauge"
                 ],
 
-                99,
                 999
             ),
         new Level(
@@ -113,7 +108,6 @@ class Levels {
                     "Clock"
                 ],
 
-                100,
                 10
             )
         ];

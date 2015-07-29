@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import flixel.util.FlxRandom;
 import states.playstate.Interactable;
 import states.playstate.Patient;
@@ -136,7 +137,7 @@ import states.playstate.Patient;
      * Get the Quality Of Life for this patient.
      */
     public function getQOL() {
-        return (getBrainQOL() + getHeartQOL() + getLungQOL() + getGutsQOL() + getLeftElbowQOL() + getRightElbowQOL() + getLeftKneeQOL() + getRightKneeQOL()) / 8;
+        return (((getBrainQOL() + getHeartQOL() + getLungQOL() + getGutsQOL() + getLeftElbowQOL() + getRightElbowQOL() + getLeftKneeQOL() + getRightKneeQOL()) / 8) * 0.8) + 20;
     }
 
     public static function getQOLForHole(objectType:String, holeType:String) {
@@ -190,7 +191,9 @@ import states.playstate.Patient;
         return getQOLForHole(rightKnee, "RightKnee");
     }
 
-    public function damageOrgans(target:Int){
+    public function damageOrgans(target:Float){
+
+        FlxG.log.add(target);
         var organs:Array<String> = [
             "brain",
             "heart",

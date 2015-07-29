@@ -40,12 +40,12 @@ class IntrimState extends FlxSubState {
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        var infoText = new FlxText(50, 180, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime + " seconds", 40);
-        infoText.font = "assets/fonts/Cabin-Regular.ttf";
-        infoText.color = FlxColor.BLACK;
-        add(infoText);
+        // var infoText = new FlxText(50, 180, 0, "Time per patient: " + state.levelTime + " seconds", 40);
+        // infoText.font = "assets/fonts/Cabin-Regular.ttf";
+        // infoText.color = FlxColor.BLACK;
+        // add(infoText);
 
-        var levelText = new FlxText(50, 290, 840, PlayState.getInstance().levelText, 40);
+        var levelText = new FlxText(50, 180, 950, PlayState.getInstance().levelText, 40);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);

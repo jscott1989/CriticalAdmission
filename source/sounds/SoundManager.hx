@@ -20,9 +20,6 @@ class SoundManager {
 	var speech:FlxSound;
 	var heart:FlxSound;
 
-	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
-	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
-
 	private static var instance:SoundManager;
   
     public static inline function getInstance() {
@@ -47,6 +44,7 @@ class SoundManager {
 
 	public function playECG() {
 		if (Config.SOUND_ON) {
+			var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
 			ecg.play();
 		}
 	}
@@ -66,14 +64,19 @@ class SoundManager {
 		}
 	}
 
+	var flatline:FlxSound;
+
 	public function playFlatline() {
 		if (Config.SOUND_ON) {
+			flatline = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
 			flatline.play();
 		}
 	}
 
 	public function stopFlatline() {
-		flatline.stop();
+		if (flatline != null) {
+			flatline.stop();
+		}
 	}
 
 	private function createSubtitle(text:String){

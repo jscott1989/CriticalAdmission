@@ -62,7 +62,7 @@ package states.playstate;
             var health = PlayState.getInstance().patient.info.getQOL();
             qol_text.text = Std.string(health) + "%";
 
-            if (health >= PlayState.getInstance().minimumHealth) {
+            if (health >= 80) {
                 qol_text.color = FlxColor.GREEN;
             } else {
                 qol_text.color = FlxColor.RED;
