@@ -23,7 +23,8 @@ package states.playstate;
     ];
 
     public static var PROSTHETICS = [
-        "ArtificialJoint",
+        "ArtificialKnee",
+        "ArtificialElbow",
         "MetalGuts",
         "MetalLungs",
         "Pacemaker",
