@@ -86,7 +86,7 @@ class Levels {
                 
                 [
                     new PatientInfo(null, null, null, null, null, null, null, null, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, true, "Lord Wafflington", null, null, null, null, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                    new PatientInfo(true, true, "Lord Wafflington", null, null, null, 2, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
                 ],
 
                 2,
