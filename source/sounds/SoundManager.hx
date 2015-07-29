@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
+import haxe.Timer;
 import sounds.speech.Receptionist;
 import states.playstate.PlayState;
 import states.playstate.Tannoy;
@@ -19,8 +20,6 @@ class SoundManager {
 	var speech:FlxSound;
 	var heart:FlxSound;
 
-	var success:FlxSound = FlxG.sound.load(AssetPaths.success__wav, 1, false);
-	var failure:FlxSound = FlxG.sound.load(AssetPaths.failure__wav, 1, false);
 	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
 	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
 
@@ -54,12 +53,15 @@ class SoundManager {
 
 	public function playSuccess() {
 		if (Config.SOUND_ON) {
+			FlxG.log.add("SUCCESS");
+			var success:FlxSound = FlxG.sound.load(AssetPaths.success__wav, 1, false);
 			success.play();
 		}
 	}
 
 	public function playFailure() {
 		if (Config.SOUND_ON) {
+			var failure:FlxSound = FlxG.sound.load(AssetPaths.failure__wav, 1, false);
 			failure.play();
 		}
 	}

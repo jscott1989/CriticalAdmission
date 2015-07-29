@@ -344,7 +344,7 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(true), 1, 1);
         spawnUIHole(new UIHole(true), 1, 2);
 
-        var pauseHole = new UIHole(new Pause());
+        var pauseHole = new UIHole();
         pauseHole.x = FlxG.width - 100;
         pauseHole.y = FlxG.height - 200;
         watchHole(pauseHole);
@@ -361,6 +361,10 @@ class PlayState extends FlxState {
             cat.x = Std.random(FlxG.width);
             cat.y = FlxG.height;
             watchInteractable(cat);
+
+            var pause = new Pause();
+            watchInteractable(pause);
+            pauseHole.addInteractable(pause);
         }
         levelComplete(false);
 	}
