@@ -1,6 +1,7 @@
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
+    public var patientsToTreat:Int;
     public var VIP:PatientInfo;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
@@ -10,6 +11,7 @@ class Level {
     public function new(
         text:String,
         patients:Array<PatientInfo>,
+        patientsToTreat:Int,
         interactables:Array<Array<Dynamic>>,
         uiElements:Array<String>,
         minimumHealth:Int,
@@ -17,6 +19,7 @@ class Level {
     )  {
         this.text = text;
         this.patients = patients;
+        this.patientsToTreat = patientsToTreat;
         this.interactables = interactables;
         this.uiElements = uiElements;
         this.minimumHealth = minimumHealth;
@@ -30,14 +33,62 @@ class Levels {
     public static function populateLevels(){
         LEVELS = [
             new Level(
-                "Level 1 yo...",
+                "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...",
                 
                 [
-                    new PatientInfo(true, false, null, null, null, null, 1, true, "Brain", true, "Scalpel",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, false, null, null, null, null, 2, false, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, true, null, null, null, null, 1, false, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, true, null, null, null, null, 2, true, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
+
+                3,
+
+                [
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]],
+                    ["Organ", ["Heart"]]
+                ],
+
+                [
+                    "Next",
+                    "Pause"
+                ],
+
+                100,
+                999
+            ),
+            new Level(
+                "Phew! That was a close one. No time to rest now though, there are more incoming and...what do you mean we've run out of hearts? Well, just improvise something: the patient's chart will tell you whether it's any good for them!",
+                
+                [
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                ],
+
+                3,
+
+                [
+                    ["Organ", ["Pacemaker"]],
+                    ["Organ", ["Pacemaker"]],
+                    ["Organ", ["RubberDuck"]]
+                ],
+
+                [
+                    "Clipboard"
+                ],
+
+                90,
+                999
+            ),
+            new Level(
+                "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation (indicated by this handy pressure gauge) will drop! If it drops too far, it's all over for us! VIPs are so important, you might want to consider taking some useful organs out of the plebs, just in case you need them later",
+                
+                [
+                    new PatientInfo(true, true, "Lord Wafflington", null, null, null, null, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                ],
+
+                1,
 
                 [
                     ["Organ", ["Heart"]],
@@ -52,32 +103,30 @@ class Levels {
                 ],
 
                 [
-                    "Next",
-                    "Tannoy",
-                    "Clipboard",
-                    "PressureGauge",
-                    "PatientCounter",
-                    "Pause"
+                    "PressureGauge"
                 ],
 
-                70,
-                20
+                100,
+                999
             ),
-            new Level(
-                    "Level 2...",
-                    
-                    [
-                    ],
+        new Level(
+                "The queues are mounting up around the block! There's nothing else for it; get in there and help those people. You've only got a few seconds to spend fixing each patient - take too long and we'll get someone else to do it, and that patient won't count towards your shift!",
+                
+                [
+                ],
 
-                    [
-                        
-                    ],
+                9,
 
-                    [
-                    ],
+                [
+                ],
 
-                    100,
-                    5
+                [
+                    "Tannoy",
+                    "PatientCounter"
+                ],
+
+                100,
+                999
             )
         ];
     }
