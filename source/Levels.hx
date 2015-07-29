@@ -1,4 +1,6 @@
+import states.playstate.Patient;
 import states.playstate.PlayState;
+
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
@@ -37,9 +39,9 @@ class Levels {
                 "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true, function() {
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true, function(patient:Patient) {
                         PlayState.getInstance().showPopup("enter", "A B C D");
-                    }, function() {
+                    }, function(patient:Patient) {
                         PlayState.getInstance().showPopup("ON EXIT", "He's gone");
                     }),
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),

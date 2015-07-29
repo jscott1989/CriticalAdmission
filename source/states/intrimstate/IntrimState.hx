@@ -1,5 +1,4 @@
-
- package states.intrimstate;
+package states.intrimstate;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -51,7 +50,7 @@ class IntrimState extends FlxSubState {
         levelText.color = FlxColor.BLACK;
         add(levelText);
 
-        var upcomingPatientsText = new FlxText(50, 850, 0, "Upcoming Patients:", 50);
+        var upcomingPatientsText = new FlxText(50, 940, 0, "Upcoming Patients:", 50);
         upcomingPatientsText.font = "assets/fonts/Cabin-Regular.ttf";
         upcomingPatientsText.color = FlxColor.BLACK;
         add(upcomingPatientsText);
@@ -61,7 +60,7 @@ class IntrimState extends FlxSubState {
         for (patient in PlayState.getInstance().incomingPatients) {
             var p = new PatientIcon(patient);
             p.x = 20 + (i * (200 + 20));
-            p.y = upcomingPatientsText.y + upcomingPatientsText.height + 30;
+            p.y = upcomingPatientsText.y + upcomingPatientsText.height + 10;
             add(p);
             i+= 1;
         }
