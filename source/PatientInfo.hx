@@ -2,6 +2,7 @@ package;
 
 import flixel.util.FlxRandom;
 import states.playstate.Interactable;
+import states.playstate.Patient;
 
 /**
  * Contain stats about a patient
