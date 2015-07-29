@@ -827,9 +827,14 @@ class PlayState extends FlxState {
 	}
 
     function changeReputation(change: Int) {
-        reputation += change;
 
-        // TODO: Play a sound appropriate to the reputation change
+        if (change >= 0) {
+            change = Std.int(Math.min(100 - reputation, change));
+        } else {
+            change = Std.int(Math.max(0 - reputation, change));
+        }
+
+        reputation += change;
 
         // Show the level of reputation change
         var changeText:String = Std.string(change);

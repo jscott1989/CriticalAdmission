@@ -1,3 +1,4 @@
+import states.playstate.Patient;
 import states.playstate.PlayState;
 import states.playstate.Patient;
 import states.playstate.Interactable;
