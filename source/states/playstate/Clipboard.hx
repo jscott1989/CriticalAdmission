@@ -11,16 +11,18 @@ package states.playstate;
     private var name_text:FlxText;
     private var qol_text:FlxText;
 
+    private var isVIP:Bool = false;
+
     public function new()  {
         super("Clipboard");
 
-        name_text = new FlxText(0, 0, width); // x, y, width
+        name_text = new FlxText(0, 0, 260); // x, y, width
         name_text.font = "assets/fonts/Cabin-Regular.ttf";
         name_text.alignment = "center";
         name_text.size = 40;
         name_text.color = FlxColor.BLACK;
 
-        qol_text = new FlxText(0, 0, width); // x, y, width
+        qol_text = new FlxText(0, 0, 260); // x, y, width
         qol_text.font = "assets/fonts/Cabin-Regular.ttf";
         qol_text.alignment = "center";
         qol_text.size = 40;
@@ -67,6 +69,14 @@ package states.playstate;
             } else {
                 qol_text.color = FlxColor.RED;
             }
+
+            if (PlayState.getInstance().patient.info.isVIP && !isVIP)  {
+                isVIP = true;
+                loadGraphic("assets/images/VIPClipboard.png");
+            } else if (!PlayState.getInstance().patient.info.isVIP && isVIP) {
+                isVIP = false;
+                loadGraphic("assets/images/Clipboard.png");
+            }
         }
     }
 
@@ -74,8 +84,8 @@ package states.playstate;
         if (PlayState.getInstance().patient != null) {
             updateText();
         }
-        ensureInFront(name_text, 0, 160);
-        ensureInFront(qol_text, 0, 220);
+        ensureInFront(name_text, 130, 160);
+        ensureInFront(qol_text, 130, 170 + name_text.height);
         super.update();
     }
  }
