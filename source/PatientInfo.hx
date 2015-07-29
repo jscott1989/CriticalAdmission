@@ -44,12 +44,12 @@ import states.playstate.Interactable;
     public var leftKnee:String = "Knee";
     public var rightKnee:String = "Knee";
 
-    public var onExitCallback:Void -> Void;
-    public var onEnterCallback:Void -> Void;
+    public var onExitCallback:Patient -> Void;
+    public var onEnterCallback:Patient -> Void;
 
     public var initialQOL:Float = 100;
 
-    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, crown:Int=null, medals:Bool=false, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true, onEnterCallback:Void -> Void = null, onExitCallback:Void -> Void = null)  {
+    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, crown:Int=null, medals:Bool=false, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true, onEnterCallback:Patient -> Void = null, onExitCallback:Patient -> Void = null)  {
         this.isVIP = isVIP;
 
         if (isMale == null) {

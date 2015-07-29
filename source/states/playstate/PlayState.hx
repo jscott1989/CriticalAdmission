@@ -787,7 +787,7 @@ class PlayState extends FlxState {
 			// If we have one, get rid of them first
 			FlxTween.tween(patient, {y: 0-(patient.height)}, 1, {complete: function(t:FlxTween) {
                 if (patient.info.onExitCallback != null) {
-                    patient.info.onExitCallback();
+                    patient.info.onExitCallback(patient);
                 }
 				treatedPatients.push(patient.info);
 
@@ -989,7 +989,7 @@ class PlayState extends FlxState {
 		add(patient);
 
         if (patient.info.onEnterCallback != null) {
-            patient.info.onEnterCallback();
+            patient.info.onEnterCallback(patient);
         }
 
 		// Add each hole
