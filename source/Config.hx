@@ -1,9 +1,3 @@
-enum Difficulty{
-	Easy;
-	Medium;
-	Hard;
-}
-
 class Config{
 	public static var BUTTON_Y_PADDING:Float = 50;
 
@@ -13,9 +7,6 @@ class Config{
 	public static var SUBTITLE_SIZE:Int = 60;
 	public static var SUBTITLE_X_PADDING:Int = 50;
 	public static var SUBTITLE_Y_PADDING:Int = 100;
-
-	//USER SELECTED OPTIONS
-	public static var DIFFICULTY = Difficulty.Easy;
 	
 	public static var MUSIC_ON:Bool = true;
 	public static var SOUND_ON:Bool = true;

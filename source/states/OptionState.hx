@@ -16,47 +16,36 @@ using flixel.util.FlxSpriteUtil;
  * Game's menu. Disabled at the moment.
  */
 class OptionState extends FlxSubState {
-	private var btnDifficulty:FlxButton;
-	private var btnMusic:FlxButton;
+	// private var btnMusic:FlxButton;
 	private var btnSound:FlxButton;
 	private var btnSubtitles:FlxButton;
 	private var btnBack:FlxButton;
-
-	private var BUTTONS:Float = 5;
-	private var BUTTON_HEIGHT:Float = 60;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
 		// Fill background with black
-        var background = new FlxSprite();
-        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-        add(background);
+        var background = new FlxSprite(0,0);
+		background.loadGraphic("assets/images/MenuScreen.png");
+		add(background);
 
-        //Add buttons
-		btnDifficulty = Utils.createButton("DIFFICULTY: Easy", clickDifficulty, 5, 30);
-		switch Config.DIFFICULTY{
-			case Config.Difficulty.Easy : btnDifficulty.label.text = "DIFFICULTY: Easy";
-			case Config.Difficulty.Medium : btnDifficulty.label.text = "DIFFICULTY: Med";
-			case Config.Difficulty.Hard : btnDifficulty.label.text = "DIFFICULTY: Hard";
-		}
-		btnDifficulty.screenCenter();
-		btnDifficulty.y = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2 + (Config.BUTTON_Y_PADDING + BUTTON_HEIGHT)*0;
-		add(btnDifficulty);
+		var logo = new FlxSprite(0,0);
+		logo.loadGraphic("assets/images/Logo.png");
+		add(logo);
 
-		btnMusic = Utils.createButton("MUSIC: On", clickMusic, 5, 30);
-		if(Config.MUSIC_ON){
-			btnMusic.label.text = "MUSIC: On";
-		}
-		else{
-			btnMusic.label.text = "MUSIC: Off";
-		}
-		btnMusic.screenCenter();
-		btnMusic.y = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2 + (Config.BUTTON_Y_PADDING + BUTTON_HEIGHT)*1;
-		add(btnMusic);
+		// btnMusic = Utils.createButton("MUSIC: On", clickMusic, 5);
+		// if(Config.MUSIC_ON){
+		// 	btnMusic.label.text = "MUSIC: On";
+		// }
+		// else{
+		// 	btnMusic.label.text = "MUSIC: Off";
+		// }
+		// btnMusic.screenCenter();
+		// btnMusic.y = 1000;
+		// add(btnMusic);
 
-		btnSound = Utils.createButton("SOUND: On", clickSound, 5, 30);
+		btnSound = Utils.createButton("SOUND: On", clickSound, 5);
 		if(Config.SOUND_ON){
 			btnSound.label.text = "SOUND: On";
 		}
@@ -64,10 +53,10 @@ class OptionState extends FlxSubState {
 			btnSound.label.text = "SOUND: Off";
 		}
 		btnSound.screenCenter();
-		btnSound.y = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2 + (Config.BUTTON_Y_PADDING + BUTTON_HEIGHT)*2;
+		btnSound.y = 1000;
 		add(btnSound);
 
-		btnSubtitles = Utils.createButton("SUBTITLES: On", clickSubtitles, 5, 30);
+		btnSubtitles = Utils.createButton("SUBTITLES: On", clickSubtitles, 5);
 		if(Config.SUBTITLES_ON){
 			btnSubtitles.label.text = "SUBTITLES: On";
 		}
@@ -75,12 +64,12 @@ class OptionState extends FlxSubState {
 			btnSubtitles.label.text = "SUBTITLES: Off";
 		}
 		btnSubtitles.screenCenter();
-		btnSubtitles.y = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2 + (Config.BUTTON_Y_PADDING + BUTTON_HEIGHT)*3;
+		btnSubtitles.y = 1125;
 		add(btnSubtitles);
 
-		btnBack = Utils.createButton("Back", clickBack, 5, 30);
+		btnBack = Utils.createButton("Back", clickBack, 5);
 		btnBack.screenCenter();
-		btnBack.y = (FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2) + (Config.BUTTON_Y_PADDING + BUTTON_HEIGHT)*4;
+		btnBack.y = 1250;
 		add(btnBack);
 
 		super.create();
@@ -89,26 +78,18 @@ class OptionState extends FlxSubState {
         FlxG.camera.stopFX();
 	}
 
-	private function clickDifficulty():Void {
-		switch Config.DIFFICULTY{
-			case Config.Difficulty.Easy : Config.DIFFICULTY = Config.Difficulty.Medium; btnDifficulty.label.text = "DIFFICULTY: Med";
-			case Config.Difficulty.Medium : Config.DIFFICULTY = Config.Difficulty.Hard; btnDifficulty.label.text = "DIFFICULTY: Hard";
-			case Config.Difficulty.Hard : Config.DIFFICULTY = Config.Difficulty.Easy; btnDifficulty.label.text = "DIFFICULTY: Easy";
-		}
-	}
-
-	private function clickMusic():Void {
-		if(Config.MUSIC_ON){
-			Config.MUSIC_ON = false;
-			btnMusic.label.text = "MUSIC: Off";
-			//TODO: Hard top playing music
-		}
-		else{
-			Config.MUSIC_ON = true;
-			btnMusic.label.text = "MUSIC: On";
-			//TODO: Restart music
-		}
-	}
+	// private function clickMusic():Void {
+	// 	if(Config.MUSIC_ON){
+	// 		Config.MUSIC_ON = false;
+	// 		btnMusic.label.text = "MUSIC: Off";
+	// 		//TODO: Hard top playing music
+	// 	}
+	// 	else{
+	// 		Config.MUSIC_ON = true;
+	// 		btnMusic.label.text = "MUSIC: On";
+	// 		//TODO: Restart music
+	// 	}
+	// }
 
 	private function clickSound():Void {
 		if(Config.SOUND_ON){
@@ -147,8 +128,7 @@ class OptionState extends FlxSubState {
 	override public function destroy():Void {
 		super.destroy();
 
-		btnDifficulty = FlxDestroyUtil.destroy(btnDifficulty);
-		btnMusic = FlxDestroyUtil.destroy(btnMusic);
+		// btnMusic = FlxDestroyUtil.destroy(btnMusic);
 		btnSound = FlxDestroyUtil.destroy(btnSound);
 		btnSubtitles = FlxDestroyUtil.destroy(btnSubtitles);
 		btnBack = FlxDestroyUtil.destroy(btnBack);

@@ -12,7 +12,7 @@ import flixel.FlxG;
 
     public override function interaction() {
         if (Config.SUBTITLES_ON){
-            FlxG.sound.play(AssetPaths.button__wav);
+            PlayState.getInstance().soundManager.playSound(AssetPaths.button__wav);
             PlayState.getInstance().pause();
         }
     }

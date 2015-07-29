@@ -22,16 +22,20 @@ class GameOverState extends FlxSubState {
 	 */
 	override public function create():Void {
 		// fill background with black
-        var background = new FlxSprite();
-        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        var background = new FlxSprite(0,0);
+        background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-		var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5, 30);
+        var logo = new FlxSprite(0,0);
+		logo.loadGraphic("assets/images/Logo.png");
+		add(logo);
+
+		var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5);
 		btnMenu.x = FlxG.width / 2 - btnMenu.width - 10;
 		btnMenu.y = FlxG.height - btnMenu.height - 10;
 		add(btnMenu);
 
-		var btnRetry = Utils.createButton("Restart Day", clickRetry, 5, 30);
+		var btnRetry = Utils.createButton("Restart Day", clickRetry, 5);
 		btnRetry.x = FlxG.width / 2 + 10;
 		btnRetry.y = FlxG.height - btnRetry.height - 10;
 		add(btnRetry);

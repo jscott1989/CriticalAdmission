@@ -26,8 +26,8 @@ class IntrimState extends FlxSubState {
         state.nextLevel();
 
         // fill background with black
-        var background = new FlxSprite();
-        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        var background = new FlxSprite(0,0);
+        background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
         var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 100);
@@ -62,7 +62,7 @@ class IntrimState extends FlxSubState {
 
 
 
-        var btnPlay = Utils.createButton("Continue", clickPlay, 5, 30);
+        var btnPlay = Utils.createButton("Continue", clickPlay, 5);
         btnPlay.screenCenter();
         btnPlay.y = FlxG.height - btnPlay.height - 10;
         add(btnPlay);

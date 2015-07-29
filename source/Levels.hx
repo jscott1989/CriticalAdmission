@@ -56,7 +56,7 @@ class Levels {
                     "Clipboard",
                     "PressureGauge",
                     "PatientCounter",
-                    "MedicalBook"
+                    "Pause"
                 ],
 
                 70,

@@ -30,19 +30,27 @@ class SoundManager {
 	}
 
 	public function playECG() {
-		ecg.play();
+		if (Config.SOUND_ON) {
+			ecg.play();
+		}
 	}
 
 	public function playSuccess() {
-		success.play();
+		if (Config.SOUND_ON) {
+			success.play();
+		}
 	}
 
 	public function playFailure() {
-		failure.play();
+		if (Config.SOUND_ON) {
+			failure.play();
+		}
 	}
 
 	public function playFlatline() {
-		flatline.play();
+		if (Config.SOUND_ON) {
+			flatline.play();
+		}
 	}
 
 	public function stopFlatline() {
@@ -91,23 +99,25 @@ class SoundManager {
 				removeSubtitle();
 			}
 
-			tannoySound = FlxG.sound.load(AssetPaths.tannoy1__wav);
-			tannoySound.volume = 0.2;
-			tannoy.startPlaying();
-			tannoySound.onComplete = function(){
-				speech = FlxG.sound.load(key);
-				speech.volume = 70;
-				speech.onComplete = function() {
-					tannoy.stopPlaying();
-					removeSubtitle();
+			if (Config.SOUND_ON) {
+				tannoySound = FlxG.sound.load(AssetPaths.tannoy1__wav);
+				tannoySound.volume = 0.2;
+				tannoy.startPlaying();
+				tannoySound.onComplete = function(){
+					speech = FlxG.sound.load(key);
+					speech.volume = 70;
+					speech.onComplete = function() {
+						tannoy.stopPlaying();
+						removeSubtitle();
+					};
+					if (Config.SUBTITLES_ON){
+						createSubtitle(value);
+					}
+					speech.play();
+					tannoySound.onComplete = null;
 				};
-				if (Config.SUBTITLES_ON){
-					createSubtitle(value);
-				}
-				speech.play();
-				tannoySound.onComplete = null;
-			};
-			tannoySound.play();
+				tannoySound.play();
+			}
 		}
 	}
 
@@ -152,7 +162,9 @@ class SoundManager {
 	}
 
 	public function playSound(sound:String) {
-		var s = FlxG.sound.load(sound);
-		s.play();
+		if (Config.SOUND_ON) {
+			var s = FlxG.sound.load(sound);
+			s.play();
+		}
 	}
 }

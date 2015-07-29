@@ -69,7 +69,7 @@ class Utils
 
     }
 
-    public static function createButton(text:String, callback:Void->Void, scale:Float, labelSize:Float){
+    public static function createButton(text:String, callback:Void->Void, scale:Float){
         var button:FlxButton = new FlxButton(0, 0, text, callback);
         button.scale.x = button.scale.y = scale;
         button.width = button.scale.x * button.frameWidth;
@@ -77,11 +77,12 @@ class Utils
         button.centerOffsets(true);
         
         button.label = new FlxText(0, 0, button.width, text);
-        button.label.font = "assets/fonts/Cabin-Regular.ttf";
-        button.label.setFormat(null, labelSize, 0x333333, "center");
+        button.label.setFormat("assets/fonts/Cabin-Bold.ttf", 40, 0x333333, "center");
         button.label.offset.y -= 20;
-
-        button.onUp.sound = FlxG.sound.load(AssetPaths.button__wav);
+        
+        if (Config.SOUND_ON) {
+            button.onUp.sound = FlxG.sound.load(AssetPaths.button__wav);
+        }
 
         return button;
     }

@@ -23,23 +23,23 @@ class PauseState extends FlxSubState {
     override public function create():Void {
 
         // fill background with black
-        var background = new FlxSprite();
-        background.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        var background = new FlxSprite(0,0);
+        background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-        var btnPlay = Utils.createButton("Continue", clickPlay, 5, 30);
+        var btnPlay = Utils.createButton("Continue", clickPlay, 5);
         btnPlay.x = FlxG.width / 2 - btnPlay.width / 2;
-        btnPlay.y = 100;
+        btnPlay.y = 1000;
         add(btnPlay);
 
-        var btnRetry = Utils.createButton("Restart Day", clickRetry, 5, 30);
+        var btnRetry = Utils.createButton("Restart Day", clickRetry, 5);
         btnRetry.x = FlxG.width / 2 - btnRetry.width / 2;
-        btnRetry.y = 300;
+        btnRetry.y = 1125;
         add(btnRetry);
 
-        var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5, 30);
+        var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5);
         btnMenu.x = FlxG.width / 2 - btnMenu.width / 2;
-        btnMenu.y = 500;
+        btnMenu.y = 1250;
         add(btnMenu);
 
         super.create();
