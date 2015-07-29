@@ -38,7 +38,7 @@ class CreditsState extends FlxSubState {
         logo.loadGraphic("assets/images/Logo.png");
         add(logo);
 
-        var intro = new FlxText(100, 330, 700, "Critical Admission was a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).\n\nIt was created by Jonathan Scott, Tom Blount, David Millard, Priyanka Singh, and Devasena Prasad.\n\nThe receptionist was voiced by Melanie Ehrlich.", 40);
+        var intro = new FlxText(100, 330, 700, "Critical Admission is a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).\n\nIt was created by Jonathan Scott, Tom Blount, David Millard, Priyanka Singh, and Devasena Prasad.\n\nThe receptionist was voiced by Melanie Ehrlich.", 40);
         intro.font = "assets/fonts/Cabin-Bold.ttf";
         intro.color = FlxColor.BLACK;
         add(intro);
