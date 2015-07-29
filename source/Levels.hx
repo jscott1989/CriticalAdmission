@@ -121,8 +121,8 @@ class Levels {
                 ],
 
                 [
-                    "Tannoy"
-                    "PatientCounter",
+                    "Tannoy",
+                    "PatientCounter"
                 ],
 
                 100,
