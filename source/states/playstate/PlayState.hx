@@ -78,6 +78,8 @@ class PlayState extends FlxState {
 
 	public static inline var BLOOD_DRIP_TIMEOUT = 0.1;
 
+    public var skipTutorial = false;
+
 	//Default level time; tweak for testing
 	public var levelTime:Float = 10;
 
@@ -948,6 +950,12 @@ class PlayState extends FlxState {
         for (i in interactables) {
             var t:Interactable = Type.createInstance(Type.resolveClass("states.playstate." + i), []);
             spawnUIElement(t);
+        }
+    }
+
+    public function showPopup(title:String, text:String) {
+        if (!skipTutorial) {
+            openSubState(new PopupState(title, text));
         }
     }
 

@@ -36,9 +36,9 @@ class Levels {
                 "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
                 3,
@@ -60,9 +60,9 @@ class Levels {
                 "Phew! That was a close one. No time to rest now though, there are more incoming and...what do you mean we've run out of hearts? Well, just improvise something: the patient's chart will tell you whether it's any good for them!",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
                 3,
@@ -84,8 +84,8 @@ class Levels {
                 "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation (indicated by this handy pressure gauge) will drop! If it drops too far, it's all over for us! HINT: VIPs are so important, you might want to consider taking some useful organs out of the plebs! In this case, the patient just before Lord Wafflington has a perfectly healthy set of guts - we can take those out and still patch him up enough that we won't fail.",
                 
                 [
-                    new PatientInfo(null, null, null, null, null, null, null, null, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, true, "Lord Wafflington", null, null, null, 2, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, true, "Lord Wafflington", null, null, null, 2, false, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
                 ],
 
                 2,
