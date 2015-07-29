@@ -1,4 +1,7 @@
 import states.playstate.PlayState;
+import states.playstate.Patient;
+import states.playstate.Interactable;
+
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
@@ -37,16 +40,26 @@ class Levels {
                 "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true, function() {
-                        PlayState.getInstance().showPopup("enter", "A B C D");
-                    }, function() {
-                        PlayState.getInstance().showPopup("ON EXIT", "He's gone");
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
+                        function(patient:Patient) {
+                        PlayState.getInstance().showPopup("Day 1", "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...");
+                    }),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    
+                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
+                        function(patient:Patient) {
+                        PlayState.getInstance().showPopup("Day 1", "Phew! That was a close one. No time to rest now though, there are more incoming and...what do you mean we've run out of hearts? Well, just improvise something: the patient's chart will tell you whether it's any good for them!");
+                        PlayState.getInstance().spawnUIElement(Interactable.createInteractable("Clipboard"));
+                        PlayState.getInstance().spawnInteractable(new Interactable("Pacemaker"));
+                        PlayState.getInstance().spawnInteractable(new Interactable("Pacemaker"));
+                        PlayState.getInstance().spawnInteractable(new Interactable("RubberDuck"));
                     }),
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
-                3,
+                6,
 
                 [
                     ["Organ", ["Heart"]],
@@ -58,31 +71,7 @@ class Levels {
                     "Next"
                 ],
 
-                100,
-                999
-            ),
-            new Level(
-                "Phew! That was a close one. No time to rest now though, there are more incoming and...what do you mean we've run out of hearts? Well, just improvise something: the patient's chart will tell you whether it's any good for them!",
-                
-                [
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                ],
-
-                3,
-
-                [
-                    ["Organ", ["Pacemaker"]],
-                    ["Organ", ["Pacemaker"]],
-                    ["Organ", ["RubberDuck"]]
-                ],
-
-                [
-                    "Clipboard"
-                ],
-
-                80,
+                95,
                 999
             ),
             new Level(
@@ -103,7 +92,7 @@ class Levels {
                     "PressureGauge"
                 ],
 
-                80,
+                99,
                 999
             ),
         new Level(
@@ -119,7 +108,8 @@ class Levels {
 
                 [
                     "Tannoy",
-                    "PatientCounter"
+                    "PatientCounter",
+                    "Clock"
                 ],
 
                 100,
