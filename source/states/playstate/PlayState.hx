@@ -379,14 +379,14 @@ class PlayState extends FlxState {
 	/**
      * Add an interactable on the table.
      */
-    private function spawnInteractable(interactable:Interactable) { 
+    public function spawnInteractable(interactable:Interactable) { 
         interactable.x = table.x + Std.random(Std.int(table.width - interactable.width));
         interactable.y = table.y + Std.random(Std.int(table.height - interactable.height));
         watchInteractable(interactable);
     }
 
 
-    private function spawnUIElement(interactable:Interactable) { 
+    public function spawnUIElement(interactable:Interactable) { 
         spawnInteractable(interactable);
         for (hole in holes) {
             if (hole.interactable == null) {
