@@ -717,7 +717,7 @@ class PlayState extends FlxState {
 
                     if (closestHole != null) {
                         closestHole.addInteractable(dragging);
-                    } else if (!Utils.getSpriteRectangle(table).containsPoint(new Point(dragging.x, dragging.y))) {
+                    } else if (!Utils.getSpriteRectangle(table).containsPoint(new Point(FlxG.mouse.x, FlxG.mouse.y))) {
                         // If it's not on the table and not placed, put it on the table
                         returnDragged(dragging);
                     }
