@@ -3,7 +3,9 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.addons.ui.FlxInputText;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import states.playstate.PlayState;
 
@@ -29,6 +31,36 @@ class GameOverState extends FlxSubState {
 
         var state = PlayState.getInstance();
 
+
+        var self = this;
+        if (states.HighscoreState.isHighscore(state.currentLevel, state.treatedPatients.length)) {
+            var gameOverText = new FlxText(400, 1000, 0, "You have a new high score!", 70);
+            gameOverText.font = "assets/fonts/Cabin-Bold.ttf";
+            gameOverText.color = FlxColor.BLACK;
+            add(gameOverText);
+
+            var highscoreName = new FlxInputText(400, 1200, 500, null, 70, FlxColor.BLACK, FlxColor.WHITE, null);
+            add(highscoreName);
+
+            var highscoreButton:FlxButton = null;
+
+            highscoreButton = Utils.createButton("Save", function() {
+                states.HighscoreState.addHighscore(highscoreName.text, state.currentLevel, state.treatedPatients.length);
+                self.remove(gameOverText);
+                self.remove(highscoreName);
+                self.remove(highscoreButton);
+
+                var submittedText = new FlxText(500, 1000, 0, "Your score has been saved", 70);
+                submittedText.font = "assets/fonts/Cabin-Bold.ttf";
+                submittedText.color = FlxColor.BLACK;
+                self.add(submittedText);
+                
+            }, 5);
+            highscoreButton.x = 1000;
+            highscoreButton.y = 1200;
+            add(highscoreButton);
+        }
+
         var logo = new FlxSprite(0,0);
 		logo.loadGraphic("assets/images/Logo.png");
 		add(logo);
@@ -38,20 +70,26 @@ class GameOverState extends FlxSubState {
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        var infoText = new FlxText(250, 375, 0, "Patients treated: " + state.treatedPatients.length, 40);
+        var infoText = new FlxText(50, 450, 0, state.treatedPatients.length + " patients treated", 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
 		var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5);
-		btnMenu.x = FlxG.width / 2 - btnMenu.width - 10;
+		btnMenu.x = 300;
 		btnMenu.y = FlxG.height - btnMenu.height - 10;
 		add(btnMenu);
 
 		var btnRetry = Utils.createButton("Restart Day", clickRetry, 5);
-		btnRetry.x = FlxG.width / 2 + 10;
+		btnRetry.x = 800;
 		btnRetry.y = FlxG.height - btnRetry.height - 10;
 		add(btnRetry);
+
+        var btnHighscores = Utils.createButton("Highscores", clickHighscores, 5);
+        btnHighscores.x = 1300;
+        btnHighscores.y = FlxG.height - btnHighscores.height - 10;
+        add(btnHighscores);
+
 		super.create();
 
 		// Cancel the fade
@@ -67,5 +105,9 @@ class GameOverState extends FlxSubState {
 
 	private function clickRetry():Void {
 		FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
-	}	
+	}
+
+    private function clickHighscores():Void {
+        openSubState(new states.HighscoreState());
+    }	
 }

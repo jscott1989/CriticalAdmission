@@ -131,10 +131,7 @@ class OptionState extends FlxSubState {
 		options.data.subtitles_on = Config.SUBTITLES_ON;
 		options.data.sound_on = Config.SOUND_ON;
 		options.flush();
-		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-			close();
-			FlxG.camera.stopFX();
-        });
+		close();
 	}
 
 	private function clickFullscreen():Void {

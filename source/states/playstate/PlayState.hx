@@ -358,7 +358,9 @@ class PlayState extends FlxState {
             watchInteractable(pause);
             pauseHole.addInteractable(pause);
         }
+
         levelComplete(false);
+
 	}
 
     /**

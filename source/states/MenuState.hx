@@ -24,6 +24,7 @@ using flixel.util.FlxSpriteUtil;
  */
 class MenuState extends FlxState {
 	private var btnPlay:FlxButton;
+	private var btnHighscore:FlxButton;
 	private var btnOptions:FlxButton;
 	private var btnCredits:FlxButton;
 	private var btnExit:FlxButton;
@@ -103,22 +104,27 @@ class MenuState extends FlxState {
 
 		btnPlay = Utils.createButton("New Game", clickPlay, 5);
 		btnPlay.screenCenter();
-		btnPlay.y = 1000;
+		btnPlay.y = 920;
 		add(btnPlay);
+
+		btnHighscore = Utils.createButton("Highscores", clickHighscores, 5);
+		btnHighscore.screenCenter();
+		btnHighscore.y = 1045;
+		add(btnHighscore);
 
 		btnOptions = Utils.createButton("Options", clickOptions, 5);
 		btnOptions.screenCenter();
-		btnOptions.y = 1125;
+		btnOptions.y = 1170;
 		add(btnOptions);
 
 		btnCredits = Utils.createButton("Credits", clickCredits, 5);
 		btnCredits.screenCenter();
-		btnCredits.y = 1250;
+		btnCredits.y = 1295;
 		add(btnCredits);
 
 		btnExit = Utils.createButton("Exit", clickExit, 5);
 		btnExit.screenCenter();
-		btnExit.y = 1375;
+		btnExit.y = 1420;
 		add(btnExit);
 
 		super.create();
@@ -131,16 +137,16 @@ class MenuState extends FlxState {
         });
 	}
 
+	private function clickHighscores():Void {
+		openSubState(new HighscoreState());
+	}
+
 	private function clickOptions():Void {
-		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-			openSubState(new OptionState());
-        });
+		openSubState(new OptionState());
 	}
 
 	private function clickCredits():Void {
-		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-			openSubState(new CreditsState());
-        });
+		openSubState(new CreditsState());
 	}
 
 	private function clickExit():Void {

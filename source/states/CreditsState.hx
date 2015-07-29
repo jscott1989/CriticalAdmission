@@ -85,10 +85,7 @@ class CreditsState extends FlxSubState {
     }
 
     private function clickBack():Void {
-        FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-            close();
-            FlxG.camera.stopFX();
-        });
+        close();
     }
     
     /**
