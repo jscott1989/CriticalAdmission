@@ -33,9 +33,10 @@ class Levels {
                 "Level 1 yo...",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "Scalpel",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(true, null, null, null, null, null, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, "Brain", true, "TinCan",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, false, null, null, null, null, 1, true, "Brain", true, "Scalpel",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, false, null, null, null, null, 2, false, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, true, null, null, null, null, 1, false, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
+                    new PatientInfo(true, true, null, null, null, null, 2, true, "Brain", true, "Grenade",   false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
                 [

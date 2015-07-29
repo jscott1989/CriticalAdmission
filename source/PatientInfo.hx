@@ -23,6 +23,8 @@ import states.playstate.Interactable;
     public var bodySprite:Int;
     public var hairStyle:Int;
     public var hairColor:Int;
+    public var crown:Int;
+    public var medals:Bool;
 
     public var brainCovered:Bool = false;
     public var heartCovered:Bool = false;
@@ -44,7 +46,7 @@ import states.playstate.Interactable;
 
     public var initialQOL:Float = 100;
 
-    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
+    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, crown:Int=null, medals:Bool=false, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true)  {
         this.isVIP = isVIP;
 
         if (isMale == null) {
@@ -83,6 +85,16 @@ import states.playstate.Interactable;
             this.hairColor = Std.random(3)+1;
         } else {
             this.hairColor = hairColor;
+        }
+
+        if (isVIP) {
+            if (crown == null) {
+                this.crown = Std.random(3);
+                this.medals = Std.random(3) == 0;
+            } else {
+                this.crown = crown;
+                this.medals = medals;
+            }
         }
 
         // This is ugly, but we can't pass null because of the optional arguments...

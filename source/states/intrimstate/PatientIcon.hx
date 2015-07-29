@@ -107,6 +107,30 @@ package states.intrimstate;
         hairSprite.y *= SCALE;
         add(hairSprite);
 
+        if (info.isVIP) {
+            if (info.crown > 0) {
+                var crownSprite = new FlxSprite();
+                crownSprite.loadGraphic("assets/images/Crown-" + info.crown + ".png");
+                crownSprite.scale.set(SCALE, SCALE);
+                crownSprite.x = -130;
+                crownSprite.y = -170;
+                if (info.crown == 2) {
+                    crownSprite.x = -50;
+                    crownSprite.y = -120;
+                }
+                add(crownSprite);
+            }
+
+            if (info.medals) {
+                var medalSprite = new FlxSprite();
+                medalSprite.loadGraphic("assets/images/Medals.png");
+                medalSprite.scale.set(SCALE, SCALE);
+                medalSprite.x = -80;
+                medalSprite.y = 25;
+                add(medalSprite);
+            }
+        }
+
         add(generateHealthDot(info.getBrainQOL(), 30, 275 * SCALE, 60 * SCALE));
         add(generateHealthDot(info.getHeartQOL(), 30, 400 * SCALE, 500 * SCALE));
         add(generateHealthDot(info.getLungQOL(),  30, 230 * SCALE, 600 * SCALE));

@@ -1,5 +1,6 @@
 package states.playstate;
 
+ import flixel.FlxG;
  import flixel.FlxSprite;
  import flixel.group.FlxSpriteGroup;
 
@@ -88,6 +89,28 @@ package states.playstate;
             hairSprite.y = 0;
         }
         add(hairSprite);
+
+        if (info.isVIP) {
+            if (info.crown > 0) {
+                var crownSprite = new FlxSprite();
+                crownSprite.loadGraphic("assets/images/Crown-" + info.crown + ".png");
+                crownSprite.x = 150;
+                crownSprite.y = -155;
+                if (info.crown == 2) {
+                    crownSprite.x = 226;
+                    crownSprite.y = -125;
+                }
+                add(crownSprite);
+            }
+
+            if (info.medals) {
+                var medalSprite = new FlxSprite();
+                medalSprite.loadGraphic("assets/images/Medals.png");
+                medalSprite.x = 100;
+                medalSprite.y = 550;
+                add(medalSprite);
+            }
+        }
 
         
         holes = new Array<Hole>();
