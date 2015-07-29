@@ -1,7 +1,7 @@
 package states.playstate;
 
  import flixel.FlxSprite;
- import flixel.util.FlxColor;
+ import flixel.util.FlxColorUtil;
 
 /**
  * This is a hole in the UI - right now the difference is just the background
@@ -12,7 +12,7 @@ package states.playstate;
 
     public function new(ui:Interactable=null, requiresFlip:Bool=false, locked:Bool=false)  {
         var backgroundSprite = new FlxSprite();
-        backgroundSprite.makeGraphic(200, 190, FlxColor.TRANSPARENT);
+        backgroundSprite.makeGraphic(200, 190, FlxColorUtil.makeFromARGB(0.4, 0, 0, 0));
         super(backgroundSprite, ui, requiresFlip, locked, 0, 0);
     }
  }

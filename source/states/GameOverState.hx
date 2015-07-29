@@ -38,7 +38,7 @@ class GameOverState extends FlxSubState {
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        var infoText = new FlxText(250, 375, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
+        var infoText = new FlxText(250, 375, 0, "Patients treated: " + state.treatedPatients.length, 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);

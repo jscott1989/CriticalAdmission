@@ -295,7 +295,6 @@ class PlayState extends FlxState {
         //
         patient.initialQOL = patient.getQOL();
 
-
         // Now open the holes required
 
         return patient;
