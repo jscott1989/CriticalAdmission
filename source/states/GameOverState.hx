@@ -3,6 +3,7 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import states.playstate.PlayState;
 
@@ -26,9 +27,21 @@ class GameOverState extends FlxSubState {
         background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
+        var state = PlayState.getInstance();
+
         var logo = new FlxSprite(0,0);
 		logo.loadGraphic("assets/images/Logo.png");
 		add(logo);
+
+        var dayText = new FlxText(50, 350, 0, "Day " + state.currentLevel, 70);
+        dayText.font = "assets/fonts/Cabin-Bold.ttf";
+        dayText.color = FlxColor.BLACK;
+        add(dayText);
+
+        var infoText = new FlxText(250, 375, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
+        infoText.font = "assets/fonts/Cabin-Regular.ttf";
+        infoText.color = FlxColor.BLACK;
+        add(infoText);
 
 		var btnMenu = Utils.createButton("Return to Menu", clickMenu, 5);
 		btnMenu.x = FlxG.width / 2 - btnMenu.width - 10;
