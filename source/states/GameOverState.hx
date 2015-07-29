@@ -80,7 +80,7 @@ class GameOverState extends FlxSubState {
 		btnMenu.y = FlxG.height - btnMenu.height - 10;
 		add(btnMenu);
 
-		var btnRetry = Utils.createButton("Restart Day", clickRetry, 5);
+		var btnRetry = Utils.createButton("Restart", clickRetry, 5);
 		btnRetry.x = 800;
 		btnRetry.y = FlxG.height - btnRetry.height - 10;
 		add(btnRetry);
@@ -104,7 +104,8 @@ class GameOverState extends FlxSubState {
 	}	
 
 	private function clickRetry():Void {
-		FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
+		// FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
+        FlxG.switchState(new PassingToPlayState());
 	}
 
     private function clickHighscores():Void {

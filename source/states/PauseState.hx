@@ -32,7 +32,7 @@ class PauseState extends FlxSubState {
         btnPlay.y = 1000;
         add(btnPlay);
 
-        var btnRetry = Utils.createButton("Restart Day", clickRetry, 5);
+        var btnRetry = Utils.createButton("Restart", clickRetry, 5);
         btnRetry.x = FlxG.width / 2 - btnRetry.width / 2;
         btnRetry.y = 1125;
         add(btnRetry);
@@ -57,7 +57,8 @@ class PauseState extends FlxSubState {
     }
 
     private function clickRetry():Void {
-        FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
+        // FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
+        FlxG.switchState(new PassingToPlayState());
     }
 
     private function clickMenu():Void {
