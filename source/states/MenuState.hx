@@ -1,5 +1,6 @@
 package states;
 
+import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -18,6 +19,7 @@ class MenuState extends FlxState {
 	private var btnPlay:FlxButton;
 	private var btnOptions:FlxButton;
 	private var btnCredits:FlxButton;
+	private var btnExit:FlxButton;
 
 	private var BUTTONS:Float = 2;
 	private var BUTTON_HEIGHT:Float = 60;
@@ -29,6 +31,7 @@ class MenuState extends FlxState {
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
+		FlxG.fullscreen = true;
 		PlayState.clearInstance();
 
 		var background = new FlxSprite(0,0);
@@ -65,6 +68,11 @@ class MenuState extends FlxState {
 		btnCredits.y = 1250;
 		add(btnCredits);
 
+		btnExit = Utils.createButton("Exit", clickExit, 5);
+		btnExit.screenCenter();
+		btnExit.y = 1375;
+		add(btnExit);
+
 		super.create();
 		
 	}
@@ -84,6 +92,12 @@ class MenuState extends FlxState {
 	private function clickCredits():Void {
 		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
 			openSubState(new CreditsState());
+        });
+	}
+
+	private function clickExit():Void {
+		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+			System.exit(0);
         });
 	}
 	
