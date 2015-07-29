@@ -39,7 +39,7 @@ class GameOverState extends FlxSubState {
             gameOverText.color = FlxColor.BLACK;
             add(gameOverText);
 
-            var highscoreName = new FlxInputText(400, 1200, 500, null, 70, FlxColor.BLACK, FlxColor.WHITE, null);
+            var highscoreName = new FlxInputText(400, 1200, 500, "", 70, FlxColor.BLACK, FlxColor.WHITE);
             add(highscoreName);
 
             var highscoreButton:FlxButton = null;

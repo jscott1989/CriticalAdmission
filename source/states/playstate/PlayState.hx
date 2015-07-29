@@ -828,8 +828,7 @@ class PlayState extends FlxState {
                         }, 10000);
                     }
                 } else if (patient.info.getQOL() > 95 && Std.random(10) == 1) {
-                        soundManager.playGoodPerformance(cast findInteractable("states.playstate.Tannoy"));
-                    }
+                    soundManager.playGoodPerformance(cast findInteractable("states.playstate.Tannoy"));
                 }
 
 				destroyPatient();
