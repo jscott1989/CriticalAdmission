@@ -19,6 +19,7 @@ class OptionState extends FlxSubState {
 	// private var btnMusic:FlxButton;
 	private var btnSound:FlxButton;
 	private var btnSubtitles:FlxButton;
+	private var btnFullscreen:FlxButton;
 	private var btnBack:FlxButton;
 
 	/**
@@ -67,9 +68,20 @@ class OptionState extends FlxSubState {
 		btnSubtitles.y = 1125;
 		add(btnSubtitles);
 
+		btnFullscreen = Utils.createButton("FULLSCREEN: On", clickFullscreen, 5);
+		if(FlxG.fullscreen){
+			btnFullscreen.label.text = "FULLSCREEN: On";
+		}
+		else{
+			btnFullscreen.label.text = "FULLSCREEN: Off";
+		}
+		btnFullscreen.screenCenter();
+		btnFullscreen.y = 1250;
+		add(btnFullscreen);
+
 		btnBack = Utils.createButton("Back", clickBack, 5);
 		btnBack.screenCenter();
-		btnBack.y = 1250;
+		btnBack.y = 1400;
 		add(btnBack);
 
 		super.create();
@@ -119,6 +131,17 @@ class OptionState extends FlxSubState {
 			close();
 			FlxG.camera.stopFX();
         });
+	}
+
+	private function clickFullscreen():Void {
+		FlxG.fullscreen = !FlxG.fullscreen;
+
+		if(FlxG.fullscreen){
+			btnFullscreen.label.text = "FULLSCREEN: On";
+		}
+		else{
+			btnFullscreen.label.text = "FULLSCREEN: Off";
+		}
 	}
 	
 	/**
