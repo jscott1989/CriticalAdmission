@@ -22,14 +22,16 @@ using flixel.util.FlxSpriteUtil;
 
 class State {
     public var reputation:Int;
+    public var level:Level;
     public var currentLevel:Int;
     public var patientsToTreat:Int;
     public var uiElements:Array<Constructable>;
     public var interactables:Array<Constructable>;
     public var treatedPatients:Array<PatientInfo>;
 
-    public function new(reputation:Int, currentLevel:Int, patientsToTreat:Int, uiElements:Array<Constructable>, interactables:Array<Constructable>, treatedPatients:Array<PatientInfo>) {
+    public function new(reputation:Int, level:Level, currentLevel:Int, patientsToTreat:Int, uiElements:Array<Constructable>, interactables:Array<Constructable>, treatedPatients:Array<PatientInfo>) {
         this.reputation = reputation;
+        this.level = level;
         this.currentLevel = currentLevel;
         this.patientsToTreat = patientsToTreat;
         this.uiElements = uiElements;
@@ -84,6 +86,7 @@ class PlayState extends FlxState {
 	public var levelTime:Float = 10;
 
 	//Level and score counter for Game Over screen
+    public var level:Level;
 	public var currentLevel:Int = 0;
     public var minimumHealth:Int = 5;
     public var levelText:String = "";
@@ -211,7 +214,7 @@ class PlayState extends FlxState {
             }
         }
 
-        return new State(reputation, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients.copy());
+        return new State(reputation, level, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients.copy());
     }
 
     /**
@@ -221,6 +224,7 @@ class PlayState extends FlxState {
      */
     public function loadState(state:State) {
         reputation = state.reputation;
+        level = state.level;
         currentLevel = state.currentLevel;
         treatedPatients = state.treatedPatients;
         patientsToTreat = state.patientsToTreat;
@@ -309,7 +313,8 @@ class PlayState extends FlxState {
 
         //SoundManager
         soundManager = new SoundManager();
-        soundManager.init();
+
+        soundManager.startAmbient();
 
 		// Scene
 		background = new FlxSprite(0,0);
@@ -437,7 +442,6 @@ class PlayState extends FlxState {
         
         addingPatient = false;
 		currentLevel++;
-        var level:Level;
         // First we check if there is a level already available
         if (Levels.LEVELS.length >= currentLevel) {
             level = Levels.LEVELS[currentLevel - 1];
@@ -1007,4 +1011,9 @@ class PlayState extends FlxState {
         seconds_remaining = levelTime;
         clockActive = true;
 	}
+
+    override public function destroy():Void {
+        super.destroy();
+        soundManager.stopAmbient();
+    }
 }

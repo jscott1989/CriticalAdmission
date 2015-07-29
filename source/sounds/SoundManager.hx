@@ -17,16 +17,24 @@ class SoundManager {
 
 	var tannoySound:FlxSound;
 	var speech:FlxSound;
+	var heart:FlxSound;
 
 	var success:FlxSound = FlxG.sound.load(AssetPaths.success__wav, 1, false);
 	var failure:FlxSound = FlxG.sound.load(AssetPaths.failure__wav, 1, false);
 	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
 	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
 
-	public function new(){
-		if (Config.MUSIC_ON){
+	public function startAmbient() {
+		if (Config.SOUND_ON){
 			FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
+			heart = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
+			heart.play();
 		}
+	}
+
+	public function stopAmbient() {
+		FlxG.sound.music.stop();
+		heart.stop();
 	}
 
 	public function playECG() {
@@ -55,13 +63,6 @@ class SoundManager {
 
 	public function stopFlatline() {
 		flatline.stop();
-	}
-
-	public function init(){
-		if (Config.MUSIC_ON){
-			var heart:FlxSound = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
-			heart.play();
-		}
 	}
 
 	private function createSubtitle(text:String){

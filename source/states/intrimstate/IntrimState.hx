@@ -30,37 +30,32 @@ class IntrimState extends FlxSubState {
         background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-        var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 100);
+        var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 70);
         dayText.font = "assets/fonts/Cabin-Bold.ttf";
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 50);
+        var infoText = new FlxText(250, 75, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        var infoText = new FlxText(50, 350, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime + " seconds", 50);
+        var infoText = new FlxText(50, 180, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime + " seconds", 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        var levelText = new FlxText(50, 440, 840, PlayState.getInstance().levelText, 50);
+        var levelText = new FlxText(50, 290, 840, PlayState.getInstance().levelText, 40);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);
-
-        var upcomingPatientsText = new FlxText(50, 940, 0, "Upcoming Patients:", 50);
-        upcomingPatientsText.font = "assets/fonts/Cabin-Regular.ttf";
-        upcomingPatientsText.color = FlxColor.BLACK;
-        add(upcomingPatientsText);
 
         // Now add small status images for each patient
         var i = 0;
         for (patient in PlayState.getInstance().incomingPatients) {
             var p = new PatientIcon(patient);
             p.x = 20 + (i * (200 + 20));
-            p.y = upcomingPatientsText.y + upcomingPatientsText.height + 10;
+            p.y = (FlxG.height - (p.height + 67));
             add(p);
             i+= 1;
         }
