@@ -312,7 +312,7 @@ class PlayState extends FlxState {
 		FlxG.debugger.visible = true;
 
         //SoundManager
-        soundManager = new SoundManager();
+        soundManager = SoundManager.getInstance();
 
         soundManager.startAmbient();
 

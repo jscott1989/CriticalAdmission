@@ -1,16 +1,14 @@
 
 package;
 
-import flash.display.BitmapData;
 import flash.geom.Point;
 import flash.geom.Rectangle;
-import flash.utils.ByteArray;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
+import sounds.SoundManager;
 
 /**
  * Useful functions that don't fit anywhere else
@@ -80,8 +78,10 @@ class Utils
         button.label.setFormat("assets/fonts/Cabin-Bold.ttf", 40, 0x333333, "center");
         button.label.offset.y -= 20;
         
-        if (Config.SOUND_ON) {
-            button.onUp.sound = FlxG.sound.load(AssetPaths.button__wav);
+        var c = button.onUp.callback;
+        button.onUp.callback = function() {
+            SoundManager.getInstance().playSound(AssetPaths.button__wav);
+            c();
         }
 
         return button;

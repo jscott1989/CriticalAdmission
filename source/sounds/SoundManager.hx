@@ -24,6 +24,15 @@ class SoundManager {
 	var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
 	var flatline:FlxSound = FlxG.sound.load(AssetPaths.flatline__wav, 0.5, true);
 
+	private static var instance:SoundManager;
+  
+    public static inline function getInstance() {
+        if (instance == null) {
+            instance = new SoundManager();
+        }
+        return instance;
+    }
+
 	public function startAmbient() {
 		if (Config.SOUND_ON){
 			FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
