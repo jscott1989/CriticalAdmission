@@ -1,14 +1,12 @@
 package states;
 
 import flixel.FlxG;
-import flixel.FlxSubState;
 import flixel.FlxSprite;
+import flixel.FlxSubState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
-import states.playstate.PlayState;
-import flash.system.System;
-import Config;
+import flixel.util.FlxSave;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -127,6 +125,12 @@ class OptionState extends FlxSubState {
 	}
 
 	private function clickBack():Void {
+		var options = new FlxSave();
+		options.bind("options");
+		options.data.fullscreen = FlxG.fullscreen;
+		options.data.subtitles_on = Config.SUBTITLES_ON;
+		options.data.sound_on = Config.SOUND_ON;
+		options.flush();
 		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
 			close();
 			FlxG.camera.stopFX();

@@ -1,16 +1,23 @@
 package states;
 
+import flash.Lib;
+import flash.net.URLRequest;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.plugin.MouseEventManager;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
+import flixel.util.FlxSave;
 import states.playstate.PlayState;
 
 using flixel.util.FlxSpriteUtil;
+
+
 
 /**
  * Game's menu. Disabled at the moment.
@@ -25,14 +32,38 @@ class MenuState extends FlxState {
 	private var BUTTON_HEIGHT:Float = 60;
 	//private var BUTTON_TOP:Float = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2;
 
+	private var overGrenade = false;
+	private var tooltipText:FlxText;
+	private var tooltipSprite:FlxSprite;
 	
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
-		FlxG.fullscreen = true;
+		var options = new FlxSave();
+		options.bind("options");
+		if (options.data.fullscreen == null) {
+			options.data.fullscreen = true;
+		}
+		if (options.data.sound_on == null) {
+			options.data.sound_on = true;
+		}
+		if (options.data.subtitles_on == null) {
+			options.data.subtitles_on = true;
+		}
+		FlxG.fullscreen = options.data.fullscreen;
+		Config.SOUND_ON = options.data.sound_on;
+		Config.SUBTITLES_ON = options.data.subtitles_on;
+
 		PlayState.clearInstance();
+
+		tooltipText = new FlxText(0, 0, 0, "SAGDCX", 50); 
+        tooltipText.font = "assets/fonts/Cabin-Regular.ttf";
+        tooltipSprite = new FlxSprite();
+        tooltipSprite.makeGraphic(Std.int(tooltipText.width + 50), Std.int(tooltipText.height), FlxColor.BLACK);
+        add(tooltipText);
+        add(tooltipSprite);
 
 		var background = new FlxSprite(0,0);
 		background.loadGraphic("assets/images/MenuScreen.png");
@@ -46,6 +77,23 @@ class MenuState extends FlxState {
 		grenade.loadGraphic("assets/images/Grenade.png");
 		grenade.x = FlxG.width - grenade.width;
 		grenade.y = FlxG.height - grenade.height;
+
+		var tween:FlxTween = null;
+
+		MouseEventManager.add(grenade, function(sprite:FlxSprite) {
+			if (tween != null) tween.cancel();
+			tween = FlxTween.tween(sprite.scale,{"x": 1.2, "y": 1.2}, 0.1);
+		}, function(sprite:FlxSprite) {
+			if (tween != null) tween.cancel();
+			tween = FlxTween.tween(sprite.scale,{"x": 1, "y": 1}, 0.1);
+			Lib.getURL (new URLRequest ("http://awfuljams.com"));
+		}, function(sprite:FlxSprite) {
+			overGrenade = true;
+		}, function(sprite:FlxSprite) {
+			if (tween != null) tween.cancel();
+			tween = FlxTween.tween(sprite.scale,{"x": 1, "y": 1}, 0.1);
+			overGrenade = false;
+		});
 		add(grenade);
 
 		var intro = new FlxText(100, 330, 700, "The junior doctors have done it again.\n\nYou told them having only one senior surgeon would end in disaster.\n\nThere are queues going out the door and everyone is muddled up.\n\nPut the patients back together, and for god's sake don't miss anything out!", 40);
@@ -116,6 +164,23 @@ class MenuState extends FlxState {
 	 * Function that is called once every frame.
 	 */
 	override public function update():Void {
+		if (overGrenade) {
+			tooltipText.x = FlxG.mouse.x - (tooltipText.width / 2);
+            tooltipText.y = FlxG.mouse.y + tooltipText.height + 20;
+
+            Utils.bringToFront(members, tooltipSprite);
+            Utils.bringToFront(members, tooltipText, tooltipSprite);
+
+            tooltipSprite.x = tooltipText.x - 25;
+	        tooltipSprite.y = tooltipText.y;
+		} else {
+			tooltipText.x = -1000;
+			tooltipText.y = -1000;
+			tooltipSprite.x = -1000;
+			tooltipSprite.y = -1000;
+
+		}
+
 		super.update();
 	}	
 }
