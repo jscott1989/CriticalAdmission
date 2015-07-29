@@ -78,35 +78,28 @@ class Levels {
                     "Clipboard"
                 ],
 
-                90,
+                80,
                 999
             ),
             new Level(
-                "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation (indicated by this handy pressure gauge) will drop! If it drops too far, it's all over for us! VIPs are so important, you might want to consider taking some useful organs out of the plebs, just in case you need them later",
+                "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation (indicated by this handy pressure gauge) will drop! If it drops too far, it's all over for us! HINT: VIPs are so important, you might want to consider taking some useful organs out of the plebs! In this case, the patient just before Lord Wafflington has a perfectly healthy set of guts - we can take those out and still patch him up enough that we won't fail.",
                 
                 [
+                    new PatientInfo(null, null, null, null, null, null, null, null, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                     new PatientInfo(true, true, "Lord Wafflington", null, null, null, null, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
                 ],
 
-                1,
+                2,
 
                 [
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]],
-                    ["Organ", ["Heart"]]
+                    ["Organ", ["Lung"]]
                 ],
 
                 [
                     "PressureGauge"
                 ],
 
-                100,
+                80,
                 999
             ),
         new Level(
