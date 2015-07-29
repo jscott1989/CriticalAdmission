@@ -1,3 +1,4 @@
+
  package states.intrimstate;
 
 import flixel.FlxG;
@@ -31,23 +32,28 @@ class IntrimState extends FlxSubState {
         add(background);
 
         var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 100);
-        dayText.font = "assets/fonts/Cabin-Regular.ttf";
+        dayText.font = "assets/fonts/Cabin-Bold.ttf";
+        dayText.color = FlxColor.BLACK;
         add(dayText);
 
         var infoText = new FlxText(50, 200, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 50);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
+        infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        var infoText = new FlxText(50, 350, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime, 50);
+        var infoText = new FlxText(50, 350, 0, "Minimum required health: " + state.minimumHealth + "%            Time per patient: " + state.levelTime + " seconds", 50);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
+        infoText.color = FlxColor.BLACK;
         add(infoText);
 
         var levelText = new FlxText(50, 600, 0, PlayState.getInstance().levelText, 50);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
+        levelText.color = FlxColor.BLACK;
         add(levelText);
 
         var upcomingPatientsText = new FlxText(50, 850, 0, "Upcoming Patients:", 50);
         upcomingPatientsText.font = "assets/fonts/Cabin-Regular.ttf";
+        upcomingPatientsText.color = FlxColor.BLACK;
         add(upcomingPatientsText);
 
         // Now add small status images for each patient
