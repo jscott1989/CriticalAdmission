@@ -255,16 +255,27 @@ import states.playstate.Patient;
         }
     }
 
-    private var possibleInteractables = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
+    private var possibleInteractables = [];
 
     private function newInteractable(){
         if (possibleInteractables.length == 0) {
-            possibleInteractables = Utils.randomArray(Interactable.ELIGIBLE_IN_BODY);
+            possibleInteractables = Utils.randomArray(Interactable.JUNK.concat(Interactable.PROSTHETICS).concat(Interactable.PROSTHETICS).concat(Interactable.ORGANS).concat(Interactable.ORGANS).concat(Interactable.ORGANS));
         }
         return possibleInteractables.pop();
     }
 
     public function contains(obj:String):Bool {
         return (brain == obj || heart == obj || lung == obj || guts == obj || leftElbow == obj || rightElbow == obj || leftKnee == obj || rightKnee == obj);
+    }
+
+    public function containsVisible(obj:String):Bool {
+        return ((brain == obj && !brainCovered) || 
+                (heart == obj && !heartCovered) || 
+                (lung == obj && !lungCovered) || 
+                (guts == obj && !gutsCovered) ||
+                (leftElbow == obj && !leftElbowCovered) ||
+                (rightElbow == obj && !rightElbowCovered) ||
+                (leftKnee == obj && !leftKneeCovered) ||
+                (rightKnee == obj && !rightKneeCovered));
     }
  }

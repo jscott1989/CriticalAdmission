@@ -110,7 +110,7 @@ package states.playstate;
         "Scalpel" => [AssetPaths.Knife_1__wav, AssetPaths.Knife_2__wav]
     ];
 
-    public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
+    // public static var ELIGIBLE_IN_BODY = JUNK.concat(PROSTHETICS).concat(ORGANS);
 
     private var sounds:Array<String> = [];
     private var eligibleSounds:Array<String> = [];

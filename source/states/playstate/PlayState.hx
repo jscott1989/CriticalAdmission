@@ -809,7 +809,7 @@ class PlayState extends FlxState {
                     }
                 }
 
-                if (patient.info.contains("Grenade")) {
+                if (patient.info.containsVisible("Grenade")) {
                     Timer.delay(function() {
                         soundManager.playSound(AssetPaths.Explosion__wav);
                     }, 2000);
