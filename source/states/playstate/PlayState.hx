@@ -519,7 +519,9 @@ class PlayState extends FlxState {
 
 	override public function update():Void
 	{
-
+        if (soundManager.subtitle != null) {
+            Utils.bringToFront(members, soundManager.subtitle);
+        }
         if (tooltip != null && dragging == null) {
             tooltipText.text = tooltip.label;
 
