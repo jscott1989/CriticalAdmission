@@ -17,6 +17,7 @@ class PopupState extends FlxSubState {
     public function new(title:String, text:String) {
         this.title = title;
         this.text = text;
+        PlayState.getInstance().soundManager.playSound(AssetPaths.popup__wav);
         super();
     }
 
@@ -68,11 +69,13 @@ class PopupState extends FlxSubState {
     }
 
     function clickContinue() {
+        PlayState.getInstance().soundManager.playSound(AssetPaths.popdown__wav);
         close();
     }
 
     function clickSkip() {
         PlayState.getInstance().skipTutorial = true;
+        PlayState.getInstance().soundManager.playSound(AssetPaths.popdown__wav);
         close();
     }
 }
