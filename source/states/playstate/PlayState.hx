@@ -587,7 +587,7 @@ class PlayState extends FlxState {
 				tannoyCounter = 0;
 			}
 
-            if (patient != null) {
+            if (patient != null && seconds_remaining > 0) {
                 ECGCounter += FlxG.elapsed;
                 if (ECGCounter >= seconds_remaining/10) {
                     soundManager.playECG();
@@ -815,6 +815,23 @@ class PlayState extends FlxState {
                     }, 2000);
                 }
 
+                if (patient.info.isVIP) {
+                    soundManager.playVIPLeaving(cast findInteractable("states.playstate.Tannoy"));
+
+                    if (patient.info.getQOL() < 50) {
+                        Timer.delay(function() {
+                            soundManager.playVIPUnhappy(cast findInteractable("states.playstate.Tannoy"));
+                        }, 10000);
+                    } else if (patient.info.getQOL() > 95) {
+                        Timer.delay(function() {
+                            soundManager.playVIPHappy(cast findInteractable("states.playstate.Tannoy"));
+                        }, 10000);
+                    }
+                } else if (patient.info.getQOL() > 95 && Std.random(10) == 1) {
+                        soundManager.playGoodPerformance(cast findInteractable("states.playstate.Tannoy"));
+                    }
+                }
+
 				destroyPatient();
                 
                 if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
@@ -846,6 +863,12 @@ class PlayState extends FlxState {
             changeText = "+" + changeText;
         } else {
             soundManager.playFailure();
+        }
+
+        if (reputation < 10 && Std.random(10) == 1) {
+            soundManager.playLowReputation(cast findInteractable("states.playstate.Tannoy"));
+        } else if (reputation > 90 && Std.random(10) == 1) {
+            soundManager.playHighReputation(cast findInteractable("states.playstate.Tannoy"));
         }
 
         // We're going to put the text near the reputation level
@@ -881,12 +904,16 @@ class PlayState extends FlxState {
         patient.die();
         soundManager.playFlatline();
         addingPatient = true;
+        if (Std.random(10) == 1) {
+            soundManager.playBadPerformance(cast findInteractable("states.playstate.Tannoy"));
+        }
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
             soundManager.stopFlatline();
             var improvement = patient.info.getQOL() - 80;
 
             if (patient.info.isVIP) {
+                soundManager.playVIPDead(cast findInteractable("states.playstate.Tannoy"));
                 changeReputation(-100);
             }
 
@@ -987,7 +1014,7 @@ class PlayState extends FlxState {
     		patient = new Patient(incomingPatients.shift(), 332, FlxG.height);
         }
 
-        if (patient.info.isVIP) {
+        if (incomingPatients.length > 0 && incomingPatients[0].isVIP) {
             soundManager.playVIPIncoming(cast findInteractable("states.playstate.Tannoy"));
         }
 

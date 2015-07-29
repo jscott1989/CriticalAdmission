@@ -159,6 +159,44 @@ class SoundManager {
 	}
 
 
+	private var possibleVIPLeaving = Utils.randomArray(Receptionist.VIP_LEAVING_KEYS);
+
+	public function playVIPLeaving(tannoy:Tannoy) {
+		if (possibleVIPLeaving.length == 0) {
+            possibleVIPLeaving = Utils.randomArray(Receptionist.VIP_LEAVING_KEYS);
+        }
+        var key = possibleVIPLeaving.pop();
+        var value:String = Receptionist.VIP_LEAVING.get(key);
+        play(tannoy, key, value);
+	}
+
+	private var possibleVIPHappy = Utils.randomArray(Receptionist.VIP_HAPPY_KEYS);
+
+	public function playVIPHappy(tannoy:Tannoy) {
+		if (possibleVIPHappy.length == 0) {
+            possibleVIPHappy = Utils.randomArray(Receptionist.VIP_HAPPY_KEYS);
+        }
+        var key = possibleVIPHappy.pop();
+        var value:String = Receptionist.VIP_HAPPY.get(key);
+        play(tannoy, key, value);
+	}
+
+	private var possibleVIPUnhappy = Utils.randomArray(Receptionist.VIP_UNHAPPY_KEYS);
+
+	public function playVIPUnhappy(tannoy:Tannoy) {
+		if (possibleVIPUnhappy.length == 0) {
+            possibleVIPUnhappy = Utils.randomArray(Receptionist.VIP_UNHAPPY_KEYS);
+        }
+        var key = possibleVIPUnhappy.pop();
+        var value:String = Receptionist.VIP_UNHAPPY.get(key);
+        play(tannoy, key, value);
+	}
+
+	public function playVIPDead(tannoy:Tannoy) {
+        play(tannoy, AssetPaths.VIP10__wav, "The VIP did not survive the operation");
+	}
+
+
 	private var CUT_SKIN:Array<String> = [
 		AssetPaths.CutSkin_1__wav,
 		AssetPaths.CutSkin_2__wav,
@@ -181,5 +219,35 @@ class SoundManager {
 			var s = FlxG.sound.load(sound);
 			s.play();
 		}
+	}
+
+	public function playGoodPerformance(tannoy:Tannoy) {
+		play(tannoy, AssetPaths.Performance_good__wav, "Good job doctor! He said he's never felt better!");
+	}
+
+	public function playBadPerformance(tannoy:Tannoy) {
+		play(tannoy, AssetPaths.Performance_bad__wav, "Doctor, you're supposed to be making these people better!");
+	}
+
+	private var possibleHighReputation = Utils.randomArray(Receptionist.HIGH_REPUTATION_KEYS);
+
+	public function playHighReputation(tannoy:Tannoy) {
+		if (possibleHighReputation.length == 0) {
+            possibleHighReputation = Utils.randomArray(Receptionist.HIGH_REPUTATION_KEYS);
+        }
+        var key = possibleHighReputation.pop();
+        var value:String = Receptionist.HIGH_REPUTATION.get(key);
+        play(tannoy, key, value);
+	}
+
+	private var possibleLowReputation = Utils.randomArray(Receptionist.LOW_REPUTATION_KEYS);
+
+	public function playLowReputation(tannoy:Tannoy) {
+		if (possibleLowReputation.length == 0) {
+            possibleLowReputation = Utils.randomArray(Receptionist.LOW_REPUTATION_KEYS);
+        }
+        var key = possibleLowReputation.pop();
+        var value:String = Receptionist.LOW_REPUTATION.get(key);
+        play(tannoy, key, value);
 	}
 }
