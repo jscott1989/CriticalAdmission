@@ -50,8 +50,7 @@ class Levels {
                 ],
 
                 [
-                    "Next",
-                    "Pause"
+                    "Next"
                 ],
 
                 100,

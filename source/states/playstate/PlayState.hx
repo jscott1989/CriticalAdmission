@@ -337,6 +337,11 @@ class PlayState extends FlxState {
         spawnUIHole(new UIHole(true), 1, 1);
         spawnUIHole(new UIHole(true), 1, 2);
 
+        var pauseHole = new UIHole(new Pause());
+        pauseHole.x = FlxG.width - 100;
+        pauseHole.y = FlxG.height - 200;
+        watchHole(pauseHole);
+
         //Set up level information
         Levels.populateLevels();
 

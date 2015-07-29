@@ -46,7 +46,7 @@ class IntrimState extends FlxSubState {
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        var levelText = new FlxText(50, 600, 0, PlayState.getInstance().levelText, 50);
+        var levelText = new FlxText(50, 440, 840, PlayState.getInstance().levelText, 50);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);
