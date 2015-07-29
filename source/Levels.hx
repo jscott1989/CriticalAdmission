@@ -1,6 +1,7 @@
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
+    public var patientsToTreat:Int;
     public var VIP:PatientInfo;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
@@ -10,6 +11,7 @@ class Level {
     public function new(
         text:String,
         patients:Array<PatientInfo>,
+        patientsToTreat:Int,
         interactables:Array<Array<Dynamic>>,
         uiElements:Array<String>,
         minimumHealth:Int,
@@ -17,6 +19,7 @@ class Level {
     )  {
         this.text = text;
         this.patients = patients;
+        this.patientsToTreat = patientsToTreat;
         this.interactables = interactables;
         this.uiElements = uiElements;
         this.minimumHealth = minimumHealth;
@@ -37,6 +40,8 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                     new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
+
+                3,
 
                 [
                     ["Organ", ["Heart"]],
@@ -61,16 +66,16 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, null, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
                 ],
 
+                3,
+
                 [
-                    ["Organ", ["ProstheticHeart"]],
-                    ["Organ", ["ProstheticHeart"]],
+                    ["Organ", ["Pacemaker"]],
+                    ["Organ", ["Pacemaker"]],
                     ["Organ", ["RubberDuck"]]
                 ],
 
                 [
-                    "Next",
-                    "Clipboard",
-                    "Pause"
+                    "Clipboard"
                 ],
 
                 90,
@@ -82,6 +87,8 @@ class Levels {
                 [
                     new PatientInfo(true, true, "Lord Wafflington", null, null, null, null, null, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
                 ],
+
+                1,
 
                 [
                     ["Organ", ["Heart"]],
@@ -96,10 +103,7 @@ class Levels {
                 ],
 
                 [
-                    "Next",
-                    "Clipboard",
-                    "PressureGauge",
-                    "Pause"
+                    "PressureGauge"
                 ],
 
                 100,
@@ -111,16 +115,14 @@ class Levels {
                 [
                 ],
 
+                9,
+
                 [
                 ],
 
                 [
-                    "Next",
-                    "Tannoy",
-                    "Clipboard",
-                    "PressureGauge",
+                    "Tannoy"
                     "PatientCounter",
-                    "Pause"
                 ],
 
                 100,
