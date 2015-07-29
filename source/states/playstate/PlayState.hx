@@ -254,7 +254,8 @@ class PlayState extends FlxState {
 
         // Generate the first X patients to be seen that level
         // TODO: Generate number based on level
-        for (i in 0...9) {
+        var numberOfPatients = 9;
+        for (i in 0...numberOfPatients) {
             patients.push(generatePatientInfo(level));
         }
 
@@ -273,7 +274,7 @@ class PlayState extends FlxState {
         //TODO: balance/tie to difficulty
         var levelTime:Int = 15;
 
-        return new Level(text, patients, interactables, [], minimumHealth, levelTime);
+        return new Level(text, patients, numberOfPatients, interactables, [], minimumHealth, levelTime);
      }
 
     private function generatePatientInfo(level:Int):PatientInfo{
@@ -422,7 +423,6 @@ class PlayState extends FlxState {
         // Reset the clock
         clockActive = false;
         seconds_remaining = 0;
-        patientsToTreat += 9;
 
         if (patient != null) {
             destroyPatient();
@@ -438,9 +438,11 @@ class PlayState extends FlxState {
     		level = generateLevel(currentLevel, null);
         }
 
+        patientsToTreat += level.patientsToTreat;
+
         incomingPatients = level.patients;
 
-        while (incomingPatients.length < 9) {
+        while (incomingPatients.length < level.patientsToTreat) {
             incomingPatients.push(generatePatientInfo(currentLevel));
         }
 
