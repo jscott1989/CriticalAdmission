@@ -10,7 +10,7 @@ package states.playstate;
  class Interactable extends FlxSprite {
 
     public static var flippableInteractables = [
-        "Knee", "Elbow", "Tannoy"
+        "Knee", "Elbow", "Tannoy", "ArtificalKnee", "ArtificalElbow"
     ];
 
     public static var ORGANS = [
