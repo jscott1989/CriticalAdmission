@@ -259,9 +259,11 @@ class PlayState extends FlxState {
         // Generate the first X patients to be seen that level
         // TODO: Generate number based on level
         var numberOfPatients = 9;
-        for (i in 0...numberOfPatients) {
+        for (i in 0...numberOfPatients - 1) {
             patients.push(generatePatientInfo(level));
         }
+
+        patients.push(generatePatientInfo(level, true));
 
         // Now generate some additional organs
         //TODO: balance/tie to difficulty
@@ -277,8 +279,8 @@ class PlayState extends FlxState {
         return new Level(text, patients, numberOfPatients, interactables, [], levelTime);
      }
 
-    private function generatePatientInfo(level:Int):PatientInfo{
-        var patient = new PatientInfo();
+    private function generatePatientInfo(level:Int, vip:Bool=false):PatientInfo{
+        var patient = new PatientInfo(vip);
 
         var incomingHealth:Float = Math.max(30, 100 - (level * 5));
         
@@ -451,8 +453,12 @@ class PlayState extends FlxState {
 
         incomingPatients = level.patients;
 
-        while (incomingPatients.length < level.patientsToTreat) {
+        while (incomingPatients.length < level.patientsToTreat - 1) {
             incomingPatients.push(generatePatientInfo(currentLevel));
+        }
+
+        if (incomingPatients.length < level.patientsToTreat) {
+            incomingPatients.push(generatePatientInfo(currentLevel, true));
         }
 
         levelTime = level.levelTime;
