@@ -148,9 +148,10 @@ package states.playstate;
     }
 
     public override function destroy() {
-        super.destroy();
-        for (hole in holes) {
-            hole = FlxDestroyUtil.destroy(hole);
+        if (holes != null) {
+            for (hole in holes) {
+                hole = FlxDestroyUtil.destroy(hole);
+            }
         }
 
         holes = null;
@@ -162,5 +163,6 @@ package states.playstate;
         hairSprite = FlxDestroyUtil.destroy(hairSprite);
         medalSprite = FlxDestroyUtil.destroy(medalSprite);
         crownSprite = FlxDestroyUtil.destroy(crownSprite);
+        super.destroy();
     }
  }

@@ -126,6 +126,7 @@ class PlayState extends FlxState {
 
     private var readyToEnd = false;
     private var readyToEndFade = false;
+    private var readyToGameOver = false;
 
     private static var instance:PlayState;
   
@@ -529,12 +530,16 @@ class PlayState extends FlxState {
         if (!popupActive && popups.length > 0) {
             openSubState(popups.shift());
             popupActive = true;
-        } else if (readyToEnd) {
+        } else {
             var p:PressureGauge = cast findInteractable("states.playstate.PressureGauge");
-            if (p != null && (p.number != p.v)) {
-                trace(p.number, p.v);
+            if (p != null && (p.number != p.targetBars)) {
                 // Still changing, wait
-            } else {
+            } else if (readyToGameOver) {
+                readyToGameOver = false;
+                FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                    openSubState(new GameOverState());
+                });  
+            } else if (readyToEnd) {
                 readyToEnd = false;
                 isActive = false;
                 if (readyToEndFade) {
@@ -828,9 +833,6 @@ class PlayState extends FlxState {
             addingPatient = false;
             soundManager.stopFlatline();
             var improvement = patient.info.getQOL() - REQUIRED_HEALTH;
-            if (patient.info.isVIP) {
-                var improvement = patient.info.getQOL() - REQUIRED_VIP_HEALTH;
-            }
 
             if (patient.info.isVIP) {
                 soundManager.playVIPDead(cast findInteractable("states.playstate.Tannoy"));
@@ -864,9 +866,7 @@ class PlayState extends FlxState {
 	public function destroyPatient() {
         if (reputation <= 0) { 
             // Game Over
-            FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-                openSubState(new GameOverState());
-            });
+            readyToGameOver = true;
         }
 
 		// Remove their holes
@@ -927,6 +927,9 @@ class PlayState extends FlxState {
 		// Patient
         if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
             // We don't add one if the level is complete
+            return;
+        } else if (readyToGameOver) {
+            // We don't add one if we're about to gameover
             return;
         }
         

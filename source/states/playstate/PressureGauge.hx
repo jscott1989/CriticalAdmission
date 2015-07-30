@@ -14,7 +14,7 @@ package states.playstate;
     public var number = 8;
     private var timeout = 0.0;
     public var reputation = 8;
-    public var v = 8;
+    public var targetBars = 8;
 
     public static inline var REPUTATION_ANIMATION_TIME = 0.5;
 
@@ -26,22 +26,12 @@ package states.playstate;
     override function update() {
         super.update();
 
-        if (reputation == 8) {
-            return; //weirdest thing... when i figure out why it randomly sets to 8... fix this.
-        }
-
-        if (reputation == 0){
-            v = 0;
-        } else {
-            v = Std.int(Math.min(Math.max(1, Std.int(((reputation/100)*7)+1)), 8));
-        }
-
         timeout += FlxG.elapsed;
 
         if (timeout >= REPUTATION_ANIMATION_TIME) {
             timeout = 0;
-            if (v != number) {
-                if (v > number) {
+            if (targetBars != number) {
+                if (targetBars > number) {
                     number++;
                     SoundManager.getInstance().playSuccess();
                 } else {
@@ -56,6 +46,12 @@ package states.playstate;
 
     public function reputationChange(change:Int, newReputation:Int) {
         reputation = newReputation;
+
+        if (reputation <= 0){
+            targetBars = 0;
+        } else {
+            targetBars = Std.int(Math.min(Math.max(1, Std.int(((reputation/100)*7)+1)), 8));
+        }
 
         var changeText:String = Std.string(change);
         if (change >= 0) {
