@@ -107,7 +107,8 @@ class Levels {
                 ],
 
                 [
-                    "Next"
+                    "Next",
+                    "Clock"
                 ],
 
                 120
@@ -192,8 +193,7 @@ class Levels {
 
                 [
                     "Tannoy",
-                    "PatientCounter",
-                    "Clock"
+                    "PatientCounter"
                 ],
 
                 60
