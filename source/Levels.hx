@@ -107,10 +107,11 @@ class Levels {
                 ],
 
                 [
-                    "Next"
+                    "Next",
+                    "Clock"
                 ],
 
-                99999
+                120
             ),
             new Level(
                 "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation will suffer",
@@ -148,7 +149,7 @@ class Levels {
                     "PressureGauge"
                 ],
 
-                99999
+                120
             ),
             new Level(
                 "Now its time to get cutting!",
@@ -177,7 +178,7 @@ class Levels {
                     "Scalpel"
                 ],
 
-                99999
+                120
             ),
         new Level(
                 "The queues are mounting up around the block! There's nothing else for it; get in there and help those people. You've only got a few seconds to spend fixing each patient: take too long and they'll kick the bucket. Even worse, that patient won't count towards finishing your shift! HINT: Press spacebar to quickly get the next patient",
@@ -192,11 +193,10 @@ class Levels {
 
                 [
                     "Tannoy",
-                    "PatientCounter",
-                    "Clock"
+                    "PatientCounter"
                 ],
 
-                10
+                60
             )
         ];
     }
