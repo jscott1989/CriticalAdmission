@@ -3,6 +3,7 @@ package;
 
 import flash.geom.Point;
 import flash.geom.Rectangle;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -103,14 +104,17 @@ class Utils
     }
 
     public static function splitCamelCase(str:String):String {
+        var a = [];
+
         var r = ~/[A-Z][a-z0-9]*/g;
-        var result = r.split(str);
-        // TODO
-        // FlxG.log.add(str);
-        // FlxG.log.add(result);
-        // if (result.length > 0) {
-        //     return result.join(" ");
-        // }
+        var result = r.match(str);
+        
+        while (r.match(str)) {
+            a.push(r.matched(0));
+            str = r.matchedRight();
+        }
+
+        str = a.join(" ");
         
         return str;
     }

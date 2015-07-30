@@ -42,6 +42,9 @@ class MenuState extends FlxState {
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
+		// Enable debugger if in debug mode
+		FlxG.debugger.visible = true;
+		
 		var options = new FlxSave();
 		options.bind("options");
 		if (options.data.fullscreen == null) {

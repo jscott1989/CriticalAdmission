@@ -12,6 +12,7 @@ package states.playstate;
 
     public function new()  {
         super("PressureGauge");
+        this.label = "Reputation Gauge";
     }
 
     override function update() {

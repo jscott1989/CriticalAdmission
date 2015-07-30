@@ -305,9 +305,6 @@ class PlayState extends FlxState {
 
 	override public function create():Void
 	{
-		// Enable debugger if in debug mode
-		FlxG.debugger.visible = true;
-
         //SoundManager
         soundManager = SoundManager.getInstance();
 
