@@ -530,16 +530,22 @@ class PlayState extends FlxState {
             openSubState(popups.shift());
             popupActive = true;
         } else if (readyToEnd) {
-            readyToEnd = false;
-            isActive = false;
-            if (readyToEndFade) {
-                FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-                    openSubState(new IntrimState());
-                });
+            var p:PressureGauge = cast findInteractable("states.playstate.PressureGauge");
+            if (p != null && (p.number != p.v)) {
+                trace(p.number, p.v);
+                // Still changing, wait
             } else {
-                openSubState(new IntrimState());
+                readyToEnd = false;
+                isActive = false;
+                if (readyToEndFade) {
+                    FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                        openSubState(new IntrimState());
+                    });
+                } else {
+                    openSubState(new IntrimState());
+                }
+                readyToEndFade = false;
             }
-            readyToEndFade = false;
         }
 
 		super.update();
@@ -781,7 +787,6 @@ class PlayState extends FlxState {
 	}
 
     function changeReputation(change: Int) {
-
         if (change >= 0) {
             change = Std.int(Math.min(100 - reputation, change));
         } else {
@@ -790,44 +795,22 @@ class PlayState extends FlxState {
 
         reputation += change;
 
-        // Show the level of reputation change
-        var changeText:String = Std.string(change);
+        var p:PressureGauge = cast findInteractable("states.playstate.PressureGauge");
+
         if (change >= 0) {
             soundManager.playSuccess();
-            changeText = "+" + changeText;
         } else {
             soundManager.playFailure();
+        }
+
+        if (p != null) {
+            p.reputationChange(change, reputation);
         }
 
         if (reputation < 10 && Std.random(10) == 1) {
             soundManager.playLowReputation(cast findInteractable("states.playstate.Tannoy"));
         } else if (reputation > 90 && Std.random(10) == 1) {
             soundManager.playHighReputation(cast findInteractable("states.playstate.Tannoy"));
-        }
-
-        // We're going to put the text near the reputation level
-        var p = findInteractable("states.playstate.PressureGauge");
-
-        if (p != null) {
-            var x = p.x + p.width / 2;
-            var y = p.y + p.height / 2;
-
-            x += Std.random(300) - 150;
-            y += Std.random(300) - 150;
-
-            var text = new FlxText(x, y, p.width, changeText, 100);
-            text.font = "assets/fonts/Cabin-Regular.ttf";
-            text.color = FlxColor.RED;
-            if (change >= 0) {
-                text.color = FlxColor.GREEN;
-            }
-            add(text);
-
-            var self = this;
-
-            Timer.delay(function f() {
-                self.remove(text, true);
-            }, 500);
         }
     }
 

@@ -60,8 +60,6 @@ class IntrimState extends FlxSubState {
             i+= 1;
         }
 
-
-
         var btnPlay = Utils.createButton("Continue", clickPlay, 5);
         btnPlay.x = 300;
         btnPlay.y = 700;
@@ -74,6 +72,7 @@ class IntrimState extends FlxSubState {
     }
 
     override function update() {
+        super.update();
         if (FlxG.keys.justReleased.SPACE) {
             clickPlay();
         }
