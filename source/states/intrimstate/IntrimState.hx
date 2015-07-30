@@ -73,6 +73,12 @@ class IntrimState extends FlxSubState {
         FlxG.camera.stopFX();
     }
 
+    override function update() {
+        if (FlxG.keys.justReleased.SPACE) {
+            clickPlay();
+        }
+    }
+
     private function clickPlay():Void {
         FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
             PlayState.getInstance().isActive = true;

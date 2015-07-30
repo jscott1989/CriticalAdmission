@@ -80,4 +80,11 @@ class PopupState extends FlxSubState {
         PlayState.getInstance().popupActive = false;
         close();
     }
+
+    override function update() {
+        super.update();
+        if (FlxG.keys.justReleased.SPACE) {
+            clickContinue();
+        }
+    }
 }
