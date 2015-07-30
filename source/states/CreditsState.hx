@@ -38,10 +38,77 @@ class CreditsState extends FlxSubState {
         logo.loadGraphic("assets/images/Logo.png");
         add(logo);
 
-        var intro = new FlxText(100, 330, 700, "Critical Admission is a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).\n\nIt was created by Jonathan Scott, Tom Blount, David Millard, Priyanka Singh, and Devasena Prasad.\n\nThe receptionist was voiced by Melanie Ehrlich.", 40);
+        var intro = new FlxText(100, 330, 700, "Critical Admission is a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).", 40);
         intro.font = "assets/fonts/Cabin-Bold.ttf";
         intro.color = FlxColor.BLACK;
         add(intro);
+
+        var createdBy = new FlxText(700, 905, 0, "Designed and developed by", 50);
+        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy.color = FlxColor.BLACK;
+        add(createdBy);
+
+        var names = [
+            "Jonathan Scott",
+            "Tom Blount",
+            "David Millard",
+            "Priyanka Singh",
+            "Devasena Prasad",
+            "Melanie Ehrlich",
+        ];
+
+        var urls = [
+            "http://jscott.me",
+            null,
+            "http://www.davidmillard.org",
+            null,
+            null,
+            "http://www.melanieehrlich.com",
+        ];
+
+        var createdBy = new FlxText(700, 1200, 0, "Receptionist voiced by", 50);
+        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy.color = FlxColor.BLACK;
+        add(createdBy);
+
+        var createdBy = new FlxText(700, 1300, 0, "Other sounds from FreeSound", 50);
+        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy.color = FlxColor.BLACK;
+        add(createdBy);
+
+        for (i in 0...5) {
+            var name = new FlxText(700, 950 + (i * 50), 0, names[i], 40);
+            name.font = "assets/fonts/Cabin-Bold.ttf";
+            name.color = FlxColor.BLACK;
+            add(name);
+
+            if (urls[i] != null) {
+                var url = new FlxText(1000, 950 + (i * 50), 0, urls[i], 40);
+                url.font = "assets/fonts/Cabin-Regular.ttf";
+                url.color = FlxColor.BLUE;
+
+                // MouseEventManager.add(url);
+
+                add(url); 
+            }
+        }
+
+        for (i in 5...6) {
+            var name = new FlxText(700, 1000 + (i * 50), 0, names[i], 40);
+            name.font = "assets/fonts/Cabin-Bold.ttf";
+            name.color = FlxColor.BLACK;
+            add(name);
+
+            if (urls[i] != null) {
+                var url = new FlxText(1000, 1000 + (i * 50), 0, urls[i], 40);
+                url.font = "assets/fonts/Cabin-Regular.ttf";
+                url.color = FlxColor.BLUE;
+
+                // MouseEventManager.add(url);
+
+                add(url); 
+            }
+        }
 
         tooltipText = new FlxText(0, 0, 0, "SAGDCX", 50); 
         tooltipText.font = "assets/fonts/Cabin-Regular.ttf";

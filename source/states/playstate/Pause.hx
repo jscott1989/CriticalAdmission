@@ -8,6 +8,7 @@ import flixel.FlxG;
 
     public function new()  {
         super("Pause");
+        this.label = "Pause (ESC)";
     }
 
     public override function interaction() {

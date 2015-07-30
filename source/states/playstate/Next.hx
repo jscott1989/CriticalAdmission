@@ -8,6 +8,7 @@ import flixel.FlxG;
 
     public function new()  {
         super("Next");
+        this.label = "Next (Space)";
     }
 
     public override function interaction() {
