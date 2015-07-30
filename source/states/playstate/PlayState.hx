@@ -280,7 +280,11 @@ class PlayState extends FlxState {
         ];
 
         // Calculate time per patient
-        var levelTime:Int = 60 - (5*(level-4));
+        var levelTime:Int = 60 - (10*(level-4));
+
+        if (levelTime <= 10){
+            levelTime = 10;
+        }
 
         return new Level(text, patients, numberOfPatients, interactables, [], levelTime);
      }
