@@ -16,6 +16,7 @@ import sounds.SoundManager;
 import states.gameoverstate.GameOverState;
 import states.PauseState;
 import states.intrimstate.IntrimState;
+import sounds.speech.Receptionist;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -256,7 +257,7 @@ class PlayState extends FlxState {
     public function generateLevel(level:Int):Level {
         //Level text
         //TODO: randomise some quotes
-        var text:String = "Some generic level text";
+        var text:String = Receptionist.FILLER.get(Utils.randomArray(Receptionist.FILLER_KEYS).pop());
 
         // Target 40-60% health - TODO: Depend on level
 
