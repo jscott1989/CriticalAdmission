@@ -55,7 +55,7 @@ class IntrimState extends FlxSubState {
         for (patient in PlayState.getInstance().incomingPatients) {
             var p = new PatientIcon(patient);
             p.x = 20 + (i * (200 + 20));
-            p.y = (FlxG.height - (p.height + 67));
+            p.y = (FlxG.height - 500);
             add(p);
             i+= 1;
         }
@@ -63,8 +63,8 @@ class IntrimState extends FlxSubState {
 
 
         var btnPlay = Utils.createButton("Continue", clickPlay, 5);
-        btnPlay.screenCenter();
-        btnPlay.y = FlxG.height - btnPlay.height - 10;
+        btnPlay.x = 300;
+        btnPlay.y = 700;
         add(btnPlay);
 
         super.create();

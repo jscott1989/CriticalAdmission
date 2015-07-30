@@ -24,9 +24,7 @@ package states.intrimstate;
         s.makeGraphic(size, size, FlxColor.TRANSPARENT, true);
 
         if (health < 100){
-         
             s.drawCircle(size/2,size/2,size/2, FlxColor.RED);
-            
             s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 0, 255, 0));
         }
         return s;
@@ -131,13 +129,13 @@ package states.intrimstate;
             }
         }
 
-        add(generateHealthDot(info.getBrainQOL(), 30, 275 * SCALE, 60 * SCALE));
+        add(generateHealthDot(info.getBrainQOL(), 30, 325 * SCALE, 90 * SCALE));
         add(generateHealthDot(info.getHeartQOL(), 30, 400 * SCALE, 500 * SCALE));
-        add(generateHealthDot(info.getLungQOL(),  30, 230 * SCALE, 600 * SCALE));
-        add(generateHealthDot(info.getGutsQOL(),  30, 300 * SCALE, 750 * SCALE));
-        add(generateHealthDot(info.getLeftElbowQOL(), 30, 20 * SCALE, 370 * SCALE));
-        add(generateHealthDot(info.getRightElbowQOL(), 30, 600 * SCALE, 390 * SCALE));
-        add(generateHealthDot(info.getLeftKneeQOL(), 30, 140 * SCALE, 1050 * SCALE));
-        add(generateHealthDot(info.getRightKneeQOL(), 30, 500 * SCALE, 1050 * SCALE));
+        add(generateHealthDot(info.getLungQOL(),  30, 270 * SCALE, 600 * SCALE));
+        add(generateHealthDot(info.getGutsQOL(),  30, 350 * SCALE, 790 * SCALE));
+        add(generateHealthDot(info.getLeftElbowQOL(), 30, 50 * SCALE, 420 * SCALE));
+        add(generateHealthDot(info.getRightElbowQOL(), 30, 630 * SCALE, 420 * SCALE));
+        add(generateHealthDot(info.getLeftKneeQOL(), 30, 170 * SCALE, 1150 * SCALE));
+        add(generateHealthDot(info.getRightKneeQOL(), 30, 530 * SCALE, 1150 * SCALE));
     }
  }

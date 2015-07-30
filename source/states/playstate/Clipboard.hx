@@ -79,7 +79,7 @@ package states.playstate;
             var improvement = health - PlayState.REQUIRED_HEALTH;
 
             if (patient.info.isVIP) {
-                var improvement = health - PlayState.REQUIRED_VIP_HEALTH;
+                improvement = health - PlayState.REQUIRED_VIP_HEALTH;
             }
 
             if (improvement > 0) {
