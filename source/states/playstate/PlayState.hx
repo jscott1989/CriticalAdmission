@@ -66,9 +66,9 @@ class Constructable {
 class PlayState extends FlxState {
 
 	// UI Grid
-    public static inline var UI_GRID_PADDING = 100;
+    public static inline var UI_GRID_PADDING = 70;
     public static inline var UI_GRID_WIDTH = 1030;
-    public static inline var UI_GRID_HEIGHT = 600;
+    public static inline var UI_GRID_HEIGHT = 450;
 
     public static inline var REQUIRED_HEALTH = 80;
     public static inline var REQUIRED_VIP_HEALTH = 90;
