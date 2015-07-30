@@ -58,13 +58,14 @@ class EnterHighScoreState extends FlxSubState {
         add(headerText);
         add(bodyText);
 
-        var nameText = new FlxText(0, 0, 0, "Name", 60);
-        nameText.x = background.x + 100;
-        nameText.y = background.y + 400;
+        var nameText = new FlxText(background.x + 100, background.y + 400, 0, "Name", 60);
+        nameText.font = "assets/fonts/Cabin-Regular.ttf";
+        nameText.color = FlxColor.BLACK;
         add(nameText);
 
-        var highscoreName = new FlxInputText(background.x + 300, background.y + 400, 900, "", 70, FlxColor.BLACK, FlxColor.WHITE);
+        var highscoreName = new FlxInputText(background.x + 300, background.y + 400, 900, "", 70, FlxColor.WHITE, FlxColor.BLACK);
         add(highscoreName);
+        highscoreName.set_active(true);
 
         var highscoreButton = Utils.createButton("Save", function() {
             states.HighscoreState.addHighscore(highscoreName.text, this.level, this.patients);
