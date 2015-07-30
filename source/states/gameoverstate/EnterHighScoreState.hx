@@ -65,7 +65,8 @@ class EnterHighScoreState extends FlxSubState {
 
         var highscoreName = new FlxInputText(background.x + 300, background.y + 400, 900, "", 70, FlxColor.WHITE, FlxColor.BLACK);
         add(highscoreName);
-        highscoreName.set_active(true);
+        highscoreName.caretColor = FlxColor.WHITE;
+        highscoreName.hasFocus = true;
 
         var highscoreButton = Utils.createButton("Save", function() {
             states.HighscoreState.addHighscore(highscoreName.text, this.level, this.patients);
