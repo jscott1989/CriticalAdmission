@@ -24,7 +24,7 @@ class HealthValues {
             "Heart" => 40,
             "Brain" => 40,
             "Lung" => 100,
-            "Guts" => 100,
+            "Guts" => 60,
             "LeftElbow" => 10,
             "RightElbow" => 10,
             "LeftKnee" => 10,
