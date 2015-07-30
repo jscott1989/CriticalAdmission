@@ -19,7 +19,7 @@ import flixel.FlxG;
 
     public override function update(){
     	if (FlxG.keys.justReleased.ESCAPE) {
-    		PlayState.getInstance().pause();
+    		interaction();
 		}
     }
  }
