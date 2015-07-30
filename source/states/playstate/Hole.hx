@@ -108,14 +108,18 @@ package states.playstate;
      * Start rendering
      */
     public function show() {
+        add(backgroundSprite);
+        backgroundSprite.x = x;
+        backgroundSprite.y = y;
+
         if (isTransparent) {
             cancelTransparent();
         }
 
-        add(backgroundSprite);
-        backgroundSprite.x = x;
-        backgroundSprite.y = y;
-        remove(hiddenSprite);
+        // I don't know why but removing this breaks the Hole...
+        // we don't need to as it's hidden by the background
+        // remove(hiddenSprite);
+
         if (interactable != null) {
             // center it
             PlayState.getInstance().watchInteractable(interactable);

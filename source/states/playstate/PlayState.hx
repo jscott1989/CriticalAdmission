@@ -475,7 +475,6 @@ class PlayState extends FlxState {
 	 * Add a hole to the game
 	 */
 	public function watchHole(hole:Hole) {
-
 		// Add to drop list
 		holes.push(hole);
 
@@ -774,7 +773,10 @@ class PlayState extends FlxState {
         for (hole in holes) {
             // Check each hole
             if (includeHidden || !hole.isHidden) {
-                var distance = new FlxPoint(hole.x + (hole.width / 2), hole.y + (hole.height / 2)).distanceTo(new FlxPoint(x, y));
+
+                var holeCenter = new FlxPoint(hole.x + (hole.width / 2), hole.y + (hole.height / 2));
+                var mousePosition = new FlxPoint(x, y);
+                var distance = holeCenter.distanceTo(mousePosition);
 
                 if (distance < minDistance) {
                     if (includeOccupied || hole.isEmpty()) {
