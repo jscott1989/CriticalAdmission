@@ -279,8 +279,7 @@ class PlayState extends FlxState {
         ];
 
         // Calculate time per patient
-        //TODO: balance/tie to difficulty
-        var levelTime:Int = 15;
+        var levelTime:Int = 60 - (5*(level-4));
 
         return new Level(text, patients, numberOfPatients, interactables, [], levelTime);
      }
