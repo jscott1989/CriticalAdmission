@@ -154,13 +154,23 @@ class Levels {
                 "Now its time to get cutting!",
                 
                 [
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true),
-                    new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true)
+                    new PatientInfo(false, null, null, null, null, null, null, false, "", true, "Heart", true, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
+                        function(patient:Patient) {
+                            PlayState.getInstance().showPopup("Tutorial", "This patient has something wrong with their brain, but we can't get at it yet; try opening them up with the scalpel! (Don't worry about closing them up again)");
+                        },
+                        function(patient:Patient) {
+                            if (patient.info.brain != "Brain"){
+                                PlayState.getInstance().showPopup("Tutorial", "Make sure to open the patient's head to add the new brain! Click and drag the scalpel onto their head to open them up, then drag the brain into the slot.");
+                            }
+                            PlayState.getInstance().moveToTable("Scalpel");
+                        }
+                    )
                 ],
 
-                2,
+                1,
 
                 [
+                    ["Organ", ["Brain"]]
                 ],
 
                 [

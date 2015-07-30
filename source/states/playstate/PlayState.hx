@@ -184,6 +184,10 @@ class PlayState extends FlxState {
         return null;
     }
 
+    public function moveToTable(type:String){
+
+    }
+
     /**
      * Save the current state of the game, ready to be reloaded.
      *
