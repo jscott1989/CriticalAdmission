@@ -14,4 +14,10 @@ import flixel.FlxG;
     	PlayState.getInstance().soundManager.playSound(AssetPaths.button__wav);
 		PlayState.getInstance().nextPatient();
     }
+
+    public override function update(){
+    	if (FlxG.keys.justReleased.SPACE) {
+    		interaction();
+		}
+    }
  }
