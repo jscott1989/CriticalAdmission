@@ -26,7 +26,7 @@ package states.intrimstate;
         if (health < 100){
             s.drawCircle(size/2,size/2,size/2, FlxColor.RED);
             if (health > 0) {
-                s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 0, 255, 0));
+                s.drawCircle(size/2,size/2,size/2, FlxColorUtil.makeFromARGB(health / 100, 255, 191, 0));
             }
         }
         return s;
