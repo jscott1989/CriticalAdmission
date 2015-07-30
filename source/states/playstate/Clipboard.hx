@@ -9,6 +9,7 @@ package states.playstate;
  class Clipboard extends UIElement {
 
     private var name_text:FlxText;
+    private var injury_text:FlxText;
     private var qol_text:FlxText;
 
     private var isVIP:Bool = false;
@@ -17,10 +18,16 @@ package states.playstate;
         super("Clipboard");
 
         name_text = new FlxText(0, 0, 260); // x, y, width
-        name_text.font = "assets/fonts/Cabin-Regular.ttf";
+        name_text.font = "assets/fonts/Cabin-Bold.ttf";
         name_text.alignment = "center";
         name_text.size = 40;
         name_text.color = FlxColor.BLACK;
+
+        injury_text = new FlxText(0, 0, 260); // x, y, width
+        injury_text.font = "assets/fonts/Cabin-Regular.ttf";
+        injury_text.alignment = "center";
+        injury_text.size = 40;
+        injury_text.color = FlxColor.BLACK;
 
         qol_text = new FlxText(0, 0, 260); // x, y, width
         qol_text.font = "assets/fonts/Cabin-Regular.ttf";
@@ -30,6 +37,7 @@ package states.playstate;
 
         updateText();
         PlayState.getInstance().add(name_text);
+        PlayState.getInstance().add(injury_text);
         PlayState.getInstance().add(qol_text);
     }
 
@@ -38,8 +46,10 @@ package states.playstate;
      */
     public override function destroy() {
         PlayState.getInstance().remove(name_text, true);
+        PlayState.getInstance().remove(injury_text, true);
         PlayState.getInstance().remove(qol_text, true);
         name_text.destroy();
+        injury_text.destroy();
         qol_text.destroy();
         super.destroy();
     }
@@ -58,13 +68,27 @@ package states.playstate;
      * Update the text with the QoL etc. from the patient
      */
     private function updateText() {
-        if (PlayState.getInstance().patient != null) {
+        var patient = PlayState.getInstance().patient;
+        if (patient != null) {
             name_text.text = PlayState.getInstance().patient.info.name;
+            injury_text.text = PlayState.getInstance().patient.info.injury;
 
             var health = PlayState.getInstance().patient.info.getQOL();
-            qol_text.text = Std.string(health) + "%";
+            qol_text.text = Std.string(health) + "% (";
 
-            if (health >= 80) {
+            var improvement = health - PlayState.REQUIRED_HEALTH;
+
+            if (patient.info.isVIP) {
+                var improvement = health - PlayState.REQUIRED_VIP_HEALTH;
+            }
+
+            if (improvement > 0) {
+                qol_text.text += "+" + improvement + ")";
+            } else {
+                qol_text.text += improvement + ")";
+            }
+
+            if ((!patient.info.isVIP && health >= PlayState.REQUIRED_HEALTH) || (patient.info.isVIP && health >= PlayState.REQUIRED_VIP_HEALTH)) {
                 qol_text.color = FlxColor.GREEN;
             } else {
                 qol_text.color = FlxColor.RED;
@@ -85,7 +109,8 @@ package states.playstate;
             updateText();
         }
         ensureInFront(name_text, 130, 160);
-        ensureInFront(qol_text, 130, 170 + name_text.height);
+        ensureInFront(injury_text, 130, 170 + name_text.height);
+        ensureInFront(qol_text, 130, 400);
         super.update();
     }
  }

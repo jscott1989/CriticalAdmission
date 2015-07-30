@@ -19,6 +19,8 @@ import states.playstate.Patient;
     ];
     public static var SURNAMES:Array<String> = ["Smith", "Jones", "Taylor", "Brown", "Williams", "Wilson", "Johnson", "Davies", "Robinson", "Wright", "Thompson", "Evans", "Walker", "White", "Roberts", "Green", "Hall", "Wood", "Jackson", "Clarke", "Patel", "Thomas", "Khan", "Lewis", "James", "Phillips", "Ali", "Mason", "Mitchell", "Rose", "Davis", "Rodriguez", "Cox", "Alexander"];
 
+    public static var INJURIES:Array<String> = ["Achilles Tendonitis", "Achilles Tendon Ruptures", "Altitude Illness", "Ankle Sprain", "Ankle Fracture", "Anorexia", "Arthritis of the Shoulder", "Athlete's Foot", "Back Pain", "Blisters", "Bulimia", "Calf Strain", "Carpal Tunnel Syndrome", "Cervical Fracture", "Clavicle Fracture", "Frostbite", "Hypothermia", "Compulsive Exercise", "Concussion", "Cramping Muscles", "Diabetes", "Finger Fracture", "Frozen Shoulder", "Golfer's Elbow", "Growth Plate Injuries", "Hamstring Pull", "Hamstring Tear", "Head Injuries", "Hyponatremia", "Chondromalacia", "Plica Syndrome", "Lateral Epicondylitis", "Low Back Pain", "Noisy Joints", "Neck Strain", "Osteoarthritis of the Knee", "Osteoarthritis", "Osgood-Schlatter Disease", "Overuse Syndrome", "Patellofemoral Pain Syndrome", "Sciatica", "Side Stitch", "Shin Splints", "Shoulder Dislocation", "Shoulder Separation", "Shoulder Fracture", "Shoulder Tendinitis", "Tendonitis", "Whiplash", "Water Intoxication"];
+
     public var isVIP:Bool;
     public var isMale:Bool;
     public var name:String;
@@ -51,7 +53,9 @@ import states.playstate.Patient;
 
     public var initialQOL:Float = 100;
 
-    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, crown:Int=null, medals:Bool=false, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true, onEnterCallback:Patient -> Void = null, onExitCallback:Patient -> Void = null)  {
+    public var injury:String;
+
+    public function new(isVIP:Bool=false, isMale:Bool=null, name:String=null, bodySprite:Int=null, hairStyle:Int=null, hairColor:Int=null, crown:Int=null, medals:Bool=false, brain:String="Brain", brainCovered:Bool=true, heart:String="Heart", heartCovered:Bool=true, guts:String="Guts", gutsCovered:Bool=true, lung:String="Lung", lungCovered:Bool=true, leftElbow:String="Elbow", leftElbowCovered:Bool=true, rightElbow:String="Elbow", rightElbowCovered:Bool=true, leftKnee:String="Knee", leftKneeCovered:Bool=true, rightKnee:String="Knee", rightKneeCovered:Bool=true, onEnterCallback:Patient -> Void = null, onExitCallback:Patient -> Void = null, injury:String = null)  {
         this.isVIP = isVIP;
 
         if (isMale == null) {
@@ -90,6 +94,12 @@ import states.playstate.Patient;
             this.hairColor = Std.random(3)+1;
         } else {
             this.hairColor = hairColor;
+        }
+
+        if (injury == null) {
+            this.injury = INJURIES[Std.random(INJURIES.length)];
+        } else {
+            this.injury = injury;
         }
 
         if (isVIP) {

@@ -70,6 +70,9 @@ class PlayState extends FlxState {
     public static inline var UI_GRID_WIDTH = 1030;
     public static inline var UI_GRID_HEIGHT = 600;
 
+    public static inline var REQUIRED_HEALTH = 80;
+    public static inline var REQUIRED_VIP_HEALTH = 90;
+
 	// Consants
 	// Scaling when picking things up
 	public static inline var GRABBED_SCALE = 1.3;
@@ -800,7 +803,10 @@ class PlayState extends FlxState {
                 }
 				treatedPatients.push(patient.info);
 
-                var improvement = patient.info.getQOL() - 80;
+                var improvement = patient.info.getQOL() - REQUIRED_HEALTH;
+                if (patient.info.isVIP) {
+                    var improvement = patient.info.getQOL() - REQUIRED_VIP_HEALTH;
+                }
 
                 if (improvement >= 0) {
                     changeReputation(Std.int(improvement));
@@ -915,7 +921,10 @@ class PlayState extends FlxState {
         FlxTween.tween(patient, {y: FlxG.height}, 1, {complete: function(t:FlxTween) {
             addingPatient = false;
             soundManager.stopFlatline();
-            var improvement = patient.info.getQOL() - 80;
+            var improvement = patient.info.getQOL() - REQUIRED_HEALTH;
+            if (patient.info.isVIP) {
+                var improvement = patient.info.getQOL() - REQUIRED_VIP_HEALTH;
+            }
 
             if (patient.info.isVIP) {
                 soundManager.playVIPDead(cast findInteractable("states.playstate.Tannoy"));
