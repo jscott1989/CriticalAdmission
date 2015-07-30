@@ -1,4 +1,4 @@
-package states;
+package states.gameoverstate;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -7,6 +7,8 @@ import flixel.addons.ui.FlxInputText;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import states.MenuState;
+import states.PassingToPlayState;
 import states.playstate.PlayState;
 
 using flixel.util.FlxSpriteUtil;
@@ -30,35 +32,9 @@ class GameOverState extends FlxSubState {
         add(background);
 
         var state = PlayState.getInstance();
-
-
-        var self = this;
+        
         if (states.HighscoreState.isHighscore(state.currentLevel, state.treatedPatients.length)) {
-            var gameOverText = new FlxText(400, 1000, 0, "You have a new high score!", 70);
-            gameOverText.font = "assets/fonts/Cabin-Bold.ttf";
-            gameOverText.color = FlxColor.BLACK;
-            add(gameOverText);
-
-            var highscoreName = new FlxInputText(400, 1200, 500, "", 70, FlxColor.BLACK, FlxColor.WHITE);
-            add(highscoreName);
-
-            var highscoreButton:FlxButton = null;
-
-            highscoreButton = Utils.createButton("Save", function() {
-                states.HighscoreState.addHighscore(highscoreName.text, state.currentLevel, state.treatedPatients.length);
-                self.remove(gameOverText);
-                self.remove(highscoreName);
-                self.remove(highscoreButton);
-
-                var submittedText = new FlxText(500, 1000, 0, "Your score has been saved", 70);
-                submittedText.font = "assets/fonts/Cabin-Bold.ttf";
-                submittedText.color = FlxColor.BLACK;
-                self.add(submittedText);
-                
-            }, 5);
-            highscoreButton.x = 1000;
-            highscoreButton.y = 1200;
-            add(highscoreButton);
+            openSubState(new EnterHighScoreState(state.currentLevel, state.treatedPatients.length));
         }
 
         var logo = new FlxSprite(0,0);

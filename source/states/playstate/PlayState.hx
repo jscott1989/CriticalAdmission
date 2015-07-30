@@ -1,5 +1,6 @@
 package states.playstate;
 
+import Levels;
 import flash.geom.Point;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -12,11 +13,9 @@ import flixel.util.FlxColorUtil;
 import flixel.util.FlxPoint;
 import haxe.Timer;
 import sounds.SoundManager;
-import sounds.speech.Receptionist;
-import states.GameOverState;
-import states.intrimstate.IntrimState;
+import states.gameoverstate.GameOverState;
 import states.PauseState;
-import Levels;
+import states.intrimstate.IntrimState;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -802,7 +801,7 @@ class PlayState extends FlxState {
 
                 var improvement = patient.info.getQOL() - REQUIRED_HEALTH;
                 if (patient.info.isVIP) {
-                    var improvement = patient.info.getQOL() - REQUIRED_VIP_HEALTH;
+                    improvement = patient.info.getQOL() - REQUIRED_VIP_HEALTH;
                 }
 
                 if (improvement >= 0) {
