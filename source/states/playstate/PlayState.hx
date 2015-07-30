@@ -20,26 +20,6 @@ import sounds.speech.Receptionist;
 
 using flixel.util.FlxSpriteUtil;
 
-class State {
-    public var reputation:Int;
-    public var level:Level;
-    public var currentLevel:Int;
-    public var patientsToTreat:Int;
-    public var uiElements:Array<Constructable>;
-    public var interactables:Array<Constructable>;
-    public var treatedPatients:Array<PatientInfo>;
-
-    public function new(reputation:Int, level:Level, currentLevel:Int, patientsToTreat:Int, uiElements:Array<Constructable>, interactables:Array<Constructable>, treatedPatients:Array<PatientInfo>) {
-        this.reputation = reputation;
-        this.level = level;
-        this.currentLevel = currentLevel;
-        this.patientsToTreat = patientsToTreat;
-        this.uiElements = uiElements;
-        this.interactables = interactables;
-        this.treatedPatients = treatedPatients;
-    }
-}
-
 class Constructable {
     
     private var type:String;
@@ -144,14 +124,14 @@ class PlayState extends FlxState {
 	private var tannoyCounter:Float = 0;
     private var ECGCounter:Float = 0;
 
-    public var stateToLoad:State;
-    public var lastSaveState:State;
+    private var readyToEnd = false;
+    private var readyToEndFade = false;
 
     private static var instance:PlayState;
   
-    public static inline function getInstance(state:State = null) {
+    public static inline function getInstance() {
         if (instance == null) {
-            instance = new PlayState(state);
+            instance = new PlayState();
         }
         return instance;
     }
@@ -187,65 +167,6 @@ class PlayState extends FlxState {
 
     public function moveToTable(type:String){
 
-    }
-
-    /**
-     * Save the current state of the game, ready to be reloaded.
-     *
-     * All we need to record is the reputation, level and the interactables which are either
-     * on the table or in a UIElement
-     *
-     * Everything else can be generated.
-     */
-    public function saveState() {
-        var interactables = new Array<Constructable>();
-        var uiElements = new Array<Constructable>();
-
-        for (member in members) {
-            if (Type.getSuperClass(Type.getClass(member)) == Interactable || Type.getClass(member) == Interactable) {
-                var interactable:Interactable = cast member;
-                if (interactable.hole == null) {
-                    interactables.push(new Constructable(interactable.type, interactable.x, interactable.y));
-                }
-            }
-        }
-
-        for (hole in holes) {
-             if (Type.getClass(hole) == UIHole) {
-                if (hole.interactable == null) {
-                    uiElements.push(null);
-                } else {
-                    uiElements.push(new Constructable(hole.interactable.type));
-                }
-            }
-        }
-
-        return new State(reputation, level, currentLevel, patientsToTreat, uiElements, interactables, treatedPatients.copy());
-    }
-
-    /**
-     * Load the last saved state.
-     *
-     * This assumes an empty (freshly loaded) scene
-     */
-    public function loadState(state:State) {
-        reputation = state.reputation;
-        level = state.level;
-        currentLevel = state.currentLevel;
-        treatedPatients = state.treatedPatients;
-        patientsToTreat = state.patientsToTreat;
-
-        for (interactable in state.interactables) {
-            if (interactable != null) {
-                watchInteractable(interactable.construct());
-            }
-        }
-
-        for (interactable in state.uiElements) {
-            if (interactable != null) {
-                spawnUIElement(interactable.construct());
-            }
-        }
     }
 
     /**
@@ -301,11 +222,6 @@ class PlayState extends FlxState {
         return patient;
     }
 
-    override public function new(state:State=null) {
-        super();
-        this.stateToLoad = state;
-    }
-
 	override public function create():Void
 	{
         //SoundManager
@@ -351,18 +267,14 @@ class PlayState extends FlxState {
 
 		super.create();
 
-        if (stateToLoad != null) {
-            loadState(stateToLoad);
-        } else {
-            cat = new Cat();
-            cat.x = Std.random(FlxG.width);
-            cat.y = FlxG.height;
-            watchInteractable(cat);
+        cat = new Cat();
+        cat.x = Std.random(FlxG.width);
+        cat.y = FlxG.height;
+        watchInteractable(cat);
 
-            var pause = new Pause();
-            watchInteractable(pause);
-            pauseHole.addInteractable(pause);
-        }
+        var pause = new Pause();
+        watchInteractable(pause);
+        pauseHole.addInteractable(pause);
 
         levelComplete(false);
 
@@ -408,15 +320,8 @@ class PlayState extends FlxState {
 	}
 
     public function levelComplete(fade:Bool = true) {
-        isActive = false;
-        lastSaveState = saveState();
-        if (fade) {
-            FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-                openSubState(new IntrimState());
-            });
-        } else {
-            openSubState(new IntrimState());
-        }
+        readyToEndFade = fade;
+        readyToEnd = true;
     }
 
     public function pause(fade:Bool = true) {
@@ -619,13 +524,23 @@ class PlayState extends FlxState {
 					seconds_since_drip = 0;
 				}
 			}
-
-
-            if (!popupActive && popups.length > 0) {
-                openSubState(popups.shift());
-                popupActive = true;
-            }
 		}
+
+        if (!popupActive && popups.length > 0) {
+            openSubState(popups.shift());
+            popupActive = true;
+        } else if (readyToEnd) {
+            readyToEnd = false;
+            isActive = false;
+            if (readyToEndFade) {
+                FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+                    openSubState(new IntrimState());
+                });
+            } else {
+                openSubState(new IntrimState());
+            }
+            readyToEndFade = false;
+        }
 
 		super.update();
 	}

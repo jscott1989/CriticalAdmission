@@ -218,4 +218,8 @@ package states.playstate;
     //     var arguments:Array<{}> = [type, Std.string(x), Std.string(y)];
     //     return ["Interactable", arguments];
     // }
+
+    // public override function destroy() {
+    //     backgroundSprite = FlxDestroyUtil.destroy(backgroundSprite);
+    // }
  }

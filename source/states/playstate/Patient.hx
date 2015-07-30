@@ -3,6 +3,7 @@ package states.playstate;
  import flixel.FlxG;
  import flixel.FlxSprite;
  import flixel.group.FlxSpriteGroup;
+ import flixel.util.FlxDestroyUtil;
 
 /**
  * This includes the patient and the bed they are on.
@@ -17,6 +18,10 @@ package states.playstate;
 
     public var bodySprite:FlxSprite;
     public var bedSprite:FlxSprite;
+
+    private var hairSprite:FlxSprite;
+    private var medalSprite:FlxSprite;
+    private var crownSprite:FlxSprite;
 
     public function new(info:PatientInfo, X:Float=0, Y:Float=0)  {
         super(X, Y);
@@ -39,7 +44,7 @@ package states.playstate;
         }
         add(bodySprite);
 
-        var hairSprite = new FlxSprite();
+        hairSprite = new FlxSprite();
         hairSprite.loadGraphic("assets/images/Hair" + info.hairStyle + "-" + info.hairColor + ".png");
 
         if (info.hairStyle == 1) {
@@ -92,7 +97,7 @@ package states.playstate;
 
         if (info.isVIP) {
             if (info.crown > 0) {
-                var crownSprite = new FlxSprite();
+                crownSprite = new FlxSprite();
                 crownSprite.loadGraphic("assets/images/Crown-" + info.crown + ".png");
                 crownSprite.x = 150;
                 crownSprite.y = -155;
@@ -104,7 +109,7 @@ package states.playstate;
             }
 
             if (info.medals) {
-                var medalSprite = new FlxSprite();
+                medalSprite = new FlxSprite();
                 medalSprite.loadGraphic("assets/images/Medals.png");
                 medalSprite.x = 100;
                 medalSprite.y = 550;
@@ -140,5 +145,22 @@ package states.playstate;
         } else {
             bodySprite.loadGraphic("assets/images/Woman" + info.bodySprite + "-dead.png");
         }
+    }
+
+    public override function destroy() {
+        super.destroy();
+        for (hole in holes) {
+            hole = FlxDestroyUtil.destroy(hole);
+        }
+
+        holes = null;
+        body_holes = null;
+
+        bodySprite = FlxDestroyUtil.destroy(bodySprite);
+        bedSprite = FlxDestroyUtil.destroy(bedSprite);
+
+        hairSprite = FlxDestroyUtil.destroy(hairSprite);
+        medalSprite = FlxDestroyUtil.destroy(medalSprite);
+        crownSprite = FlxDestroyUtil.destroy(crownSprite);
     }
  }

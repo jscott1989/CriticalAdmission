@@ -1,10 +1,10 @@
 package states.playstate;
 
- import flixel.FlxG;
  import flixel.FlxSprite;
  import flixel.group.FlxSpriteGroup;
  import flixel.tweens.FlxTween;
  import flixel.util.FlxColor;
+ import flixel.util.FlxDestroyUtil;
 
 /**
  * A hole is used to contain an Organ
@@ -167,5 +167,16 @@ package states.playstate;
             remove(highlightSprite, true);
         }
         isHighlighted = false;
+    }
+
+    public override function destroy() {
+        super.destroy();
+        backgroundSprite = FlxDestroyUtil.destroy(backgroundSprite);
+        highlightSprite = FlxDestroyUtil.destroy(highlightSprite);
+        transparentSprite = FlxDestroyUtil.destroy(transparentSprite);
+        hiddenSprite = FlxDestroyUtil.destroy(hiddenSprite);
+
+        interactable = FlxDestroyUtil.destroy(interactable);
+
     }
  }
