@@ -70,12 +70,14 @@ class PopupState extends FlxSubState {
 
     function clickContinue() {
         PlayState.getInstance().soundManager.playSound(AssetPaths.popdown__wav);
+        PlayState.getInstance().popupActive = false;
         close();
     }
 
     function clickSkip() {
         PlayState.getInstance().skipTutorial = true;
         PlayState.getInstance().soundManager.playSound(AssetPaths.popdown__wav);
+        PlayState.getInstance().popupActive = false;
         close();
     }
 }

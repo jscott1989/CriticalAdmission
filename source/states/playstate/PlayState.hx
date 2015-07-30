@@ -619,6 +619,12 @@ class PlayState extends FlxState {
 					seconds_since_drip = 0;
 				}
 			}
+
+
+            if (!popupActive && popups.length > 0) {
+                openSubState(popups.shift());
+                popupActive = true;
+            }
 		}
 
 		super.update();
@@ -1007,9 +1013,13 @@ class PlayState extends FlxState {
         }
     }
 
+
+    private var popups = new Array<PopupState>();
+    public var popupActive = false;
+
     public function showPopup(title:String, text:String) {
         if (!skipTutorial) {
-            openSubState(new PopupState(title, text));
+            popups.push(new PopupState(title, text));
         }
     }
 
