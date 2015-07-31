@@ -133,8 +133,6 @@ package states.intrimstate;
                 medalSprite.y = 25;
                 add(medalSprite);
             }
-
-            trace("VIP", info.name, info.getQOL());
         }
 
         add(generateHealthDot(info.getBrainQOL(), 30, 325 * SCALE, 90 * SCALE));

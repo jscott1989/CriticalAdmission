@@ -130,6 +130,8 @@ class PlayState extends FlxState {
     private var readyToEndFade = false;
     private var readyToGameOver = false;
 
+    private var hoverHealth:FlxText;
+
     private var startLevel:Int;
 
     private static var instance:PlayState;
@@ -245,7 +247,14 @@ class PlayState extends FlxState {
         tooltipText.font = "assets/fonts/Cabin-Regular.ttf";
         tooltipSprite = new FlxSprite();
         tooltipSprite.makeGraphic(10, 10, FlxColor.BLACK);
+        hoverHealth = new FlxText(0, 0, 0, "+6", 80); 
+        hoverHealth.font = "assets/fonts/Cabin-Regular.ttf";
+        hoverHealth.borderSize = 3;
+        hoverHealth.borderStyle = FlxText.BORDER_OUTLINE;
+        hoverHealth.color = FlxColor.GREEN;
+
         add(tooltipText);
+        add(hoverHealth);
         add(tooltipSprite);
  		
  		// Set up UI holes
@@ -569,6 +578,27 @@ class PlayState extends FlxState {
                 }
                 readyToEndFade = false;
             }
+        }
+
+        if (dragging != null && hoveringHole != null) {
+            var hh:BodyHole = cast hoveringHole;
+            hoverHealth.x = FlxG.mouse.x + 60;
+            hoverHealth.y = FlxG.mouse.y - 15;
+
+            var q = PatientInfo.getQOLForHole(dragging.type, hh.type);
+
+            hoverHealth.text = Std.string(q / 10);
+
+            if (q >= 0) {
+                hoverHealth.text = "+" + hoverHealth.text;
+                hoverHealth.color = FlxColor.GREEN;
+            } else {
+                hoverHealth.color = FlxColor.RED;
+            }
+
+            Utils.bringToFront(members, hoverHealth);
+        } else {
+            hoverHealth.x = -1000;
         }
 
 		super.update();
