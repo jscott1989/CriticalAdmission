@@ -178,29 +178,14 @@ class PlayState extends FlxState {
      * Pffffft. "Ensure its winnable". Where's the fun in that?
      */
     public function generateLevel(level:Int):Level {
-        //Level text
-        //TODO: randomise some quotes
-        var text:String = Receptionist.FILLER.get(Utils.randomArray(Receptionist.FILLER_KEYS).pop());
-
         // Target 40-60% health - TODO: Depend on level
 
         var patients:Array<PatientInfo> = new Array<PatientInfo>();
 
-        // Generate the first X patients to be seen that level
-        // TODO: Generate number based on level
-        var numberOfPatients = 9;
-        for (i in 0...numberOfPatients - 1) {
+        // Generate the first 8 patients to be seen that level
+        for (i in 0...8) {
             patients.push(generatePatientInfo(level));
         }
-
-        patients.push(generatePatientInfo(level, true));
-
-        // Now generate some additional organs
-        //TODO: balance/tie to difficulty
-        var interactables:Array<Array<Dynamic>> = [
-            ["Organ", ["Heart"]],
-            ["Organ", ["Heart"]],
-        ];
 
         // Calculate time per patient
         var levelTime:Int = 60 - (10*(level-4));
@@ -209,11 +194,11 @@ class PlayState extends FlxState {
             levelTime = 10;
         }
 
-        return new Level(text, patients, null, numberOfPatients, interactables, [], levelTime);
+        return new Level(level, null, patients, null, 9, [], [], levelTime);
      }
 
-    private function generatePatientInfo(level:Int, vip:Bool=false):PatientInfo{
-        var patient = new PatientInfo(vip);
+    public static function generatePatientInfo(level:Int, vip:Bool=false, isMale:Bool=null, name:String=null):PatientInfo{
+        var patient = new PatientInfo(vip, isMale, name);
 
         var incomingHealth:Float = Math.max(30, 100 - (level * 5));
         
@@ -366,14 +351,6 @@ class PlayState extends FlxState {
         patientsToTreat += level.patientsToTreat;
 
         incomingPatients = level.patients;
-
-        while (incomingPatients.length < level.patientsToTreat - 1) {
-            incomingPatients.push(generatePatientInfo(currentLevel));
-        }
-
-        if (incomingPatients.length < level.patientsToTreat) {
-            incomingPatients.push(generatePatientInfo(currentLevel, true));
-        }
 
         levelTime = level.levelTime;
         levelText = level.text;
@@ -936,16 +913,22 @@ class PlayState extends FlxState {
             // We don't add one if we're about to gameover
             return;
         }
-        
+
         if (incomingPatients.length == 0) {
-            // Generate a patient
-            patient = new Patient(generatePatientInfo(currentLevel), 332, FlxG.height);
+
+            if (patientsToTreat - treatedPatients.length == 1 && level.vip != null) {
+                // Last one - it's the vip
+                patient = new Patient(generatePatientInfo(currentLevel, true, level.vip.isMale, level.vip.name), 332, FlxG.height);
+            } else {
+                // Generate a patient
+                patient = new Patient(generatePatientInfo(currentLevel), 332, FlxG.height);
+            }
         } else {
             // Load the next normal patient
     		patient = new Patient(incomingPatients.shift(), 332, FlxG.height);
         }
 
-        if (incomingPatients.length > 0 && incomingPatients[0].isVIP) {
+        if (patientsToTreat - treatedPatients.length == 2) {
             soundManager.playVIPIncoming(cast findInteractable("states.playstate.Tannoy"));
         }
 

@@ -1,10 +1,11 @@
+import flixel.FlxG;
+import sounds.speech.Receptionist;
+import states.playstate.Interactable;
 import states.playstate.Patient;
 import states.playstate.PlayState;
-import states.playstate.Patient;
-import states.playstate.Interactable;
-import flixel.FlxG;
 
 class Level {
+    public var level:Int;
     public var text:String;
     public var patients:Array<PatientInfo>;
     public var vip:PatientInfo;
@@ -14,6 +15,7 @@ class Level {
     public var levelTime:Int;
 
     public function new(
+        level:Int,
         text:String,
         patients:Array<PatientInfo>,
         vip:PatientInfo,
@@ -22,6 +24,7 @@ class Level {
         uiElements:Array<String>,
         levelTime:Int
     )  {
+        this.level = level;
         this.text = text;
         this.patients = patients;
         this.vip = vip;
@@ -29,15 +32,47 @@ class Level {
         this.interactables = interactables;
         this.uiElements = uiElements;
         this.levelTime = levelTime;
+
+        while (this.patients.length < patientsToTreat - 1) {
+            this.patients.push(PlayState.generatePatientInfo(level));
+        }
+
+        if (vip == null && text == null) {
+            if (Levels.VIPS.length > 0) {
+                var vv = Levels.VIPS.pop();
+                this.vip = new PatientInfo(true, vv.isMale, vv.name);
+                this.text = vv.text;
+            } else {
+                this.text = Receptionist.FILLER.get(Utils.randomArray(Receptionist.FILLER_KEYS).pop());
+                this.vip = new PatientInfo(true);
+            }
+        }
+    }
+}
+
+class Vip {
+    public var text:String;
+    public var isMale:Bool;
+    public var name:String;
+
+    public function new(text:String, isMale:Bool, name:String) {
+        this.text = text;
+        this.isMale = isMale;
+        this.name = name;
     }
 }
 
 class Levels {
     public static var LEVELS:Array<Level>;
 
+    public static var VIPS:Array<Vip> = Utils.randomArray([
+        new Vip("lololol", true, "King LOL")
+    ]);
+
     public static function populateLevels(){
         LEVELS = [
             new Level(
+                1,
                 "Doctor! Incoming patients, get to the operating room, stat!",
                 
                 [
@@ -118,6 +153,7 @@ class Levels {
                 120
             ),
             new Level(
+                2,
                 "Great Scott! Lord Wafflington, world renowned explorer, has come to our hospital complaining of stomach pains after a trip to Columbia! We'd better make sure to fix him up to the highest of standards or our reputation will suffer",
                 
                 [
@@ -158,6 +194,7 @@ class Levels {
                 120
             ),
             new Level(
+                3,
                 "Looks like you've finally found your scalpel, so now its time to get cutting! HINT: You only need to fix ordinary patients up to 80% (and VIPs to 90%); don't worry about making them perfect.",
                 
                 [
@@ -189,6 +226,7 @@ class Levels {
                 120
             ),
         new Level(
+                4,
                 "The queues are mounting up around the block! There's nothing else for it; get in there and help those people. You've only got a few seconds to spend fixing each patient: take too long and they'll kick the bucket. Even worse, that patient won't count towards finishing your shift! HINT: Press spacebar to quickly get the next patient",
                 
                 [

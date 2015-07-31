@@ -17,6 +17,13 @@ using flixel.util.FlxSpriteUtil;
  */
 class IntrimState extends FlxSubState {
 
+    private var background:FlxSprite;
+    private var dayText:FlxText;
+    private var infoText:FlxText;
+    private var levelText:FlxText;
+    private var patientIcons = new Array<PatientIcon>();
+    private var btnPlay:FlxButton;
+
     /**
      * Function that is called up when to state is created to set it up. 
      */
@@ -84,5 +91,20 @@ class IntrimState extends FlxSubState {
             close();
             FlxG.camera.stopFX();
         });
+    }
+
+    override function destroy() {
+        super.destroy();
+
+        background = FlxDestroyUtil.destroy(background);
+        dayText = FlxDestroyUtil.destroy(dayText);
+        infoText = FlxDestroyUtil.destroy(infoText);
+        levelText = FlxDestroyUtil.destroy(levelText);
+        btnPlay = FlxDestroyUtil.destroy(btnPlay);
+
+        for (p in patientIcons) {
+            FlxDestroyUtil.destroy(p);
+        }
+        patientIcons = null;
     }
 }

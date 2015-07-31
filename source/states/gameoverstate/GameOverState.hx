@@ -93,7 +93,6 @@ class GameOverState extends FlxSubState {
 	}	
 
 	private function clickRetry():Void {
-		// FlxG.switchState(new PassingToPlayState(PlayState.getInstance().lastSaveState));
         FlxG.switchState(new PassingToPlayState());
 	}
 

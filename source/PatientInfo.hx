@@ -104,12 +104,8 @@ import states.playstate.Patient;
 
         if (isVIP) {
             if (crown == null) {
-                this.crown = Std.random(3);
-                if (this.crown == 0) {
-                    this.medals = true;
-                } else {
-                    this.medals = Std.random(3) == 0;
-                }
+                this.crown = Std.random(2) + 1;
+                this.medals = Std.random(4) == 0;
             } else {
                 this.crown = crown;
                 this.medals = medals;
