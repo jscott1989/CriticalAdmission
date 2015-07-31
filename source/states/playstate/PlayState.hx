@@ -10,14 +10,15 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
+import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxPoint;
+import flixel.util.FlxSave;
 import haxe.Timer;
 import sounds.SoundManager;
-import states.gameoverstate.GameOverState;
 import states.PauseState;
+import states.gameoverstate.GameOverState;
 import states.intrimstate.IntrimState;
-import sounds.speech.Receptionist;
-import flixel.util.FlxDestroyUtil;
+import states.playstate.Clipboard;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -129,17 +130,25 @@ class PlayState extends FlxState {
     private var readyToEndFade = false;
     private var readyToGameOver = false;
 
+    private var startLevel:Int;
+
     private static var instance:PlayState;
   
-    public static inline function getInstance() {
+    public static inline function getInstance(level:Int = 1) {
         if (instance == null) {
-            instance = new PlayState();
+            instance = new PlayState(level);
         }
         return instance;
     }
 
     public static inline function clearInstance() {
-        instance = null;
+        instance = FlxDestroyUtil.destroy(instance);
+    }
+
+
+    public function new(level:Int = 1) {
+        super();
+        this.startLevel = level;
     }
 
     public function findInteractables(type:String) {
@@ -267,8 +276,19 @@ class PlayState extends FlxState {
         watchInteractable(pause);
         pauseHole.addInteractable(pause);
 
-        levelComplete(false);
+        if (startLevel > 1) {
+            currentLevel = startLevel - 1;
 
+            for (i in 0...Std.int(Math.min(Levels.LEVELS.length, startLevel - 2))) {
+                generateNewUIElements(Levels.LEVELS[i].uiElements);
+                if (i == 0) {
+                    spawnUIElement(Interactable.createInteractable("Clipboard"));
+                }
+            }
+            setupLevel();
+        }
+
+        levelComplete(false);
 	}
 
     /**
@@ -341,11 +361,23 @@ class PlayState extends FlxState {
         
         addingPatient = false;
 		currentLevel++;
+
+        if (currentLevel == 4) {
+            var options = new FlxSave();
+            options.bind("options");
+            options.data.hasPlayedLevel4 = true;
+            options.flush();
+        }
+
+        setupLevel();
+	}
+
+    public function setupLevel() {
         // First we check if there is a level already available
         if (Levels.LEVELS.length >= currentLevel) {
             level = Levels.LEVELS[currentLevel - 1];
         } else {
-    		level = generateLevel(currentLevel);
+            level = generateLevel(currentLevel);
         }
 
         patientsToTreat += level.patientsToTreat;
@@ -355,13 +387,13 @@ class PlayState extends FlxState {
         levelTime = level.levelTime;
         levelText = level.text;
 
-		generateNewInteractables(level.interactables);
+        generateNewInteractables(level.interactables);
         generateNewUIElements(level.uiElements);
 
         if (currentLevel == 1){
             showPopup("Tutorial", "Thank God you're here doctor! Press the 'Next' button in the top left (or press the SPACEBAR) to bring in the first patient");
         }
-	}
+    }
 
 	/**
 	 * Add a hole to the game

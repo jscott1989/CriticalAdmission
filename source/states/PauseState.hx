@@ -45,7 +45,7 @@ class PauseState extends FlxSubState {
 
         btnOptions = Utils.createButton("Options", clickOptions, 5);
         btnOptions.x = FlxG.width / 2 - btnOptions.width / 2;
-        btnOptions.y = 1125;
+        btnOptions.y = 1000;
         add(btnOptions);
 
         btnRetry = Utils.createButton("Restart", clickRetry, 5);
@@ -53,9 +53,9 @@ class PauseState extends FlxSubState {
         btnRetry.y = 1250;
         add(btnRetry);
 
-        btnMenu = Utils.createButton("Return to Menu", clickMenu, 5);
+        btnMenu = Utils.createButton("Exit to Menu", clickMenu, 5);
         btnMenu.x = FlxG.width / 2 - btnMenu.width / 2;
-        btnMenu.y = 1000;
+        btnMenu.y = 1125;
         add(btnMenu);
 
         super.create();

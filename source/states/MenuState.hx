@@ -29,6 +29,10 @@ class MenuState extends FlxState {
 	private var btnCredits:FlxButton;
 	private var btnExit:FlxButton;
 
+	private var btnBeginning:FlxButton;
+	private var btnSkipTutorial:FlxButton;
+	private var btnCancel:FlxButton;
+
 	private var BUTTONS:Float = 2;
 	private var BUTTON_HEIGHT:Float = 60;
 	//private var BUTTON_TOP:Float = FlxG.height/2 - (BUTTONS*(Config.BUTTON_Y_PADDING + BUTTON_HEIGHT))/2;
@@ -36,6 +40,11 @@ class MenuState extends FlxState {
 	private var overGrenade = false;
 	private var tooltipText:FlxText;
 	private var tooltipSprite:FlxSprite;
+
+	private var intro:FlxText;
+	private var grenade:FlxSprite;
+	private var background:FlxSprite;
+	private var logo:FlxSprite;
 	
 
 	/**
@@ -69,15 +78,15 @@ class MenuState extends FlxState {
         add(tooltipText);
         add(tooltipSprite);
 
-		var background = new FlxSprite(0,0);
+		background = new FlxSprite(0,0);
 		background.loadGraphic("assets/images/MenuScreen.png");
 		add(background);
 
-		var logo = new FlxSprite(0,0);
+		logo = new FlxSprite(0,0);
 		logo.loadGraphic("assets/images/Logo.png");
 		add(logo);
 
-		var grenade = new FlxSprite(0,0);
+		grenade = new FlxSprite(0,0);
 		grenade.loadGraphic("assets/images/Grenade.png");
 		grenade.x = FlxG.width - grenade.width;
 		grenade.y = FlxG.height - grenade.height;
@@ -100,7 +109,7 @@ class MenuState extends FlxState {
 		});
 		add(grenade);
 
-		var intro = new FlxText(100, 330, 700, "The junior doctors have done it again.\n\nYou told them having only one senior surgeon would end in disaster.\n\nThere are queues going out the door and everyone is muddled up.\n\nPut the patients back together, and for god's sake don't miss anything out!", 40);
+		intro = new FlxText(100, 330, 700, "The junior doctors have done it again.\n\nYou told them having only one senior surgeon would end in disaster.\n\nThere are queues going out the door and everyone is muddled up.\n\nPut the patients back together, and for god's sake don't miss anything out!", 40);
 		intro.font = "assets/fonts/Cabin-Bold.ttf";
 		intro.color = FlxColor.BLACK;
 		add(intro);
@@ -135,9 +144,61 @@ class MenuState extends FlxState {
 	}
 
 	private function clickPlay():Void {
+
+		var options = new FlxSave();
+		options.bind("options");
+
+		if (options.data.hasPlayedLevel4 != true) {
+			clickBeginning();
+		} else {
+			if (btnBeginning == null) {
+				btnBeginning = Utils.createButton("Level 1", clickBeginning, 5);
+				btnSkipTutorial = Utils.createButton("Level 4", clickSkipTutorial, 5);
+				btnCancel = Utils.createButton("Cancel", clickCancel, 5);
+
+				btnBeginning.screenCenter();
+				btnSkipTutorial.screenCenter();
+				btnCancel.screenCenter();
+
+				btnBeginning.y = 920;
+				btnSkipTutorial.y = 1045;
+				btnCancel.y = 1170;
+			}
+
+			remove(btnPlay, true);
+			remove(btnHighscore, true);
+			remove(btnOptions, true);
+			remove(btnCredits, true);
+			remove(btnExit, true);
+
+			add(btnBeginning);
+			add(btnSkipTutorial);
+			add(btnCancel);
+		}
+	}
+
+	private function clickBeginning() {
 		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
 			FlxG.switchState(PlayState.getInstance());
         });
+	}
+
+	private function clickSkipTutorial() {
+		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
+			FlxG.switchState(PlayState.getInstance(4));
+        });
+	}
+
+	private function clickCancel() {
+		remove(btnBeginning);
+		remove(btnSkipTutorial);
+		remove(btnCancel);
+
+		add(btnPlay);
+		add(btnHighscore);
+		add(btnOptions);
+		add(btnCredits);
+		add(btnExit);
 	}
 
 	private function clickHighscores():Void {
@@ -167,6 +228,14 @@ class MenuState extends FlxState {
 		btnPlay = FlxDestroyUtil.destroy(btnPlay);
 		btnOptions = FlxDestroyUtil.destroy(btnOptions);
 		btnCredits = FlxDestroyUtil.destroy(btnCredits);
+		btnBeginning = FlxDestroyUtil.destroy(btnBeginning);
+		btnSkipTutorial = FlxDestroyUtil.destroy(btnSkipTutorial);
+		btnCancel = FlxDestroyUtil.destroy(btnCancel);
+
+		intro = FlxDestroyUtil.destroy(intro);
+		grenade = FlxDestroyUtil.destroy(grenade);
+		background = FlxDestroyUtil.destroy(background);
+		logo = FlxDestroyUtil.destroy(logo);
 	}
 
 	/**
