@@ -79,13 +79,13 @@ package states.playstate;
             var improvement = health - PlayState.REQUIRED_HEALTH;
 
             if (patient.info.isVIP) {
-                improvement = health - PlayState.REQUIRED_VIP_HEALTH;
+                improvement = ((health - PlayState.REQUIRED_VIP_HEALTH) * 2);
             }
 
             if (improvement > 0) {
                 qol_text.text += "+" + improvement + ")";
             } else {
-                qol_text.text += improvement + ")";
+                qol_text.text += (improvement * 2) + ")";
             }
 
             if ((!patient.info.isVIP && health >= PlayState.REQUIRED_HEALTH) || (patient.info.isVIP && health >= PlayState.REQUIRED_VIP_HEALTH)) {

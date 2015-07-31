@@ -518,8 +518,8 @@ class PlayState extends FlxState {
             popupActive = true;
         } else {
             var p:PressureGauge = cast findInteractable("states.playstate.PressureGauge");
-            if (p != null && (p.number != p.targetBars)) {
-                // Still changing, wait
+            if (p != null && ((p.number != p.targetBars) || p.displayedText.length > 0)) {
+                // Still changing, wait)
             } else if (readyToGameOver) {
                 readyToGameOver = false;
                 FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
@@ -729,15 +729,15 @@ class PlayState extends FlxState {
                 }
 
                 if (improvement >= 0) {
-                    changeReputation(Std.int(improvement));
+                    changeReputation(Std.int(improvement), "HEALTHY: ");
                     if (patient.info.isVIP) {
-                        changeReputation(Std.int(improvement));
+                        changeReputation(Std.int(improvement), "VIP: ");
                     }
 
                 } else {
-                    changeReputation(Std.int(improvement * 2));
+                    changeReputation(Std.int(improvement * 2), "UNHEALTHY: ");
                     if (patient.info.isVIP) {
-                        changeReputation(Std.int(improvement * 2));
+                        changeReputation(Std.int(improvement * 2), "VIP: ");
                     }
                 }
 
@@ -777,7 +777,7 @@ class PlayState extends FlxState {
 		}
 	}
 
-    function changeReputation(change: Int) {
+    function changeReputation(change: Int, text: String) {
         if (change >= 0) {
             change = Std.int(Math.min(100 - reputation, change));
         } else {
@@ -785,6 +785,10 @@ class PlayState extends FlxState {
         }
 
         reputation += change;
+
+        if (reputation == 100) {
+            text = "FULL REPUTATION: ";
+        }
 
         var p:PressureGauge = cast findInteractable("states.playstate.PressureGauge");
 
@@ -795,7 +799,7 @@ class PlayState extends FlxState {
         }
 
         if (p != null) {
-            p.reputationChange(change, reputation);
+            p.reputationChange(change, reputation, text);
         }
 
         if (reputation < 10 && Std.random(10) == 1) {
@@ -822,14 +826,14 @@ class PlayState extends FlxState {
 
             if (patient.info.isVIP) {
                 soundManager.playVIPDead(cast findInteractable("states.playstate.Tannoy"));
-                changeReputation(-100);
-            }
+                changeReputation(-100, "DEAD VIP: ");
+            } else {
+                if (improvement < 0) {
+                    changeReputation(Std.int(improvement * 2), "UNHEALTHY: ");
+                }
 
-            if (improvement < 0) {
-                changeReputation(Std.int(improvement * 2));
+                changeReputation(0 - Std.int(reputation / 2), "DEAD PATIENT: ");
             }
-
-            changeReputation(0 - Std.int(reputation / 2));
 
             destroyPatient();
         }});
