@@ -958,7 +958,7 @@ class PlayState extends FlxState {
 
             if (patientsToTreat - treatedPatients.length == 1 && level.vip != null) {
                 // Last one - it's the vip
-                patient = new Patient(generatePatientInfo(currentLevel, true, level.vip.isMale, level.vip.name), 332, FlxG.height);
+                patient = new Patient(level.vip, 332, FlxG.height);
             } else {
                 // Generate a patient
                 patient = new Patient(generatePatientInfo(currentLevel), 332, FlxG.height);

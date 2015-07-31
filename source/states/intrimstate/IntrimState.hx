@@ -1,13 +1,15 @@
 package states.intrimstate;
 
+import flash.filters.GlowFilter;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.effects.FlxSpriteFilter;
 import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
-import states.playstate.Patient;
 import states.playstate.PlayState;
 
 using flixel.util.FlxSpriteUtil;
@@ -23,6 +25,10 @@ class IntrimState extends FlxSubState {
     private var levelText:FlxText;
     private var patientIcons = new Array<PatientIcon>();
     private var btnPlay:FlxButton;
+
+    private var filter:FlxSpriteFilter;
+    private var goldFilter:GlowFilter;
+    private var filterTween:FlxTween;
 
     /**
      * Function that is called up when to state is created to set it up. 
@@ -52,20 +58,35 @@ class IntrimState extends FlxSubState {
         // infoText.color = FlxColor.BLACK;
         // add(infoText);
 
-        levelText = new FlxText(50, 180, 950, PlayState.getInstance().levelText, 40);
+        var state = PlayState.getInstance();
+
+        levelText = new FlxText(50, 180, 950, state.levelText, 40);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);
 
         // Now add small status images for each patient
         var i = 0;
-        for (patient in PlayState.getInstance().incomingPatients) {
+        for (patient in state.incomingPatients) {
             var p = new PatientIcon(patient);
             patientIcons.push(p);
             p.x = 20 + (i * (200 + 20));
             p.y = (FlxG.height - 500);
             add(p);
             i+= 1;
+        }
+
+        if (state.level.vip != null) {
+            var p = new PatientIcon(state.level.vip);
+            patientIcons.push(p);
+            p.x = FlxG.width - 250;
+            p.y = (FlxG.height - 475);
+            add(p);
+
+            // goldFilter = new GlowFilter(FlxColor.GOLDEN, 1, 150, 150, 1.5, 1);
+            // filter = new FlxSpriteFilter(p.bodySprite);
+            // filter.addFilter(goldFilter);
+            // filterTween = FlxTween.tween(goldFilter, { blurX: 50, blurY: 50 }, 0.5, { type: FlxTween.PINGPONG });
         }
 
         btnPlay = Utils.createButton("Continue", clickPlay, 5);
@@ -81,6 +102,11 @@ class IntrimState extends FlxSubState {
 
     override function update() {
         super.update();
+
+        if (filter != null) {
+            filter.applyFilters();
+        }
+
         if (FlxG.keys.justReleased.SPACE) {
             clickPlay();
         }
@@ -102,6 +128,10 @@ class IntrimState extends FlxSubState {
         infoText = FlxDestroyUtil.destroy(infoText);
         levelText = FlxDestroyUtil.destroy(levelText);
         btnPlay = FlxDestroyUtil.destroy(btnPlay);
+
+        // filter = FlxDestroyUtil.destroy(filter);
+        // goldFilter = FlxDestroyUtil.destroy(goldFilter);
+        filterTween = FlxDestroyUtil.destroy(filterTween);
 
         for (p in patientIcons) {
             FlxDestroyUtil.destroy(p);

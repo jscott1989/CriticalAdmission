@@ -4,6 +4,7 @@ package states.intrimstate;
  import flixel.group.FlxSpriteGroup;
  import flixel.util.FlxColor;
  import flixel.util.FlxColorUtil;
+ import flixel.util.FlxDestroyUtil;
 
  using flixel.util.FlxSpriteUtil;
 
@@ -15,6 +16,9 @@ package states.intrimstate;
     public var info:PatientInfo;
 
     public var bodySprite:FlxSprite;
+    public var hairSprite:FlxSprite;
+    public var crownSprite:FlxSprite;
+    public var medalSprite:FlxSprite;
 
     public static inline var SCALE = 0.3;
 
@@ -51,7 +55,7 @@ package states.intrimstate;
         }
         add(bodySprite);
 
-        var hairSprite = new FlxSprite();
+        hairSprite = new FlxSprite();
         hairSprite.loadGraphic("assets/images/Hair" + info.hairStyle + "-" + info.hairColor + ".png");
         hairSprite.scale.set(SCALE, SCALE);
         hairSprite.updateHitbox();
@@ -109,7 +113,7 @@ package states.intrimstate;
 
         if (info.isVIP) {
             if (info.crown > 0) {
-                var crownSprite = new FlxSprite();
+                crownSprite = new FlxSprite();
                 crownSprite.loadGraphic("assets/images/Crown-" + info.crown + ".png");
                 crownSprite.scale.set(SCALE, SCALE);
                 crownSprite.x = -130;
@@ -122,13 +126,15 @@ package states.intrimstate;
             }
 
             if (info.medals) {
-                var medalSprite = new FlxSprite();
+                medalSprite = new FlxSprite();
                 medalSprite.loadGraphic("assets/images/Medals.png");
                 medalSprite.scale.set(SCALE, SCALE);
                 medalSprite.x = -80;
                 medalSprite.y = 25;
                 add(medalSprite);
             }
+
+            trace("VIP", info.name, info.getQOL());
         }
 
         add(generateHealthDot(info.getBrainQOL(), 30, 325 * SCALE, 90 * SCALE));
@@ -139,5 +145,14 @@ package states.intrimstate;
         add(generateHealthDot(info.getRightElbowQOL(), 30, 630 * SCALE, 420 * SCALE));
         add(generateHealthDot(info.getLeftKneeQOL(), 30, 170 * SCALE, 1150 * SCALE));
         add(generateHealthDot(info.getRightKneeQOL(), 30, 530 * SCALE, 1150 * SCALE));
+    }
+
+    override function destroy() {
+        super.destroy();
+
+        FlxDestroyUtil.destroy(bodySprite);
+        FlxDestroyUtil.destroy(hairSprite);
+        FlxDestroyUtil.destroy(crownSprite);
+        FlxDestroyUtil.destroy(medalSprite);
     }
  }

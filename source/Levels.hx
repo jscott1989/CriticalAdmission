@@ -40,11 +40,11 @@ class Level {
         if (vip == null && text == null) {
             if (Levels.VIPS.length > 0) {
                 var vv = Levels.VIPS.pop();
-                this.vip = new PatientInfo(true, vv.isMale, vv.name);
+                this.vip = PlayState.generatePatientInfo(level, true, vv.isMale, vv.name);
                 this.text = vv.text;
             } else {
                 this.text = Receptionist.FILLER.get(Utils.randomArray(Receptionist.FILLER_KEYS).pop());
-                this.vip = new PatientInfo(true);
+                this.vip = PlayState.generatePatientInfo(level, true);
             }
         }
     }
@@ -235,7 +235,7 @@ class Levels {
                 [
                 ],
 
-                new PatientInfo(true),
+                PlayState.generatePatientInfo(4, true),
 
                 9,
 
