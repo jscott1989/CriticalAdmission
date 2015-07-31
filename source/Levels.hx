@@ -66,7 +66,7 @@ class Levels {
     public static var LEVELS:Array<Level>;
 
     public static var VIPS:Array<Vip> = Utils.randomArray([
-        new Vip("lololol", true, "King LOL")
+        // TODO
     ]);
 
     public static function populateLevels(){
