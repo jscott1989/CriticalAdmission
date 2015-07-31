@@ -664,7 +664,7 @@ class PlayState extends FlxState {
 	 * There has been a mouse press on an organ
 	 */
 	function onMouseDownInteractable(sprite:FlxSprite) {
-        if (isActive) {
+        if (isActive && !popupActive) {
     		drag_started = Timer.stamp();
     		seconds_since_drip = 0;
     		dragging = cast sprite;
