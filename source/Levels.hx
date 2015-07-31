@@ -198,7 +198,6 @@ class Levels {
                 120
             ),
             new Level(
-<<<<<<< HEAD
                 3,
                 "Looks like you've finally found your scalpel, so now it's time to get cutting! HINT: You only need to fix ordinary patients up to 80% (and VIPs to 90%); don't worry about making them perfect.",
                 
