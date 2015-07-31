@@ -380,6 +380,10 @@ class PlayState extends FlxState {
 
 		generateNewInteractables(level.interactables);
         generateNewUIElements(level.uiElements);
+
+        if (currentLevel == 1){
+            showPopup("Tutorial", "Thank God you're here doctor! Press the 'Next' button in the top left (or press the SPACEBAR) to bring in the first patient");
+        }
 	}
 
 	/**
