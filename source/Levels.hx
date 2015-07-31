@@ -40,7 +40,7 @@ class Level {
         if (vip == null && text == null) {
             if (Levels.VIPS.length > 0) {
                 var vv = Levels.VIPS.pop();
-                this.vip = PlayState.generatePatientInfo(level, true, vv.isMale, vv.name);
+                this.vip = PlayState.generatePatientInfo(level, true, vv.isMale, vv.name, vv.crown, vv.medals);
                 this.text = vv.text;
             } else {
                 this.text = Receptionist.FILLER.get(Utils.randomArray(Receptionist.FILLER_KEYS).pop());
@@ -54,11 +54,15 @@ class Vip {
     public var text:String;
     public var isMale:Bool;
     public var name:String;
+    public var crown:Int;
+    public var medals:Bool;
 
-    public function new(text:String, isMale:Bool, name:String) {
+    public function new(text:String, isMale:Bool, name:String, crown:Int, medals:Bool) {
         this.text = text;
         this.isMale = isMale;
         this.name = name;
+        this.crown = crown;
+        this.medals = medals;
     }
 }
 
@@ -66,7 +70,9 @@ class Levels {
     public static var LEVELS:Array<Level>;
 
     public static var VIPS:Array<Vip> = Utils.randomArray([
-        // TODO
+        new Vip("Lord Wafflington is back. He's been exploring deepest, darkest peru and has come back feeling a bit... funny. Do sort him out won't you?", true, "Lord Wafflington", 2, false),
+        new Vip("He thought the arrow to the knee would be the low point of his life. But here he is again and just look at him!", true, "Guard NPC", 0, true),
+
     ]);
 
     public static function populateLevels(){

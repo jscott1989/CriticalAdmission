@@ -21,6 +21,7 @@ class IntrimState extends FlxSubState {
 
     private var background:FlxSprite;
     private var dayText:FlxText;
+    private var VIPName:FlxText;
     private var infoText:FlxText;
     private var levelText:FlxText;
     private var patientIcons = new Array<PatientIcon>();
@@ -53,16 +54,19 @@ class IntrimState extends FlxSubState {
         infoText.color = FlxColor.BLACK;
         add(infoText);
 
-        // var infoText = new FlxText(50, 180, 0, "Time per patient: " + state.levelTime + " seconds", 40);
-        // infoText.font = "assets/fonts/Cabin-Regular.ttf";
-        // infoText.color = FlxColor.BLACK;
-        // add(infoText);
-
-        var state = PlayState.getInstance();
-
         levelText = new FlxText(50, 180, 950, state.levelText, 45);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
+
+        if (state.currentLevel > 4) {
+            levelText.y = 240;
+
+            VIPName = new FlxText(50, 180, 950, state.level.vip.name, 45);
+            VIPName.font = "assets/fonts/Cabin-Bold.ttf";
+            VIPName.color = FlxColor.BLACK;
+            add(VIPName);
+        }
+
         add(levelText);
 
         // Now add small status images for each patient
@@ -135,6 +139,7 @@ class IntrimState extends FlxSubState {
         dayText = FlxDestroyUtil.destroy(dayText);
         infoText = FlxDestroyUtil.destroy(infoText);
         levelText = FlxDestroyUtil.destroy(levelText);
+        VIPName = FlxDestroyUtil.destroy(VIPName);
         btnPlay = FlxDestroyUtil.destroy(btnPlay);
 
         // filter = FlxDestroyUtil.destroy(filter);

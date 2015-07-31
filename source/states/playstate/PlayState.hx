@@ -201,15 +201,15 @@ class PlayState extends FlxState {
         // Calculate time per patient
         var levelTime:Int = 60 - (10*(level-4));
 
-        if (levelTime <= 10){
-            levelTime = 10;
+        if (levelTime <= 15){
+            levelTime = 15;
         }
 
         return new Level(level, null, patients, null, 9, [], [], levelTime);
      }
 
-    public static function generatePatientInfo(level:Int, vip:Bool=false, isMale:Bool=null, name:String=null):PatientInfo{
-        var patient = new PatientInfo(vip, isMale, name);
+    public static function generatePatientInfo(level:Int, vip:Bool=false, isMale:Bool=null, name:String=null, crown:Int=null, medals:Bool=false):PatientInfo{
+        var patient = new PatientInfo(vip, isMale, name, null, null, null, crown, medals);
 
         var incomingHealth:Float = Math.max(30, 100 - (level * 5));
         
@@ -294,6 +294,7 @@ class PlayState extends FlxState {
                     spawnUIElement(Interactable.createInteractable("Clipboard"));
                 }
             }
+            patientsToTreat = -9; // sill fix for a silly bug - last minute
             setupLevel();
         }
 
