@@ -60,7 +60,7 @@ class IntrimState extends FlxSubState {
 
         var state = PlayState.getInstance();
 
-        levelText = new FlxText(50, 180, 950, state.levelText, 40);
+        levelText = new FlxText(50, 180, 950, state.levelText, 45);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);
@@ -74,6 +74,14 @@ class IntrimState extends FlxSubState {
             p.y = (FlxG.height - 500);
             add(p);
             i+= 1;
+
+
+            if (patient.isVIP) {
+                goldFilter = new GlowFilter(FlxColor.GOLDEN, 1, 150, 150, 1.5, 1);
+                filter = new FlxSpriteFilter(p.bodySprite);
+                filter.addFilter(goldFilter);
+                filterTween = FlxTween.tween(goldFilter, { blurX: 50, blurY: 50 }, 0.5, { type: FlxTween.PINGPONG });
+            }
         }
 
         if (state.level.vip != null) {
@@ -83,10 +91,10 @@ class IntrimState extends FlxSubState {
             p.y = (FlxG.height - 475);
             add(p);
 
-            // goldFilter = new GlowFilter(FlxColor.GOLDEN, 1, 150, 150, 1.5, 1);
-            // filter = new FlxSpriteFilter(p.bodySprite);
-            // filter.addFilter(goldFilter);
-            // filterTween = FlxTween.tween(goldFilter, { blurX: 50, blurY: 50 }, 0.5, { type: FlxTween.PINGPONG });
+            goldFilter = new GlowFilter(FlxColor.GOLDEN, 1, 150, 150, 1.5, 1);
+            filter = new FlxSpriteFilter(p.bodySprite);
+            filter.addFilter(goldFilter);
+            filterTween = FlxTween.tween(goldFilter, { blurX: 50, blurY: 50 }, 0.5, { type: FlxTween.PINGPONG });
         }
 
         btnPlay = Utils.createButton("Continue", clickPlay, 5);

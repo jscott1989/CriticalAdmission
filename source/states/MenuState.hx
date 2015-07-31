@@ -148,12 +148,12 @@ class MenuState extends FlxState {
 		var options = new FlxSave();
 		options.bind("options");
 
-		if (options.data.hasPlayedLevel4 != true) {
+		if (options.data.hasPlayedLevel5 != true) {
 			clickBeginning();
 		} else {
 			if (btnBeginning == null) {
 				btnBeginning = Utils.createButton("Level 1", clickBeginning, 5);
-				btnSkipTutorial = Utils.createButton("Level 4", clickSkipTutorial, 5);
+				btnSkipTutorial = Utils.createButton("Level 5", clickSkipTutorial, 5);
 				btnCancel = Utils.createButton("Cancel", clickCancel, 5);
 
 				btnBeginning.screenCenter();
@@ -185,7 +185,7 @@ class MenuState extends FlxState {
 
 	private function clickSkipTutorial() {
 		FlxG.camera.fade(FlxColor.BLACK, .33, false, function() {
-			FlxG.switchState(PlayState.getInstance(4));
+			FlxG.switchState(PlayState.getInstance(5));
         });
 	}
 

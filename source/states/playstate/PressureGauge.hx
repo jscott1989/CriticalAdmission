@@ -24,6 +24,17 @@ package states.playstate;
     public function new()  {
         super("PressureGauge");
         this.label = "Reputation Gauge";
+        reputation = PlayState.getInstance().reputation;
+
+        if (reputation <= 0){
+            targetBars = 0;
+        } else {
+            targetBars = Std.int(Math.min(Math.max(1, Std.int(((reputation/100)*7)+1)), 8));
+        }
+        
+        number = targetBars;
+
+        loadGraphic("assets/images/PressureGauge" + number + ".png");
     }
 
     override function update() {

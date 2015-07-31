@@ -371,10 +371,10 @@ class PlayState extends FlxState {
         addingPatient = false;
 		currentLevel++;
 
-        if (currentLevel == 4) {
+        if (currentLevel == 5) {
             var options = new FlxSave();
             options.bind("options");
-            options.data.hasPlayedLevel4 = true;
+            options.data.hasPlayedLevel5 = true;
             options.flush();
         }
 
@@ -401,6 +401,8 @@ class PlayState extends FlxState {
 
         if (currentLevel == 1){
             showPopup("Tutorial", "Thank God you're here doctor! Press the 'Next' button in the top left (or press the SPACEBAR) to bring in the first patient");
+        } else if (currentLevel == 4) {
+            showPopup("Tutorial", "Make sure you don't forget to send the patient on their way before the timer expires. Otherwise we'll lose half our reputation!");
         }
     }
 
