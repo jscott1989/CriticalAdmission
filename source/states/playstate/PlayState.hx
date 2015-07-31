@@ -83,7 +83,7 @@ class PlayState extends FlxState {
     public var patientsToTreat = 0;
 
 	//Store all the patients "fixed" this level for interim screen
-	public var treatedPatients = new Array<PatientInfo>();
+	public var treatedPatients = 0;
 
 	public var isActive:Bool = false; // is the scene playing?
 	// (it's not when we're throwing overlays to start/end level)
@@ -98,25 +98,30 @@ class PlayState extends FlxState {
 	public var seconds_remaining:Float;
 	private var seconds_since_drip:Float;
 
+
     public var hoveringHole:Hole;
     private var tooltip:Interactable;
     private var tooltipText:FlxText;
     private var tooltipSprite:FlxSprite;
 
 	// The thing currently being dragged (if any)
+
 	public var dragging:Interactable;
 	private var drag_offset:FlxPoint;
 	private var drag_started:Float;
 
     // Where the drag started
+
     private var dragLastHole:Hole;
     private var dragLastPoint:Point;
 
 	// Patient
 	public var addingPatient:Bool;
+
 	public var patient:Patient;
 
 	// Holes to check for drop targets
+
 	private var holes = new Array<Hole>();
 
 	//SoundManager
@@ -786,7 +791,7 @@ class PlayState extends FlxState {
                 if (patient.info.onExitCallback != null) {
                     patient.info.onExitCallback(patient);
                 }
-				treatedPatients.push(patient.info);
+				treatedPatients += 1;
 
                 var improvement = patient.info.getQOL() - REQUIRED_HEALTH;
                 if (patient.info.isVIP) {
@@ -830,7 +835,7 @@ class PlayState extends FlxState {
 
 				destroyPatient();
                 
-                if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
+                if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients) <= 0) {
                     levelComplete();
                 } else {
     				callback();
@@ -979,7 +984,7 @@ class PlayState extends FlxState {
 	 * Generate a new patient and tween them on to the screen. */
 	public function addNewPatient() {
 		// Patient
-        if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length) <= 0) {
+        if ((PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients) <= 0) {
             // We don't add one if the level is complete
             return;
         } else if (readyToGameOver) {
@@ -989,7 +994,7 @@ class PlayState extends FlxState {
 
         if (incomingPatients.length == 0) {
 
-            if (patientsToTreat - treatedPatients.length == 1 && level.vip != null) {
+            if (patientsToTreat - treatedPatients == 1 && level.vip != null) {
                 // Last one - it's the vip
                 patient = new Patient(level.vip, 332, FlxG.height);
             } else {
@@ -1001,7 +1006,7 @@ class PlayState extends FlxState {
     		patient = new Patient(incomingPatients.shift(), 332, FlxG.height);
         }
 
-        if (patientsToTreat - treatedPatients.length == 2) {
+        if (patientsToTreat - treatedPatients == 2) {
             soundManager.playVIPIncoming(cast findInteractable("states.playstate.Tannoy"));
         }
 
@@ -1027,6 +1032,26 @@ class PlayState extends FlxState {
 
     override public function destroy():Void {
         super.destroy();
+
+        incomingPatients = null;
+
+        background = FlxDestroyUtil.destroy(background);
+        table = FlxDestroyUtil.destroy(table);
+        cat = FlxDestroyUtil.destroy(cat);
+        hoveringHole = FlxDestroyUtil.destroy(hoveringHole);
+        tooltip = FlxDestroyUtil.destroy(tooltip);
+        tooltipText = FlxDestroyUtil.destroy(tooltipText);
+        tooltipSprite = FlxDestroyUtil.destroy(tooltipSprite);
+        dragging = FlxDestroyUtil.destroy(dragging);
+        dragLastHole = FlxDestroyUtil.destroy(dragLastHole);
+        patient = FlxDestroyUtil.destroy(patient);
+        if (holes != null) {
+            for (hole in holes) {
+                FlxDestroyUtil.destroy(hole);
+            }
+            holes = null;
+        }
+
         soundManager.stopAmbient();
     }
 }

@@ -49,7 +49,7 @@ class IntrimState extends FlxSubState {
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        infoText = new FlxText(250, 75, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
+        infoText = new FlxText(250, 75, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients, 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
@@ -59,9 +59,9 @@ class IntrimState extends FlxSubState {
         levelText.color = FlxColor.BLACK;
 
         if (state.currentLevel > 4) {
-            levelText.y = 240;
+            levelText.y = 260;
 
-            VIPName = new FlxText(50, 180, 950, state.level.vip.name, 45);
+            VIPName = new FlxText(50, 180, 950, "VIP: " + state.level.vip.name, 45);
             VIPName.font = "assets/fonts/Cabin-Bold.ttf";
             VIPName.color = FlxColor.BLACK;
             add(VIPName);

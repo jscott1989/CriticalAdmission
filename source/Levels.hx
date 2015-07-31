@@ -69,11 +69,7 @@ class Vip {
 class Levels {
     public static var LEVELS:Array<Level>;
 
-    public static var VIPS:Array<Vip> = Utils.randomArray([
-        new Vip("Lord Wafflington is back. He's been exploring deepest, darkest peru and has come back feeling a bit... funny. Do sort him out won't you?", true, "Lord Wafflington", 2, false),
-        new Vip("He thought the arrow to the knee would be the low point of his life. But here he is again and just look at him!", true, "Guard NPC", 0, true),
-
-    ]);
+    public static var VIPS:Array<Vip> = [];
 
     public static function populateLevels(){
         LEVELS = [

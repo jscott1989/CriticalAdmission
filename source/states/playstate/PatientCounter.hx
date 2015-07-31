@@ -15,7 +15,7 @@ package states.playstate;
     }
 
     override function update() {
-        var x = (PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients.length);
+        var x = (PlayState.getInstance().patientsToTreat - PlayState.getInstance().treatedPatients);
         if (x < 0) { 
             x = 0;
         } else if (x > 9) {

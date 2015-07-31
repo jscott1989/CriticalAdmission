@@ -42,8 +42,8 @@ class GameOverState extends FlxSubState {
 
         var state = PlayState.getInstance();
         
-        if (states.HighscoreState.isHighscore(state.currentLevel, state.treatedPatients.length)) {
-            openSubState(new EnterHighScoreState(state.currentLevel, state.treatedPatients.length));
+        if (states.HighscoreState.isHighscore(state.currentLevel, state.treatedPatients)) {
+            openSubState(new EnterHighScoreState(state.currentLevel, state.treatedPatients));
         }
 
         logo = new FlxSprite(0,0);
@@ -59,7 +59,7 @@ class GameOverState extends FlxSubState {
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        infoText = new FlxText(100, 600, 0, state.treatedPatients.length + " patients treated", 40);
+        infoText = new FlxText(100, 600, 0, state.treatedPatients + " patients treated", 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
