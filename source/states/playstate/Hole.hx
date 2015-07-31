@@ -120,7 +120,7 @@ package states.playstate;
 
         // I don't know why but removing this breaks the Hole...
         // we don't need to as it's hidden by the background
-        // remove(hiddenSprite);
+        remove(hiddenSprite, true);
 
         if (interactable != null) {
             // center it

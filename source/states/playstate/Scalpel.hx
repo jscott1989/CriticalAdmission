@@ -20,9 +20,11 @@ package states.playstate;
         var closestHole = PlayState.getInstance().getClosestHole(true, true);
 
         if (closestHole != null && Type.getClass(closestHole) == BodyHole && closestHole.isHidden) {
+            shownHole = null;
             // First make the scalpel smaller
             
             // Resize to default
+
             FlxTween.tween(this, {x: closestHole.x, y: (closestHole.y + fixedDragOffset.y) + (closestHole.height / 2)}, 0.1);
             FlxTween.tween(this.scale, {x: PlayState.DEFAULT_SCALE, y: PlayState.DEFAULT_SCALE}, 0.1, {"complete": function(tween: FlxTween) {
                 PlayState.getInstance().soundManager.playCutSkin();

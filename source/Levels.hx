@@ -172,7 +172,7 @@ class Levels {
                     new PatientInfo(true, true, "Lord Wafflington", null, null, null, 2, false, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "ArtificialElbow", true, "ArtificialElbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {
                             PlayState.getInstance().showPopup("Tutorial", "Reputation (indicated by this handy pressure gauge) is the lifeblood of our hospital; if we fix patients it goes up, if we don't it drops. If it drops too far, it's all over for us!");
-                            PlayState.getInstance().showPopup("Tutorial", "HINT: VIPs are worth double the reputation gain (and loss!) compared to ordinary patients. Oh, and if a VIP dies... well... just don't let that happen.");
+                            PlayState.getInstance().showPopup("Tutorial", "HINT: VIPs are worth double the reputation gain (and loss!) compared to ordinary patients, and if a VIP dies our reputation won't be able to recover. Let's avoid that.");
 
                         },
                         function(patient:Patient) {
