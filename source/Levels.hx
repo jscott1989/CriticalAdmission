@@ -124,7 +124,8 @@ class Levels {
                 [
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "Heart", true, "Guts", false, "GlassShard", false, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {
-                            PlayState.getInstance().showPopup("Tutorial", "Lord Wafflington really needs a new set of guts Doctor, and I'm sure this patient can do without, so long as we take out that nasty shard of glass. HINT: VIPs are so important, you might want to consider taking some useful organs out of the plebs!");
+                            PlayState.getInstance().showPopup("Tutorial", "Lord Wafflington really needs a new set of guts Doctor, and I'm sure this patient can do without, so long as we take out that nasty shard of glass.");
+                            PlayState.getInstance().showPopup("Tutorial", "HINT: VIPs are so important, you might want to consider taking some useful organs out of the ordinary patients!");
                         },
                         function(patient:Patient) {
                             if (patient.info.lung == "GlassShard" && patient.info.guts == "Guts"){
@@ -134,7 +135,9 @@ class Levels {
                     ),
                     new PatientInfo(true, true, "Lord Wafflington", null, null, null, 2, false, "Brain", true, "Heart", true, "Drugs", false, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {
-                            PlayState.getInstance().showPopup("Tutorial", "Reputation (indicated by this handy pressure gauge) is the lifeblood of our hospital; if we fix patients it goes up, if we don't it drops. If it drops too far, it's all over for us! HINT: VIPs are worth considerably more reputation than ordinary patients");
+                            PlayState.getInstance().showPopup("Tutorial", "Reputation (indicated by this handy pressure gauge) is the lifeblood of our hospital; if we fix patients it goes up, if we don't it drops. If it drops too far, it's all over for us!");
+                            PlayState.getInstance().showPopup("Tutorial", "HINT: VIPs are worth double the reputation gain (and loss!) compared to ordinary patients");
+
                         },
                         function(patient:Patient) {
                             if (patient.info.guts != "Guts"){
@@ -159,7 +162,7 @@ class Levels {
                 120
             ),
             new Level(
-                "Looks like you've finally found your scalpel, so now its time to get cutting! HINT: You only need to fix ordinary patients up to 80% (and VIPs to 90%); don't worry about making them perfect.",
+                "Looks like you've finally found your scalpel, so now it's time to get cutting! HINT: You only need to fix ordinary patients up to 80% (and VIPs to 90%); don't worry about making them perfect.",
                 
                 [
                     new PatientInfo(false, null, null, null, null, null, null, false, "", true, "Heart", true, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
