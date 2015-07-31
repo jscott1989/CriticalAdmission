@@ -152,7 +152,7 @@ class Levels {
                 120
             ),
             new Level(
-                "Now its time to get cutting!",
+                "Looks like you've finally found your scalpel, so now its time to get cutting! HINT: You only need to fix ordinary patients up to 80% (and VIPs to 90%); don't worry about making them perfect.",
                 
                 [
                     new PatientInfo(false, null, null, null, null, null, null, false, "", true, "Heart", true, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
