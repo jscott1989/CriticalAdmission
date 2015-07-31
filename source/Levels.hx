@@ -7,8 +7,8 @@ import flixel.FlxG;
 class Level {
     public var text:String;
     public var patients:Array<PatientInfo>;
+    public var vip:PatientInfo;
     public var patientsToTreat:Int;
-    public var VIP:PatientInfo;
     public var interactables:Array<Array<Dynamic>>;
     public var uiElements:Array<String>;
     public var levelTime:Int;
@@ -16,6 +16,7 @@ class Level {
     public function new(
         text:String,
         patients:Array<PatientInfo>,
+        vip:PatientInfo,
         patientsToTreat:Int,
         interactables:Array<Array<Dynamic>>,
         uiElements:Array<String>,
@@ -23,6 +24,7 @@ class Level {
     )  {
         this.text = text;
         this.patients = patients;
+        this.vip = vip;
         this.patientsToTreat = patientsToTreat;
         this.interactables = interactables;
         this.uiElements = uiElements;
@@ -98,6 +100,8 @@ class Levels {
                     )
                 ],
 
+                null,
+
                 6,
 
                 [
@@ -139,6 +143,8 @@ class Levels {
                     )
                 ],
 
+                null,
+
                 2,
 
                 [
@@ -168,6 +174,8 @@ class Levels {
                     )
                 ],
 
+                null,
+
                 1,
 
                 [
@@ -185,6 +193,8 @@ class Levels {
                 
                 [
                 ],
+
+                new PatientInfo(true),
 
                 9,
 

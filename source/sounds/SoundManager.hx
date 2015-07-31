@@ -45,22 +45,30 @@ class SoundManager {
 	public function playECG() {
 		if (Config.SOUND_ON) {
 			var ecg:FlxSound = FlxG.sound.load(AssetPaths.ecg__wav, 0.5, false);
-			ecg.play();
+            ecg.onComplete = function() {
+                ecg = FlxDestroyUtil.destroy(ecg);
+            }
+            ecg.play();
 		}
 	}
 
 	public function playSuccess() {
 		if (Config.SOUND_ON) {
-			FlxG.log.add("SUCCESS");
 			var success:FlxSound = FlxG.sound.load(AssetPaths.success__wav, 1, false);
-			success.play();
+            success.onComplete = function() {
+                success = FlxDestroyUtil.destroy(success);
+            };
+            success.play();
 		}
 	}
 
 	public function playFailure() {
 		if (Config.SOUND_ON) {
 			var failure:FlxSound = FlxG.sound.load(AssetPaths.failure__wav, 1, false);
-			failure.play();
+            failure.onComplete = function() {
+                failure = FlxDestroyUtil.destroy(failure);
+            }
+            failure.play();
 		}
 	}
 
@@ -76,6 +84,7 @@ class SoundManager {
 	public function stopFlatline() {
 		if (flatline != null) {
 			flatline.stop();
+            flatline = FlxDestroyUtil.destroy(flatline);
 		}
 	}
 
@@ -102,11 +111,13 @@ class SoundManager {
 			if (tannoySound != null) {
 				// Destroy it
 				tannoySound.stop();
+                tannoySound = FlxDestroyUtil.destroy(tannoySound);
 			}
 
 			if (speech != null) {
 				// Destroy it
 				speech.stop();
+                speech = FlxDestroyUtil.destroy(speech);
 			}
 
 			if (subtitle != null) {
@@ -124,12 +135,14 @@ class SoundManager {
 					speech.onComplete = function() {
 						tannoy.stopPlaying();
 						removeSubtitle();
+                        speech = FlxDestroyUtil.destroy(speech);
 					};
 					if (Config.SUBTITLES_ON){
 						createSubtitle(value);
 					}
 					speech.play();
 					tannoySound.onComplete = null;
+                    tannoySound = FlxDestroyUtil.destroy(tannoySound);
 				};
 				tannoySound.play();
 			}

@@ -17,6 +17,7 @@ import states.gameoverstate.GameOverState;
 import states.PauseState;
 import states.intrimstate.IntrimState;
 import sounds.speech.Receptionist;
+import flixel.util.FlxDestroyUtil;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -208,7 +209,7 @@ class PlayState extends FlxState {
             levelTime = 10;
         }
 
-        return new Level(text, patients, numberOfPatients, interactables, [], levelTime);
+        return new Level(text, patients, null, numberOfPatients, interactables, [], levelTime);
      }
 
     private function generatePatientInfo(level:Int, vip:Bool=false):PatientInfo{
@@ -879,8 +880,7 @@ class PlayState extends FlxState {
  		}
 
 		// Unload patient
-		patient.destroy();
-		patient = null;
+		patient = FlxDestroyUtil.destroy(patient);
 	}
 
 	/*
