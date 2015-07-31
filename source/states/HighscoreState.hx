@@ -6,11 +6,21 @@ import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSave;
 
 using flixel.util.FlxSpriteUtil;
 
 class HighscoreState extends FlxSubState {
+
+    private var background:FlxSprite;
+    private var logo:FlxSprite;
+    private var highScores:FlxSprite;
+    private var h1:FlxSprite;
+    private var h2:FlxSprite;
+    private var h3:FlxSprite;
+    private var h4:FlxSprite;
+    private var btnBack:FlxButton;
 
     public static function isHighscore(level:Int, patients:Int) {
         var highscores = new FlxSave();
@@ -85,21 +95,33 @@ class HighscoreState extends FlxSubState {
 
         highscores.flush();
     }
-    
-    private var btnBack:FlxButton;
 
     /**
      * Function that is called up when to state is created to set it up. 
      */
     override public function create():Void {
+
+        h1 = new FlxSprite(0, 1100);
+        h2 = new FlxSprite(0, 1100);
+        h3 = new FlxSprite(0, 1100);
+        h4 = new FlxSprite(0, 1100);
+        h1.loadGraphic("assets/images/1.png");
+        h2.loadGraphic("assets/images/2.png");
+        h3.loadGraphic("assets/images/3.png");
+        h4.loadGraphic("assets/images/4.png");
+
         // Fill background with black
-        var background = new FlxSprite(0,0);
+        background = new FlxSprite(0,0);
         background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-        var logo = new FlxSprite(0,0);
+        logo = new FlxSprite(0,0);
         logo.loadGraphic("assets/images/Logo.png");
         add(logo);
+
+        highScores = new FlxSprite(0,270);
+        highScores.loadGraphic("assets/images/highscores.png");
+        add(highScores);
 
         btnBack = Utils.createButton("Back", clickBack, 5);
         btnBack.screenCenter();
@@ -136,21 +158,35 @@ class HighscoreState extends FlxSubState {
     }
 
     private function createHighScore(score:Int, name:String, level:Int, patients:Int) {
-        var highScoreIcon = new FlxSprite(50 + 500 * score, 1100);
-        highScoreIcon.loadGraphic("assets/icon.png");
+        var highScoreIcon:FlxSprite = null;
+        if (score == 0) {
+            highScoreIcon = h1;
+        } else if (score == 1) {
+            highScoreIcon = h2;
+        } else if (score == 2) {
+            highScoreIcon = h3;
+        } else {
+            highScoreIcon = h4;
+        }
+
+        highScoreIcon.x = 50 + 500 * score;
         add(highScoreIcon);
 
-        var name = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, highScoreIcon.y - 20, 300, name, 50);
+        if (name.length > 9) {
+            name = name.substr(0,9);
+        }
+
+        var name = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, highScoreIcon.y, 350, name, 50);
         name.font = "assets/fonts/Cabin-Bold.ttf";
         name.color = FlxColor.BLACK;
         add(name);
 
-        var days = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, name.y + name.height + 10, 300, "Day " + Std.string(level), 40);
+        var days = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, name.y + name.height + 10, 350, "Day " + Std.string(level), 40);
         days.font = "assets/fonts/Cabin-Regular.ttf";
         days.color = FlxColor.BLACK;
         add(days);
 
-        var patients = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, days.y + days.height + 10, 300, "Treated " + Std.string(patients) + " patients", 35);
+        var patients = new FlxText(highScoreIcon.x + highScoreIcon.width + 10, days.y + days.height + 10, 350, "Treated " + Std.string(patients) + " patients", 35);
         patients.font = "assets/fonts/Cabin-Regular.ttf";
         patients.color = FlxColor.BLACK;
         add(patients);
@@ -160,10 +196,15 @@ class HighscoreState extends FlxSubState {
         close();
     }
 
-    /**
-     * Function that is called once every frame.
-     */
-    override public function update():Void {
-        super.update();
-    }   
+    override function destroy() {
+        super.destroy();
+        background = FlxDestroyUtil.destroy(background);
+        logo = FlxDestroyUtil.destroy(logo);
+        highScores = FlxDestroyUtil.destroy(highScores);
+        h1 = FlxDestroyUtil.destroy(h1);
+        h2 = FlxDestroyUtil.destroy(h2);
+        h3 = FlxDestroyUtil.destroy(h3);
+        h4 = FlxDestroyUtil.destroy(h4);
+        btnBack = FlxDestroyUtil.destroy(btnBack);
+    }
 }
