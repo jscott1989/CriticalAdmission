@@ -83,9 +83,11 @@ package states.playstate;
      * Remove the organ from the hole
      */
     public function removeInteractable() {
-        interactable.resetHole();
-        remove(interactable, true);
-        interactable = null;
+        if (interactable != null) {
+            interactable.resetHole();
+            remove(interactable, true);
+            interactable = null;
+        }
     }
 
     /**
