@@ -43,10 +43,11 @@ class Levels {
                 [
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {
-                            PlayState.getInstance().showPopup("Tutorial", "Doctor! We have incoming patients with cardio-, cardi-, vascular... Their hearts are missing and they need new ones! Luckily, there are a few spare from when the junior doctors were having an organ fight...");
+                            PlayState.getInstance().showPopup("Tutorial", "Doctor, we have incoming patients with missing hearts! Luckily, there are a few spare from when the junior doctors were having an organ fight...");
                         },
                         function(patient:Patient) {
-                            if (patient.info.heart == ""){
+                            trace(patient.info.heart);
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "Doctor what are you doing? These people need hearts! Drag the organ from the table into the chest cavity.");
                             }
                         }
@@ -54,7 +55,7 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {},
                         function(patient:Patient) {
-                            if (patient.info.heart == ""){
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "Doctor what are you doing? These people need hearts! Drag the organ from the table into the chest cavity.");
                             }
                         }
@@ -62,7 +63,7 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {},
                         function(patient:Patient) {
-                            if (patient.info.heart == ""){
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "Doctor what are you doing? These people need hearts! Drag the organ from the table into the chest cavity.");
                             }
                         }
@@ -77,7 +78,7 @@ class Levels {
                         },
                         function(patient:Patient) {
                             FlxG.log.add(patient.info.heart);
-                            if (patient.info.heart == ""){
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "I know it's a little unconventional Doctor, but we need to put SOMETHING in there! Drag the prosthetic organ (or....duck) from the table into the chest cavity.");
                             }
                         }
@@ -85,7 +86,7 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {},
                         function(patient:Patient) {
-                            if (patient.info.heart == ""){
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "I know it's a little unconventional Doctor, but we need to put SOMETHING in there! Drag the prosthetic organ (or....duck) from the table into the chest cavity.");
                             }
                         }
@@ -93,7 +94,7 @@ class Levels {
                     new PatientInfo(false, null, null, null, null, null, null, false, "Brain", true, "", false, "Guts", true, "Lung", true, "Elbow", true, "Elbow", true, "Knee", true, "Knee", true,
                         function(patient:Patient) {},
                         function(patient:Patient) {
-                            if (patient.info.heart == ""){
+                            if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "I know it's a little unconventional Doctor, but we need to put SOMETHING in there! Drag the prosthetic organ (or....duck) from the table into the chest cavity.");
                             }
                         }
