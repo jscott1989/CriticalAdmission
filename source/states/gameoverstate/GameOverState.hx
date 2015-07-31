@@ -54,12 +54,12 @@ class GameOverState extends FlxSubState {
         gameover.loadGraphic("assets/images/gameover.png");
         add(gameover);
 
-        dayText = new FlxText(100, 550, 0, "Day " + state.currentLevel, 70);
+        dayText = new FlxText(100, 500, 0, "Day " + state.currentLevel, 70);
         dayText.font = "assets/fonts/Cabin-Bold.ttf";
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        infoText = new FlxText(100, 650, 0, state.treatedPatients.length + " patients treated", 40);
+        infoText = new FlxText(100, 600, 0, state.treatedPatients.length + " patients treated", 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
