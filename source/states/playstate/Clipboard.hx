@@ -73,7 +73,7 @@ package states.playstate;
             name_text.text = PlayState.getInstance().patient.info.name;
             injury_text.text = PlayState.getInstance().patient.info.injury;
 
-            var health = PlayState.getInstance().patient.info.getQOL();
+            var health = Std.int(PlayState.getInstance().patient.info.getQOL());
             qol_text.text = Std.string(health) + "% (";
 
             var improvement = health - PlayState.REQUIRED_HEALTH;
