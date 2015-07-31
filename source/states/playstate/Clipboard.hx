@@ -23,11 +23,11 @@ package states.playstate;
         name_text.size = 40;
         name_text.color = FlxColor.BLACK;
 
-        injury_text = new FlxText(0, 0, 260); // x, y, width
-        injury_text.font = "assets/fonts/Cabin-Regular.ttf";
-        injury_text.alignment = "center";
-        injury_text.size = 40;
-        injury_text.color = FlxColor.BLACK;
+         injury_text = new FlxText(0, 0, 260); // x, y, width
+        // injury_text.font = "assets/fonts/Cabin-Regular.ttf";
+        // injury_text.alignment = "center";
+        // injury_text.size = 40;
+        // injury_text.color = FlxColor.BLACK;
 
         qol_text = new FlxText(0, 0, 260); // x, y, width
         qol_text.font = "assets/fonts/Cabin-Regular.ttf";
@@ -37,7 +37,7 @@ package states.playstate;
 
         updateText();
         PlayState.getInstance().add(name_text);
-        PlayState.getInstance().add(injury_text);
+        //PlayState.getInstance().add(injury_text);
         PlayState.getInstance().add(qol_text);
     }
 
