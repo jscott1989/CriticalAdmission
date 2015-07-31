@@ -81,7 +81,6 @@ class Levels {
                             PlayState.getInstance().showPopup("Tutorial", "Doctor, we have incoming patients with missing hearts! Luckily, there are a few spare from when the junior doctors were having an organ fight...");
                         },
                         function(patient:Patient) {
-                            trace(patient.info.heart);
                             if (patient.info.heart == null){
                                 PlayState.getInstance().showPopup("Tutorial", "Doctor what are you doing? These people need hearts! Drag the organ from the table into the chest cavity.");
                             }

@@ -105,10 +105,10 @@ class HighscoreState extends FlxSubState {
         h2 = new FlxSprite(0, 1100);
         h3 = new FlxSprite(0, 1100);
         h4 = new FlxSprite(0, 1100);
-        h1.loadGraphic("assets/images/1.png");
-        h2.loadGraphic("assets/images/2.png");
-        h3.loadGraphic("assets/images/3.png");
-        h4.loadGraphic("assets/images/4.png");
+        h1.loadGraphic("assets/images/h1.png");
+        h2.loadGraphic("assets/images/h2.png");
+        h3.loadGraphic("assets/images/h3.png");
+        h4.loadGraphic("assets/images/h4.png");
 
         // Fill background with black
         background = new FlxSprite(0,0);
