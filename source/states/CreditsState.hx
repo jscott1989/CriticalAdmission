@@ -25,28 +25,41 @@ class CreditsState extends FlxSubState {
     private var tooltipText:FlxText;
     private var tooltipSprite:FlxSprite;
 
+    private var background:FlxSprite;
+    private var logo:FlxSprite;
+    private var credits:FlxSprite;
+    private var intro:FlxText;
+    private var grenade:FlxSprite;
+    private var createdBy1:FlxText;
+    private var createdBy2:FlxText;
+    private var createdBy3:FlxText;
+
     /**
      * Function that is called up when to state is created to set it up. 
      */
     override public function create():Void {
         // Fill background with black
-        var background = new FlxSprite(0,0);
+        background = new FlxSprite(0,0);
         background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-        var logo = new FlxSprite(0,0);
+        logo = new FlxSprite(0,0);
         logo.loadGraphic("assets/images/Logo.png");
         add(logo);
 
-        var intro = new FlxText(100, 330, 700, "Critical Admission is a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).", 40);
+        credits = new FlxSprite(100,270);
+        credits.loadGraphic("assets/images/credits.png");
+        add(credits);
+
+        intro = new FlxText(100, 460, 700, "Critical Admission is a game created in one month for the Something Awful Gamedev Challenge X (theme: Critical Omission).", 40);
         intro.font = "assets/fonts/Cabin-Bold.ttf";
         intro.color = FlxColor.BLACK;
         add(intro);
 
-        var createdBy = new FlxText(700, 905, 0, "Designed and developed by", 50);
-        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
-        createdBy.color = FlxColor.BLACK;
-        add(createdBy);
+        createdBy1 = new FlxText(700, 905, 0, "Designed and developed by", 50);
+        createdBy1.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy1.color = FlxColor.BLACK;
+        add(createdBy1);
 
         var names = [
             "Jonathan Scott",
@@ -66,15 +79,15 @@ class CreditsState extends FlxSubState {
             "http://www.melanieehrlich.com",
         ];
 
-        var createdBy = new FlxText(700, 1200, 0, "Receptionist voiced by", 50);
-        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
-        createdBy.color = FlxColor.BLACK;
-        add(createdBy);
+        createdBy2 = new FlxText(700, 1200, 0, "Receptionist voiced by", 50);
+        createdBy2.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy2.color = FlxColor.BLACK;
+        add(createdBy2);
 
-        var createdBy = new FlxText(700, 1300, 0, "Other sounds from FreeSound", 50);
-        createdBy.font = "assets/fonts/Cabin-Bold.ttf";
-        createdBy.color = FlxColor.BLACK;
-        add(createdBy);
+        createdBy3 = new FlxText(700, 1300, 0, "Other sounds from FreeSound", 50);
+        createdBy3.font = "assets/fonts/Cabin-Bold.ttf";
+        createdBy3.color = FlxColor.BLACK;
+        add(createdBy3);
 
         for (i in 0...5) {
             var name = new FlxText(700, 950 + (i * 50), 0, names[i], 40);
@@ -117,7 +130,7 @@ class CreditsState extends FlxSubState {
         add(tooltipText);
         add(tooltipSprite);
 
-        var grenade = new FlxSprite(0,0);
+        grenade = new FlxSprite(0,0);
         grenade.loadGraphic("assets/images/Grenade.png");
         grenade.x = FlxG.width - grenade.width;
         grenade.y = FlxG.height - grenade.height;
@@ -163,6 +176,17 @@ class CreditsState extends FlxSubState {
         super.destroy();
 
         btnBack = FlxDestroyUtil.destroy(btnBack);
+        tooltipText = FlxDestroyUtil.destroy(tooltipText);
+        tooltipSprite = FlxDestroyUtil.destroy(tooltipSprite);
+
+        background = FlxDestroyUtil.destroy(background);
+        logo = FlxDestroyUtil.destroy(logo);
+        credits = FlxDestroyUtil.destroy(credits);
+        intro = FlxDestroyUtil.destroy(intro);
+        grenade = FlxDestroyUtil.destroy(grenade);
+        createdBy1 = FlxDestroyUtil.destroy(createdBy1);
+        createdBy2 = FlxDestroyUtil.destroy(createdBy2);
+        createdBy3 = FlxDestroyUtil.destroy(createdBy3);
     }
 
     /**

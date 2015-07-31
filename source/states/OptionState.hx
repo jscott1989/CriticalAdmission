@@ -4,9 +4,9 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.ui.FlxButton;
-import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSave;
+import sounds.SoundManager;
 
 using flixel.util.FlxSpriteUtil;
 
@@ -20,29 +20,26 @@ class OptionState extends FlxSubState {
 	private var btnFullscreen:FlxButton;
 	private var btnBack:FlxButton;
 
+	private var background:FlxSprite;
+	private var logo:FlxSprite;
+	private var options:FlxSprite;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void {
 		// Fill background with black
-        var background = new FlxSprite(0,0);
+        background = new FlxSprite(0,0);
 		background.loadGraphic("assets/images/MenuScreen.png");
 		add(background);
 
-		var logo = new FlxSprite(0,0);
+		logo = new FlxSprite(0,0);
 		logo.loadGraphic("assets/images/Logo.png");
 		add(logo);
 
-		// btnMusic = Utils.createButton("MUSIC: On", clickMusic, 5);
-		// if(Config.MUSIC_ON){
-		// 	btnMusic.label.text = "MUSIC: On";
-		// }
-		// else{
-		// 	btnMusic.label.text = "MUSIC: Off";
-		// }
-		// btnMusic.screenCenter();
-		// btnMusic.y = 1000;
-		// add(btnMusic);
+		options = new FlxSprite(100,270);
+        options.loadGraphic("assets/images/options.png");
+        add(options);
 
 		btnSound = Utils.createButton("SOUND: On", clickSound, 5);
 		if(Config.SOUND_ON){
@@ -88,28 +85,16 @@ class OptionState extends FlxSubState {
         FlxG.camera.stopFX();
 	}
 
-	// private function clickMusic():Void {
-	// 	if(Config.MUSIC_ON){
-	// 		Config.MUSIC_ON = false;
-	// 		btnMusic.label.text = "MUSIC: Off";
-	// 		//TODO: Hard top playing music
-	// 	}
-	// 	else{
-	// 		Config.MUSIC_ON = true;
-	// 		btnMusic.label.text = "MUSIC: On";
-	// 		//TODO: Restart music
-	// 	}
-	// }
-
 	private function clickSound():Void {
 		if(Config.SOUND_ON){
 			Config.SOUND_ON = false;
 			btnSound.label.text = "SOUND: Off";
-			//TODO: Hard top playing sounds
+			FlxG.sound.muted = true;
 		}
 		else{
 			Config.SOUND_ON = true;
 			btnSound.label.text = "SOUND: On";
+			FlxG.sound.muted = false;
 		}
 	}
 
@@ -155,7 +140,12 @@ class OptionState extends FlxSubState {
 		// btnMusic = FlxDestroyUtil.destroy(btnMusic);
 		btnSound = FlxDestroyUtil.destroy(btnSound);
 		btnSubtitles = FlxDestroyUtil.destroy(btnSubtitles);
+		btnFullscreen = FlxDestroyUtil.destroy(btnFullscreen);
 		btnBack = FlxDestroyUtil.destroy(btnBack);
+
+		background = FlxDestroyUtil.destroy(background);
+		logo = FlxDestroyUtil.destroy(logo);
+		options = FlxDestroyUtil.destroy(options);
 	}
 
 	/**
