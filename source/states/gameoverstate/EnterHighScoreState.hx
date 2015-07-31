@@ -5,8 +5,10 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.addons.ui.FlxInputText;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxColorUtil;
+import flixel.util.FlxDestroyUtil;
 import sounds.SoundManager;
 
 using flixel.util.FlxSpriteUtil;
@@ -15,6 +17,15 @@ class EnterHighScoreState extends FlxSubState {
 
     private var level:Int;
     private var patients:Int;
+    private var i:FlxSprite;
+    private var background:FlxSprite;
+    private var headerText:FlxText;
+    private var bodyText:FlxText;
+    private var nameText:FlxText;
+    private var highscoreName:FlxInputText;
+    private var highscoreButton:FlxButton;
+    private var cancelButton:FlxButton;
+
 
     public function new(level:Int, patients:Int) {
         this.level = level;
@@ -85,5 +96,18 @@ class EnterHighScoreState extends FlxSubState {
     function clickCancel() {
         SoundManager.getInstance().playSound(AssetPaths.popdown__wav);
         close();
+    }
+
+    override function destroy() {
+        super.destroy();
+
+        i = FlxDestroyUtil.destroy(i);
+        background = FlxDestroyUtil.destroy(background);
+        headerText = FlxDestroyUtil.destroy(headerText);
+        bodyText = FlxDestroyUtil.destroy(bodyText);
+        nameText = FlxDestroyUtil.destroy(nameText);
+        highscoreName = FlxDestroyUtil.destroy(highscoreName);
+        highscoreButton = FlxDestroyUtil.destroy(highscoreButton);
+        cancelButton = FlxDestroyUtil.destroy(cancelButton);
     }
 }

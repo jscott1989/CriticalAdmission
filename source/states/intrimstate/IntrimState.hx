@@ -33,16 +33,16 @@ class IntrimState extends FlxSubState {
         state.nextLevel();
 
         // fill background with black
-        var background = new FlxSprite(0,0);
+        background = new FlxSprite(0,0);
         background.loadGraphic("assets/images/MenuScreen.png");
         add(background);
 
-        var dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 70);
+        dayText = new FlxText(50, 50, 0, "Day " + state.currentLevel, 70);
         dayText.font = "assets/fonts/Cabin-Bold.ttf";
         dayText.color = FlxColor.BLACK;
         add(dayText);
 
-        var infoText = new FlxText(250, 75, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
+        infoText = new FlxText(250, 75, 0, "Hospital Reputation: " + state.reputation + "%            Patients treated: " + state.treatedPatients.length, 40);
         infoText.font = "assets/fonts/Cabin-Regular.ttf";
         infoText.color = FlxColor.BLACK;
         add(infoText);
@@ -52,7 +52,7 @@ class IntrimState extends FlxSubState {
         // infoText.color = FlxColor.BLACK;
         // add(infoText);
 
-        var levelText = new FlxText(50, 180, 950, PlayState.getInstance().levelText, 40);
+        levelText = new FlxText(50, 180, 950, PlayState.getInstance().levelText, 40);
         levelText.font = "assets/fonts/Cabin-Regular.ttf";
         levelText.color = FlxColor.BLACK;
         add(levelText);
@@ -61,13 +61,14 @@ class IntrimState extends FlxSubState {
         var i = 0;
         for (patient in PlayState.getInstance().incomingPatients) {
             var p = new PatientIcon(patient);
+            patientIcons.push(p);
             p.x = 20 + (i * (200 + 20));
             p.y = (FlxG.height - 500);
             add(p);
             i+= 1;
         }
 
-        var btnPlay = Utils.createButton("Continue", clickPlay, 5);
+        btnPlay = Utils.createButton("Continue", clickPlay, 5);
         btnPlay.x = 300;
         btnPlay.y = 700;
         add(btnPlay);
