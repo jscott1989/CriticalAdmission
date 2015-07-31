@@ -32,7 +32,9 @@ class SoundManager {
 	public function startAmbient() {
 		if (Config.SOUND_ON){
 			FlxG.sound.playMusic(AssetPaths.ambient__wav, 0.2, true);
-			heart = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
+            if (heart == null) {
+    			heart = FlxG.sound.load(AssetPaths.heartbeat__wav, 0.5, true);
+            }
 			heart.play();
 		}
 	}
@@ -230,6 +232,9 @@ class SoundManager {
 	public function playSound(sound:String) {
 		if (Config.SOUND_ON) {
 			var s = FlxG.sound.load(sound);
+            s.onComplete = function() {
+                s = FlxDestroyUtil.destroy(s);
+            }
 			s.play();
 		}
 	}
