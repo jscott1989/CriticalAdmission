@@ -58,7 +58,7 @@ import flixel.tweens.FlxTween;
      */
     private function updateClock() {
         var seconds_remaining = PlayState.getInstance().seconds_remaining;
-        if (seconds_remaining <= 5) {
+        if (seconds_remaining <= 5 && PlayState.getInstance().patient != null) {
             if(filter.filters.length == 0){
                 filter.addFilter(redFilter);
             }
